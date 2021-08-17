@@ -1,8 +1,6 @@
-/**
- * 
- */
 package it.unicam.cs.asdl2021.totalproject2;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -12,7 +10,7 @@ import java.util.Set;
  * non orientato. Non sono accettate etichette dei nodi null e non sono
  * accettate etichette duplicate nei nodi (che in quel caso sono lo stesso
  * nodo).
- * 
+ * <p>
  * Per la rappresentazione viene usata una variante della rappresentazione con
  * liste di adiacenza. A differenza della rappresentazione standard si usano
  * strutture dati più efficienti per quanto riguarda la complessità in tempo
@@ -20,7 +18,7 @@ import java.util.Set;
  * un arco è presente (pseudocostante, con tabella hash). Lo spazio occupato per
  * la rappresentazione risulta tuttavia più grande di quello che servirebbe con
  * la rappresentazione standard.
- * 
+ * <p>
  * Le liste di adiacenza sono rappresentate con una mappa (implementata con
  * tabelle hash) che associa ad ogni nodo del grafo i nodi adiacenti. In questo
  * modo il dominio delle chiavi della mappa è l'insieme dei nodi, su cui è
@@ -33,18 +31,16 @@ import java.util.Set;
  * controllare se un arco è presente basta richiamare il metodo contains in
  * questo set. I test di presenza si basano sui metodi equals ridefiniti per
  * nodi e archi nelle classi GraphNode<L> e GraphEdge<L>.
- * 
+ * <p>
  * Questa classe non supporta le operazioni indicizzate di ricerca di nodi e
  * archi.
- * 
- * @author Template: Luca Tesei
  *
- * @param <L>
- *                etichette dei nodi del grafo
+ * @param <L> etichette dei nodi del grafo
+ * @author Template: Luca Tesei
  */
 public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
-    /*
+    /**
      * Le liste di adiacenza sono rappresentate con una mappa. Ogni nodo viene
      * associato con l'insieme degli archi collegati. Nel caso in cui un nodo
      * non abbia archi collegati è associato con un insieme vuoto. La variabile
@@ -97,12 +93,19 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean addNode(GraphNode<L> node) {
-        // TODO implementare
-        return false;
+        if (node == null)
+            throw new NullPointerException();
+        if (!containsNode(node))
+            return false;
+        adjacentLists.put(node, null);
+        return true;
     }
 
     @Override
     public boolean removeNode(GraphNode<L> node) {
+        if (!containsNode(node)) {
+            return false;
+        }
         // TODO implementare
         return false;
     }
@@ -154,8 +157,20 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean addEdge(GraphEdge<L> edge) {
-        // TODO implementare
-        return false;
+        if (edge == null)
+            throw new NullPointerException();
+        if (edge.getNode1() == null || edge.getNode2() == null)
+            throw new IllegalArgumentException();
+        if (edge.isDirected())
+            throw new IllegalArgumentException();
+        
+        Set<GraphEdge<L>> setOfEdges = adjacentLists.get(edge.getNode1());
+        if (setOfEdges.contains(edge)) {
+            return false;
+        }
+        setOfEdges.add(edge);
+        adjacentLists.replace(edge.getNode1(), setOfEdges);
+        return true;
     }
 
     @Override
