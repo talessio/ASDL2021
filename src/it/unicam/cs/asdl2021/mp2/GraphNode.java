@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.unicam.cs.asdl2021.totalproject2;
+package it.unicam.cs.asdl2021.mp2;
 
 /**
  * Questa classe raggruppa le operazioni tipicamente associate a un nodo facente
