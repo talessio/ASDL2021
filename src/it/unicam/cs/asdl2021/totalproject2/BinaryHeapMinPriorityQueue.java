@@ -1,56 +1,50 @@
-package it.unicam.cs.asdl2021.mp2;
+/**
+ * 
+ */
+package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * Class that provides an implementation of a "dynamic" min-priority queue based
- * on a ternary heap. "Dynamic" means that the priority of an element already
- * present in the queue may be decreased, so possibly this element may become
- * the new minumum element. The elements that can be inserted may be of any
- * class implementing the interface <code>PriorityQueueElement</code>. This
- * min-priority queue does not have capacity restrictions, i.e., it is always
- * possible to insert new elements and the number of elements is unbound.
- * Duplicated elements are permitted while <code>null</code> elements are not
- * permitted.
+ * Implementazione di una coda con priorità tramite heap binario. Gli oggetti
+ * inseriti in coda implementano l'interface PriorityQueueElement che permette
+ * di gestire la priorità e una handle dell'elemento. La handle è fondamentale
+ * per realizzare in tempo logaritmico l'operazione di decreasePriority che,
+ * senza la handle, dovrebbe cercare l'elemento all'interno dello heap e poi
+ * aggiornare la sua posizione. Nel caso di heap binario rappresentato con una
+ * ArrayList la handle è semplicemente l'indice dove si trova l'elemento
+ * nell'ArrayList. Tale campo naturalmente va tenuto aggiornato se l'elemento
+ * viene spostato in un'altra posizione.
  * 
- * @author Template: Luca Tesei, Implementation: INSERIRE NOME E COGNOME DELLO
- *         STUDENTE - INSERIRE ANCHE L'EMAIL xxxx@studenti.unicam.it
+ * @author Template: Luca Tesei
+ * 
+ * @param <E>
+ *                il tipo degli elementi che vengono inseriti in coda.
  *
  */
-public class TernaryHeapMinPriorityQueue {
+public class BinaryHeapMinPriorityQueue {
 
     /*
-     * ArrayList for representing the ternary heap. Use all positions, including
-     * position 0 (the JUnit tests will assume so). You have to adapt
-     * child/parent indexing formulas consequently.
+     * ArrayList per la rappresentazione dello heap. Vengono usate tutte le
+     * posizioni (la radice dello heap è quindi in posizione 0).
      */
     private ArrayList<PriorityQueueElement> heap;
 
-    // TODO implementare: possibly insert other private fields that may be
-    // needed
-    // for implementation
+    // TODO implementare: inserire eventuali altre variabili istanza
 
     /**
-     * Create an empty queue.
-     */
-    public TernaryHeapMinPriorityQueue() {
-        this.heap = new ArrayList<PriorityQueueElement>();
-    }
-
-    /**
-     * Return the current size of this queue.
+     * Crea una coda con priorità vuota.
      * 
-     * @return the number of elements currently in this queue.
      */
-    public int size() {
-        return this.heap.size();
+    public BinaryHeapMinPriorityQueue() {
+        // TODO implementare
     }
 
     /**
      * Add an element to this min-priority queue. The current priority
      * associated with the element will be used to place it in the correct
-     * position in the ternary heap. The handle of the element will also be set
+     * position in the heap. The handle of the element will also be set
      * accordingly.
      * 
      * @param element
@@ -64,7 +58,7 @@ public class TernaryHeapMinPriorityQueue {
 
     /**
      * Returns the current minimum element of this min-priority queue without
-     * extracting it. This operation does not affect the ternary heap.
+     * extracting it. This operation does not affect the heap.
      * 
      * @return the current minimum element of this min-priority queue
      * 
@@ -91,7 +85,7 @@ public class TernaryHeapMinPriorityQueue {
 
     /**
      * Decrease the priority associated to an element of this min-priority
-     * queue. The position of the element in the ternary heap must be changed
+     * queue. The position of the element in the heap must be changed
      * accordingly. The changed element may become the minimum element. The
      * handle of the element will also be changed accordingly.
      * 
@@ -112,6 +106,27 @@ public class TernaryHeapMinPriorityQueue {
     public void decreasePriority(PriorityQueueElement element,
             double newPriority) {
         // TODO implementare
+
+    }
+
+    /**
+     * Determines if this priority queue is empty.
+     * 
+     * @return true if this priority queue is empty, false otherwise
+     */
+    public boolean isEmpty() {
+        // TODO implementare
+        return false;
+    }
+
+    /**
+     * Return the current size of this queue.
+     * 
+     * @return the number of elements currently in this queue.
+     */
+    public int size() {
+        // TODO implementare
+        return 0;
     }
 
     /**
@@ -122,14 +137,6 @@ public class TernaryHeapMinPriorityQueue {
         this.heap.clear();
     }
 
-    // TODO implementare: possibly add private methods for implementation
-    // purposes
-
-    /*
-     * This method is only for JUnit testing purposes.
-     */
-    protected ArrayList<PriorityQueueElement> getTernaryHeap() {
-        return this.heap;
-    }
+    // TODO inserire eventuali altri metodi privati per scopi di implementazione
 
 }

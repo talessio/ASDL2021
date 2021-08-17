@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.unicam.cs.asdl2021.mp2;
+package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Classe che implementa un grafo non orientato tramite matrice di adiacenza.
- * Non sono accettate etichette dei nodi null e non sono accettate etichette
+ * Classe che implementa un grafo orientato tramite matrice di adiacenza. Non
+ * sono accettate etichette dei nodi null e non sono accettate etichette
  * duplicate nei nodi (che in quel caso sono lo stesso nodo).
  * 
  * I nodi sono indicizzati da 0 a nodeCoount() - 1 seguendo l'ordine del loro
@@ -27,20 +27,17 @@ import java.util.Set;
  * Gli archi sono memorizzati nella matrice di adiacenza. A differenza della
  * rappresentazione standard con matrice di adiacenza, la posizione i,j della
  * matrice non contiene un flag di presenza, ma è null se i nodi i e j non sono
- * collegati da un arco e contiene un oggetto della classe GraphEdge<L> se lo
- * sono. Tale oggetto rappresenta l'arco. Un oggetto uguale (secondo equals) e
- * con lo stesso peso (se gli archi sono pesati) deve essere presente nella
- * posizione j, i della matrice.
+ * collegati da un arco orientato e contiene un oggetto della classe
+ * GraphEdge<L> se lo sono. Tale oggetto rappresenta l'arco.
  * 
- * Questa classe non supporta i metodi di cancellazione di nodi e archi, ma
- * supporta tutti i metodi che usano indici, utilizzando l'indice assegnato a
- * ogni nodo in fase di inserimento.
+ * Questa classe non supporta la cancellazione di nodi, ma supporta la
+ * cancellazione di archi e tutti i metodi che usano indici, utilizzando
+ * l'indice assegnato a ogni nodo in fase di inserimento.
  * 
- * @author Template: Luca Tesei, Implementation: INSERIRE NOME E COGNOME DELLO
- *         STUDENTE - INSERIRE ANCHE L'EMAIL xxxx@studenti.unicam.it
+ * @author Template: Luca Tesei
  *
  */
-public class AdjacencyMatrixUndirectedGraph<L> extends Graph<L> {
+public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     /*
      * Le seguenti variabili istanza sono protected al solo scopo di agevolare
      * il JUnit testing
@@ -60,11 +57,11 @@ public class AdjacencyMatrixUndirectedGraph<L> extends Graph<L> {
      * HashSet<E> per creare l'insieme risultato. Questo garantisce un buon
      * funzionamento dei test JUnit che controllano l'uguaglianza tra insiemi
      */
-    
+
     /**
      * Crea un grafo vuoto.
      */
-    public AdjacencyMatrixUndirectedGraph() {
+    public AdjacencyMatrixDirectedGraph() {
         this.matrix = new ArrayList<ArrayList<GraphEdge<L>>>();
         this.nodesIndex = new HashMap<GraphNode<L>, Integer>();
     }
@@ -89,8 +86,8 @@ public class AdjacencyMatrixUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean isDirected() {
-        // Questa classe implementa un grafo non orientato
-        return false;
+        // Questa classe implementa un grafo orientato
+        return true;
     }
 
     @Override
@@ -143,8 +140,8 @@ public class AdjacencyMatrixUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphNode<L>> getPredecessorNodesOf(GraphNode<L> node) {
-        throw new UnsupportedOperationException(
-                "Operazione non supportata in un grafo non orientato");
+        // TODO implementare
+        return null;
     }
 
     @Override
@@ -161,8 +158,8 @@ public class AdjacencyMatrixUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean removeEdge(GraphEdge<L> edge) {
-        throw new UnsupportedOperationException(
-                "Operazione di remove non supportata in questa classe");
+        // TODO implementare
+        return false;
     }
 
     @Override
@@ -179,8 +176,21 @@ public class AdjacencyMatrixUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphEdge<L>> getIngoingEdgesOf(GraphNode<L> node) {
-        throw new UnsupportedOperationException(
-                "Operazione non supportata in un grafo non orientato");
+        // TODO implementare
+        return null;
     }
 
+    @Override
+    public GraphEdge<L> getEdge(GraphNode<L> node1, GraphNode<L> node2) {
+        // TODO implementare
+        return null;
+    }
+
+    @Override
+    public GraphEdge<L> getEdgeAtNodeIndexes(int i, int j) {
+        // TODO implementare
+        return null;
+    }
+
+    // TODO inserire eventuali metodi privati per fini di implementazione
 }

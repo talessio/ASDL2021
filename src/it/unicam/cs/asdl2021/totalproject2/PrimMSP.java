@@ -1,4 +1,4 @@
-package it.unicam.cs.asdl2021.mp2;
+package it.unicam.cs.asdl2021.totalproject2;
 
 /**
  * 
@@ -11,8 +11,7 @@ package it.unicam.cs.asdl2021.mp2;
  * nell'esecuzione dell'algoritmo è necessario utilizzare l'operazione di
  * decreasePriority.
  * 
- * @author Template: Luca Tesei, Implementation: INSERIRE NOME E COGNOME DELLO
- *         STUDENTE - INSERIRE ANCHE L'EMAIL xxxx@studenti.unicam.it
+ * @author Template: Luca Tesei
  * 
  * @param <L>
  *                etichette dei nodi del grafo
@@ -24,14 +23,14 @@ public class PrimMSP<L> {
      * Coda di priorità che va usata dall'algoritmo. La variabile istanza è
      * protected solo per scopi di testing JUnit.
      */
-    protected TernaryHeapMinPriorityQueue queue;
+    protected BinaryHeapMinPriorityQueue queue;
 
     /**
      * Crea un nuovo algoritmo e inizializza la coda di priorità con una coda
      * vuota.
      */
     public PrimMSP() {
-        this.queue = new TernaryHeapMinPriorityQueue();
+        this.queue = new BinaryHeapMinPriorityQueue();
     }
 
     /**

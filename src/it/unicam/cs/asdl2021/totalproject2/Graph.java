@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.unicam.cs.asdl2021.mp2;
+package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.Set;
 
@@ -197,6 +197,61 @@ public abstract class Graph<L> {
      *                                           di questo grafo
      */
     public abstract GraphNode<L> getNodeAtIndex(int i);
+
+    /**
+     * Restituisce, se esiste, l'arco che connette due nodi. In caso di grafo
+     * non orientato l'ordine dei due nodi è ininfluente, in caso di grafo
+     * orientato viene ricercato l'arco che connette il primo nodo specificato
+     * al secondo.
+     * 
+     * @param node1
+     *                  il primo nodo
+     * @param node2
+     *                  il secondo nodo
+     * @return un arco che connette node1 e node2 nel grafo oppure null se tale
+     *         arco non esiste nel grafo. Se il grafo è orientato l'arco
+     *         ricercato e restituito è quello che ha sorgente in node 1 e
+     *         destinazione in node2. Se il grafo non è orientato allora l'arco
+     *         restituito può contenere node1 e node 2 in qualsiasi ordine
+     * @throws NullPointerException
+     *                                      se almeno uno dei due nodi passati è
+     *                                      null
+     * @throws IllegalArgumentException
+     *                                      se almeno uno dei due nodi passati
+     *                                      non esiste nel grafo
+     */
+    public abstract GraphEdge<L> getEdge(GraphNode<L> node1,
+            GraphNode<L> node2);
+
+    /**
+     * Restituisce, se esiste, l'arco che connette due nodi a indici
+     * specificati. In caso di grafo non orientato l'ordine dei due nodi è
+     * ininfluente, in caso di grafo orientato viene ricercato l'arco che
+     * connette il primo nodo specificato al secondo.
+     * 
+     * @param i
+     *              l'indice del primo nodo
+     * @param j
+     *              l'indice del secondo nodo
+     * @return un arco che connette il nodo all'indice i e il nodo all'indice j
+     *         nel grafo oppure null se tale arco non esiste nel grafo. Se il
+     *         grafo è orientato l'arco ricercato e restituito è quello che ha
+     *         sorgente nel nodo di indice i e destinazione nel nodo di indice
+     *         j. Se il grafo non è orientato allora l'arco restituito può
+     *         contenere il nodo di indice i e il nodo di indice j in qualsiasi
+     *         ordine
+     * @throws IndexOutOfBoundsException
+     *                                           se almeno uno degli indici
+     *                                           passati non corrisponde a
+     *                                           nessun nodo o è fuori dai
+     *                                           limiti dell'intervallo
+     *                                           <code>[0, this.nodeCount() - 1]</code>
+     * @throws UnsupportedOperationException
+     *                                           se questa operazione non è
+     *                                           supportata dall'implementazione
+     *                                           di questo grafo
+     */
+    public abstract GraphEdge<L> getEdgeAtNodeIndexes(int i, int j);
 
     /**
      * Restituisce l'insieme di tutti i nodi adiacenti a un certo nodo. Se il

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.unicam.cs.asdl2021.mp2;
+package it.unicam.cs.asdl2021.totalproject2;
 
 /**
  * Interface to enable generic objects to be inserted into a "dynamic" priority
