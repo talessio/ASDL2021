@@ -1,6 +1,5 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -59,7 +58,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
      */
     public MapAdjacentListUndirectedGraph() {
         // Inizializza la mappa con la mappa vuota
-        this.adjacentLists = new HashMap<GraphNode<L>, Set<GraphEdge<L>>>();
+        this.adjacentLists = new HashMap<>();
     }
 
     @Override
@@ -152,7 +151,14 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     @Override
     public Set<GraphEdge<L>> getEdges() {
         // TODO implementare
-        return null;
+        Set<GraphEdge<L>> setOfAllEdges = null;
+        for (int i = 0; i <= nodeCount(); i++) {
+            for (int j = 1; j <= nodeCount(); j++) { //this is not right, it should be i = node1 and j = node2
+                GraphEdge<L> edgeAtCurrentIndex = getEdgeAtNodeIndexes(i, j);
+                setOfAllEdges.add(edgeAtCurrentIndex);
+            }
+        }
+        return setOfAllEdges;
     }
 
     @Override
@@ -163,11 +169,9 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new IllegalArgumentException();
         if (edge.isDirected())
             throw new IllegalArgumentException();
-        
         Set<GraphEdge<L>> setOfEdges = adjacentLists.get(edge.getNode1());
-        if (setOfEdges.contains(edge)) {
+        if (setOfEdges.contains(edge))
             return false;
-        }
         setOfEdges.add(edge);
         adjacentLists.replace(edge.getNode1(), setOfEdges);
         return true;
