@@ -89,7 +89,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     public boolean addNode(GraphNode<L> node) {
         if (node == null)
             throw new NullPointerException();
-        if (!containsNode(node))
+        if (containsNode(node))
             return false;
         this.adjacentLists.put(node, null);
         return true;
@@ -101,8 +101,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!containsNode(node))
             return false;
-        for (GraphEdge<L> edge : getEdgesOf(node)
-        ) {
+        for (GraphEdge<L> edge : getEdgesOf(node)) {
             removeEdge(edge);
         }
         this.adjacentLists.remove(node);
@@ -118,8 +117,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     public GraphNode<L> getNodeOf(L label) {
         if (label == null)
             throw new NullPointerException();
-        for (GraphNode<L> node : this.adjacentLists.keySet()
-        ) {
+        for (GraphNode<L> node : this.adjacentLists.keySet()) {
             if (node.getLabel().equals(label))
                 return node;
         }
@@ -235,8 +233,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!(this.adjacentLists.containsKey(node1)) || !(this.adjacentLists.containsKey(node2)))
             throw new IllegalArgumentException();
-        for (GraphEdge<L> edge : getEdgesOf(node1)
-        ) {
+        for (GraphEdge<L> edge : getEdgesOf(node1)) {
             if (edge.getNode2().equals(node2))
                 return edge;
         }
