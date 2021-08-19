@@ -61,14 +61,12 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public int nodeCount() {
-        // TODO implementare
-        return -1;
+        return this.adjacentLists.keySet().size();
     }
 
     @Override
     public int edgeCount() {
-        // TODO implementare
-        return -1;
+        return getEdges().size();
     }
 
     @Override
@@ -84,10 +82,9 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphNode<L>> getNodes() {
-        // TODO l'ho fatto ade
         return this.adjacentLists.keySet();
     }
-//ciccio panza 
+
     @Override
     public boolean addNode(GraphNode<L> node) {
         if (node == null)
@@ -114,8 +111,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean containsNode(GraphNode<L> node) {
-        // TODO implementare
-        return false;
+        return this.adjacentLists.containsKey(node);
     }
 
     @Override
