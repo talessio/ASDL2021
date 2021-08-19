@@ -116,7 +116,13 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public GraphNode<L> getNodeOf(L label) {
-        // TODO implementare
+        if (label == null)
+            throw new NullPointerException();
+        for (GraphNode<L> node : this.adjacentLists.keySet()
+        ) {
+            if (node.getLabel().equals(label))
+                return node;
+        }
         return null;
     }
 
@@ -137,8 +143,16 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphNode<L>> getAdjacentNodesOf(GraphNode<L> node) {
-        // TODO implementare
-        return null;
+        Set<GraphNode<L>> adjacentNodes = new HashSet<>();
+        for (GraphEdge<L> currentEdge : this.adjacentLists.get(node)) {
+            if (!currentEdge.getNode1().equals(node)) {
+                adjacentNodes.add(currentEdge.getNode1());
+            }
+            else if (!currentEdge.getNode2().equals(node)) {
+                adjacentNodes.add(currentEdge.getNode2());
+            }
+        }
+        return adjacentNodes;
     }
 
     @Override
@@ -167,6 +181,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
         if (this.adjacentLists.get(edge.getNode1()).contains(edge))
             return false;
         this.adjacentLists.get(edge.getNode1()).add(edge);
+        this.adjacentLists.get(edge.getNode2()).add(edge);
         return true;
     }
 
