@@ -87,7 +87,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
         // TODO l'ho fatto ade
         return this.adjacentLists.keySet();
     }
-
+//srdxtfgyuij
     @Override
     public boolean addNode(GraphNode<L> node) {
         if (node == null)
