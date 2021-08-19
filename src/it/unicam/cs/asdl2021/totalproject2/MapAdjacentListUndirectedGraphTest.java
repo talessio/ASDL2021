@@ -40,7 +40,12 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testAddNode() {
-        fail("Not yet implemented"); // TODO
+        // TODO da fare per bene
+        MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
+        GraphNode<String> node1 = new GraphNode<>("1");
+        map.addNode(node1);
+        assertEquals(node1, map.getNodeOf("1"));
+        //assertThrows(NullPointerException.class, ??????????);
     }
 
     @Test
