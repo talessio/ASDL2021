@@ -1,9 +1,6 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementazione della classe astratta {@code Graph<L>} che realizza un grafo
@@ -87,8 +84,8 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphNode<L>> getNodes() {
-        // TODO implementare
-        return null;
+        // TODO l'ho fatto ade
+        return this.adjacentLists.keySet();
     }
 
     @Override
@@ -97,7 +94,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!containsNode(node))
             return false;
-        adjacentLists.put(node, null);
+        this.adjacentLists.put(node, null);
         return true;
     }
 
@@ -111,7 +108,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
         ) {
             removeEdge(edge);
         }
-        adjacentLists.remove(node);
+        this.adjacentLists.remove(node);
         return true;
     }
 
@@ -156,35 +153,35 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphEdge<L>> getEdges() {
-        // TODO implementare
-        Collection<Set<GraphEdge<L>>> allEdges = this.adjacentLists.values();
-        Set<GraphEdge<L>> setOfAllEdges = null;
-        setOfAllEdges.addAll(allEdges); //not good
-
-        //check for more efficient alternatives?
-
-        for (int i = 0; i <= nodeCount(); i++) {
-            for (int j = 0; j <= nodeCount(); j++) { //this is not right, it should be i = node1 and j = node2
-                GraphEdge<L> edgeAtCurrentIndex = getEdgeAtNodeIndexes(i, j);
-                //check edge not duplicate
-                setOfAllEdges.add(edgeAtCurrentIndex);
-            }
+        Set<GraphEdge<L>> setOfAllEdges = new HashSet<>();
+        for (GraphNode<L> node : this.adjacentLists.keySet()) {
+            setOfAllEdges.addAll(getEdgesOf(node));
         }
         return setOfAllEdges;
     }
 
     @Override
     public boolean addEdge(GraphEdge<L> edge) {
-        checkForExceptions(edge);
-        if (adjacentLists.get(edge.getNode1()).contains(edge))
+        if (edge == null)
+            throw new NullPointerException();
+        if (edge.getNode1() == null || edge.getNode2() == null)
+            throw new IllegalArgumentException();
+        if (edge.isDirected())
+            throw new IllegalArgumentException();
+        if (this.adjacentLists.get(edge.getNode1()).contains(edge))
             return false;
-        adjacentLists.get(edge.getNode1()).add(edge);
+        this.adjacentLists.get(edge.getNode1()).add(edge);
         return true;
     }
 
     @Override
     public boolean removeEdge(GraphEdge<L> edge) {
-        checkForExceptions(edge);
+        if (edge == null)
+            throw new NullPointerException();
+        if (edge.getNode1() == null || edge.getNode2() == null)
+            throw new IllegalArgumentException();
+        if (edge.isDirected())
+            throw new IllegalArgumentException();
         this.adjacentLists.get(edge.getNode1()).remove(edge);
         this.adjacentLists.get(edge.getNode2()).remove(edge);
         return true;
@@ -192,8 +189,18 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean containsEdge(GraphEdge<L> edge) {
-        // TODO implementare
-        return true;
+        if (edge == null)
+            throw new NullPointerException();
+        if (edge.getNode1() == null || edge.getNode2() == null)
+            throw new IllegalArgumentException();
+        for (GraphNode<L> node : this.adjacentLists.keySet()) {
+            for (GraphEdge<L> currentEdge : getEdgesOf(node)) {
+                if (currentEdge.equals(edge)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -215,7 +222,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     public GraphEdge<L> getEdge(GraphNode<L> node1, GraphNode<L> node2) {
         if (node1 == null || node2 == null)
             throw new NullPointerException();
-        if (!(adjacentLists.containsKey(node1)) || !(adjacentLists.containsKey(node2)))
+        if (!(this.adjacentLists.containsKey(node1)) || !(this.adjacentLists.containsKey(node2)))
             throw new IllegalArgumentException();
         for (GraphEdge<L> edge : getEdgesOf(node1)
         ) {
@@ -229,20 +236,6 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     public GraphEdge<L> getEdgeAtNodeIndexes(int i, int j) {
         throw new UnsupportedOperationException(
                 "Operazioni con indici non supportate");
-    }
-
-    /**
-     * Controlla che l'arco non sia null, che i nodi dell'arco non siano null e che l'arco non abbia direzione.
-     *
-     * @param edge l'arco da controllare
-     */
-    private void checkForExceptions(GraphEdge<L> edge) {
-        if (edge == null)
-            throw new NullPointerException();
-        if (edge.getNode1() == null || edge.getNode2() == null)
-            throw new IllegalArgumentException();
-        if (edge.isDirected())
-            throw new IllegalArgumentException();
     }
 
 }
