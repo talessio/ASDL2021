@@ -48,7 +48,7 @@ class MapAdjacentListUndirectedGraphTest {
         map.addNode(node2);
         assertEquals(node1, map.getNodeOf("1"));
         assertEquals(node2, map.getNodeOf("2"));
-        //assertThrows
+        assertThrows(NullPointerException.class, () -> map.addNode(null));
     }
 
     @Test
