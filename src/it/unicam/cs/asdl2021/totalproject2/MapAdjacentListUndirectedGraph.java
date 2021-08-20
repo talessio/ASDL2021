@@ -232,10 +232,11 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     public GraphEdge<L> getEdge(GraphNode<L> node1, GraphNode<L> node2) {
         if (node1 == null || node2 == null)
             throw new NullPointerException();
-        if (!(this.adjacentLists.containsKey(node1)) || !(this.adjacentLists.containsKey(node2)))
+        if (!(containsNode(node1) && containsNode(node2)))
             throw new IllegalArgumentException();
         for (GraphEdge<L> edge : getEdgesOf(node1)) {
-            if (edge.getNode2().equals(node2))
+            if ((edge.getNode1().equals(node1) && edge.getNode2().equals(node2)) ||
+                    edge.getNode1().equals(node2) && edge.getNode2().equals(node1))
                 return edge;
         }
         return null;
