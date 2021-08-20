@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package it.unicam.cs.asdl2021.totalproject2;
 
 /**
@@ -6,7 +9,7 @@ package it.unicam.cs.asdl2021.totalproject2;
  * {@code L}. L'etichetta non puà essere null. Le classi {@code GraphEdge<L>} e
  * {@code Graph<L>} definiscono le operazioni tipiche sugli archi e sul grafo,
  * rispettivamente.
- * <p>
+ * 
  * Le operazioni presenti sono quelle che sono usate dagli algoritmi su grafi
  * più comuni: attribuzione e modifica di un colore, di una distanza, di un
  * puntatore a un nodo predecessore e di tempi di ingresso/uscita durante una
@@ -14,15 +17,18 @@ package it.unicam.cs.asdl2021.totalproject2;
  * non definiscono l'identità del nodo, che è data esclusivamente
  * dall'etichetta. In altre parole, due nodi sono uguali se e solo se hanno
  * etichetta uguale.
- * <p>
+ * 
  * In molti algoritmi sui grafi i nodi vengono inseriti in una coda di priorità.
  * Questa classe implementa l'interfaccia PriorityQueueElement utilizzando il
  * campo floatingPointDistance come priorità e il campo integerDistance come
  * handle intero in una coda con priorità realizzata con uno heap rappresentato
  * in un array.
- *
- * @param <L> etichette dei nodi
+ * 
  * @author Luca Tesei
+ * 
+ * @param <L>
+ *                etichette dei nodi
+ *
  */
 public class GraphNode<L> implements PriorityQueueElement {
 
@@ -58,9 +64,12 @@ public class GraphNode<L> implements PriorityQueueElement {
     /**
      * Costruisce un nodo assegnando tutti i valori associati ai valori di
      * default.
-     *
-     * @param label l'etichetta da associare al nodo
-     * @throws NullPointerException se l'etichetta è null.
+     * 
+     * @param label
+     *                  l'etichetta da associare al nodo
+     * 
+     * @throws NullPointerException
+     *                                  se l'etichetta è null.
      */
     public GraphNode(L label) {
         if (label == null)
@@ -71,7 +80,7 @@ public class GraphNode<L> implements PriorityQueueElement {
     /**
      * Restituisce l'etichetta associata al nodo che lo identifica univocamente
      * nel grafo.
-     *
+     * 
      * @return the label
      */
     public L getLabel() {
@@ -80,7 +89,7 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /**
      * Restituisce il colore corrente del nodo.
-     *
+     * 
      * @return the color
      */
     public int getColor() {
@@ -88,9 +97,11 @@ public class GraphNode<L> implements PriorityQueueElement {
     }
 
     /**
+     * 
      * Assegna al nodo un certo colore.
-     *
-     * @param color the color to set
+     * 
+     * @param color
+     *                  the color to set
      */
     public void setColor(int color) {
         this.color = color;
@@ -98,7 +109,7 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /**
      * Restituisce il valore corrente di una distanza intera associata al nodo.
-     *
+     * 
      * @return the distance
      */
     public int getIntegerDistance() {
@@ -107,8 +118,9 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /**
      * Assegna al nodo un valore di una distanza intera ad esso associata.
-     *
-     * @param distance the distance to set
+     * 
+     * @param distance
+     *                     the distance to set
      */
     public void setIntegerDistance(int distance) {
         this.integerDistance = distance;
@@ -116,7 +128,7 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /**
      * Restituisce il valore corrente di una distanza associata al nodo.
-     *
+     * 
      * @return the distance
      */
     public double getFloatingPointDistance() {
@@ -125,8 +137,9 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /**
      * Assegna al nodo un valore di una distanza ad esso associata.
-     *
-     * @param distance the distance to set
+     * 
+     * @param distance
+     *                     the distance to set
      */
     public void setFloatingPointDistance(double distance) {
         this.floatingPointDistance = distance;
@@ -136,7 +149,7 @@ public class GraphNode<L> implements PriorityQueueElement {
      * Restituisce il nodo del grafo che correntemente è assegnato come
      * predecessore di questo nodo. Ad esempio può essere usato da un algoritmo
      * che costruisce un albero di copertura.
-     *
+     * 
      * @return the previous
      */
     public GraphNode<L> getPrevious() {
@@ -144,9 +157,11 @@ public class GraphNode<L> implements PriorityQueueElement {
     }
 
     /**
+     * 
      * Assegna a questo nodo un nodo predecessore.
-     *
-     * @param previous the previous to set
+     * 
+     * @param previous
+     *                     the previous to set
      */
     public void setPrevious(GraphNode<L> previous) {
         this.previous = previous;
@@ -155,9 +170,9 @@ public class GraphNode<L> implements PriorityQueueElement {
     /**
      * Restituisce il tempo di ingresso in questo nodo durante una visita in
      * profondità.
-     *
+     * 
      * @return il tempo di ingresso in questo nodo durante una visita in
-     * profondità
+     *         profondità
      */
     public int getEnteringTime() {
         return this.enteringTime;
@@ -166,8 +181,9 @@ public class GraphNode<L> implements PriorityQueueElement {
     /**
      * Assegna un tempo di ingresso in questo nodo durante una visita in
      * profondità.
-     *
-     * @param time il tempo di ingresso da assegnare
+     * 
+     * @param time
+     *                 il tempo di ingresso da assegnare
      */
     public void setEnteringTime(int time) {
         this.enteringTime = time;
@@ -176,9 +192,9 @@ public class GraphNode<L> implements PriorityQueueElement {
     /**
      * Restituisce il tempo di uscita da questo nodo durante una visita in
      * profondità.
-     *
+     * 
      * @return il tempo di uscita da questo nodo durante una visita in
-     * profondità
+     *         profondità
      */
     public int getExitingTime() {
         return this.exitingTime;
@@ -187,8 +203,9 @@ public class GraphNode<L> implements PriorityQueueElement {
     /**
      * Assegna un tempo di uscita da questo nodo durante una visita in
      * profondità.
-     *
-     * @param time il tempo di uscita da assegnare
+     * 
+     * @param time
+     *                 il tempo di uscita da assegnare
      */
     public void setExitingTime(int time) {
         this.exitingTime = time;
@@ -196,7 +213,7 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /*
      * Basato sull'hashCode dell'etichetta.
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -206,7 +223,7 @@ public class GraphNode<L> implements PriorityQueueElement {
 
     /*
      * Basato sull'etichetta, che non può essere null.
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

@@ -1,13 +1,18 @@
+/**
+ *
+ */
 package it.unicam.cs.asdl2021.totalproject2;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Implementazione della classe astratta {@code Graph<L>} che realizza un grafo
  * non orientato. Non sono accettate etichette dei nodi null e non sono
  * accettate etichette duplicate nei nodi (che in quel caso sono lo stesso
  * nodo).
- * <p>
+ *
  * Per la rappresentazione viene usata una variante della rappresentazione con
  * liste di adiacenza. A differenza della rappresentazione standard si usano
  * strutture dati più efficienti per quanto riguarda la complessità in tempo
@@ -15,7 +20,7 @@ import java.util.*;
  * un arco è presente (pseudocostante, con tabella hash). Lo spazio occupato per
  * la rappresentazione risulta tuttavia più grande di quello che servirebbe con
  * la rappresentazione standard.
- * <p>
+ *
  * Le liste di adiacenza sono rappresentate con una mappa (implementata con
  * tabelle hash) che associa ad ogni nodo del grafo i nodi adiacenti. In questo
  * modo il dominio delle chiavi della mappa è l'insieme dei nodi, su cui è
@@ -28,16 +33,18 @@ import java.util.*;
  * controllare se un arco è presente basta richiamare il metodo contains in
  * questo set. I test di presenza si basano sui metodi equals ridefiniti per
  * nodi e archi nelle classi GraphNode<L> e GraphEdge<L>.
- * <p>
+ *
  * Questa classe non supporta le operazioni indicizzate di ricerca di nodi e
  * archi.
  *
- * @param <L> etichette dei nodi del grafo
  * @author Template: Luca Tesei
+ *
+ * @param <L>
+ *                etichette dei nodi del grafo
  */
 public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
-    /**
+    /*
      * Le liste di adiacenza sono rappresentate con una mappa. Ogni nodo viene
      * associato con l'insieme degli archi collegati. Nel caso in cui un nodo
      * non abbia archi collegati è associato con un insieme vuoto. La variabile
@@ -56,7 +63,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
      */
     public MapAdjacentListUndirectedGraph() {
         // Inizializza la mappa con la mappa vuota
-        this.adjacentLists = new HashMap<>();
+        this.adjacentLists = new HashMap<GraphNode<L>, Set<GraphEdge<L>>>();
     }
 
     @Override

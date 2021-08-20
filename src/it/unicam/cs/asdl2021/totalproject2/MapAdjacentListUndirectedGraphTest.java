@@ -38,7 +38,6 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testAddNode() {
-        // TODO da fare per bene
         MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
         GraphNode<String> node1 = new GraphNode<>("1");
         GraphNode<String> node2 = new GraphNode<>("2");
@@ -101,7 +100,7 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testAddEdge() {
-        // TODO
+        //TODO
         MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
         GraphNode<String> node1 = new GraphNode<>("1");
         GraphNode<String> node2 = new GraphNode<>("2");
