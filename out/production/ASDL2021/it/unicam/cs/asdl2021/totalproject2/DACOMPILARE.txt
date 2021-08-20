@@ -1,0 +1,16 @@
+# Compilare questo file prima di inviare il progetto
+# Componenti del gruppo in ordine alfabetico per cognome:
+
+# Componente 1
+NOME: 
+COGNOME: 
+MATRICOLA: 
+EMAIL UNICAM: 
+ANNO DI ISCRIZIONE AL PRIMO ANNO:
+
+# Componente 2 (opzionale)
+NOME: 
+COGNOME: 
+MATRICOLA: 
+EMAIL UNICAM: 
+ANNO DI ISCRIZIONE AL PRIMO ANNO:

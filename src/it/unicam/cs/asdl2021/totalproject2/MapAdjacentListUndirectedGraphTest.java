@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * 
  * @author Template: Luca Tesei
- *
  */
 class MapAdjacentListUndirectedGraphTest {
 
@@ -103,7 +101,17 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testAddEdge() {
-        fail("Not yet implemented"); // TODO
+        // TODO
+        MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
+        GraphNode<String> node1 = new GraphNode<>("1");
+        GraphNode<String> node2 = new GraphNode<>("2");
+        GraphEdge<String> edge1 = new GraphEdge<>(node1, node2, false);
+        map.addNode(node1);
+        map.addNode(node2);
+        map.addEdge(edge1);
+        assertEquals(edge1, map.getEdge(node1, node2));
+        assertEquals(edge1, map.getEdge(node2, node1));
+        assertThrows(NullPointerException.class, () -> map.addEdge(null));
     }
 
     @Test
