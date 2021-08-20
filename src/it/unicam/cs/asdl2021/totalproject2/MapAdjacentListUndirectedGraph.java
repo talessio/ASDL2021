@@ -101,8 +101,10 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!containsNode(node))
             return false;
-        for (GraphEdge<L> edge : getEdgesOf(node)) {
-            removeEdge(edge);
+        for (GraphEdge<L> edge : getEdgesOf(node)) {    //errore qui
+            if (edge.getNode1().equals(node) || edge.getNode2().equals(node)) {
+                removeEdge(edge);
+            }
         }
         this.adjacentLists.remove(node);
         return true;
@@ -110,6 +112,9 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean containsNode(GraphNode<L> node) {
+        if (node == null) {
+            throw new NullPointerException();
+        }
         return this.adjacentLists.containsKey(node);
     }
 
