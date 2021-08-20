@@ -91,7 +91,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (containsNode(node))
             return false;
-        this.adjacentLists.put(node, null);
+        this.adjacentLists.put(node, new HashSet<>()); //!!!!!!!!!!!!!!!!!!!!!!(ヌルポの原因)
         return true;
     }
 
@@ -169,20 +169,18 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean addEdge(GraphEdge<L> edge) {
-        if (edge != null) {
-            if (edge.getNode1() == null || edge.getNode2() == null)
-                throw new IllegalArgumentException();
-            if (edge.isDirected())
-                throw new IllegalArgumentException();
-//            if (this.adjacentLists.get(edge.getNode1()).contains(edge)){}
-            if (containsEdge(edge))
-                return false;
-            this.adjacentLists.get(edge.getNode1()).add(edge);
-            this.adjacentLists.get(edge.getNode2()).add(edge);
-            return true;
-        } else {
+        if (edge == null) {
             throw new NullPointerException();
         }
+        if (edge.getNode1() == null || edge.getNode2() == null)
+            throw new IllegalArgumentException();
+        if (edge.isDirected())
+            throw new IllegalArgumentException();
+        if (containsEdge(edge))
+            return false;
+        this.adjacentLists.get(edge.getNode1()).add(edge);
+        this.adjacentLists.get(edge.getNode2()).add(edge);
+        return true;
     }
 
     @Override
@@ -200,20 +198,17 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean containsEdge(GraphEdge<L> edge) {
-        if (edge != null) {
-            if (edge.getNode1() == null || edge.getNode2() == null)
-                throw new IllegalArgumentException();
-            Set<GraphNode<L>> nodes = getNodes();
-            for (GraphNode<L> currentNode : nodes) {
-                Set<GraphEdge<L>> edges = getEdgesOf(currentNode);
-                for (GraphEdge<L> currentEdge : edges) {
-                    if (currentEdge.equals(edge)) {
-                        return true;
-                    }
+        if (edge == null) {
+            throw new NullPointerException();
+        }
+        if (edge.getNode1() == null || edge.getNode2() == null)
+            throw new IllegalArgumentException();
+        for (GraphNode<L> currentNode : getNodes()) {
+            for (GraphEdge<L> currentEdge : getEdgesOf(currentNode)) {
+                if (currentEdge.equals(edge)) {
+                    return true;
                 }
             }
-        } else {
-            throw new NullPointerException();
         }
         return false;
     }
