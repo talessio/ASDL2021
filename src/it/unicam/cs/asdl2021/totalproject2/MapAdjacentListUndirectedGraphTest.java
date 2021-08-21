@@ -5,11 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Template: Luca Tesei
  */
 class MapAdjacentListUndirectedGraphTest {
+
+    // TODO FIX removeNode() and getEdgesOf()
 
     @Test
     final void testNodeCount() {
@@ -224,7 +227,9 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testGetPredecessorNodesOf() {
-        fail("Not yet implemented"); // TODO
+        MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
+        GraphNode<String> node1 = new GraphNode<>("1");
+        assertThrows(UnsupportedOperationException.class, () -> map.getPredecessorNodesOf(node1));
     }
 
     @Test
@@ -272,7 +277,31 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testGetEdgesOf() {
-        fail("Not yet implemented"); // TODO
+        MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
+        GraphNode<String> node1 = new GraphNode<>("1");
+        assertThrows(NullPointerException.class, () -> map.getEdgesOf(null));
+        assertThrows(IllegalArgumentException.class, () -> map.getEdgesOf(node1));
+        GraphNode<String> node2 = new GraphNode<>("2");
+        GraphNode<String> node3 = new GraphNode<>("3");
+        GraphEdge<String> edge1 = new GraphEdge<>(node1, node2, false);
+        GraphEdge<String> edge2 = new GraphEdge<>(node2, node3, false);
+        GraphEdge<String> edge3 = new GraphEdge<>(node3, node1, false);
+        map.addNode(node1);
+        map.addNode(node2);
+        map.addNode(node3);
+        map.addEdge(edge1);
+        map.addEdge(edge2);
+        map.addEdge(edge3);
+        Set<GraphEdge<String>> set = new HashSet<>();
+        set.add(edge1);
+        set.add(edge3);
+        assertEquals(set, map.getEdgesOf(node1));
+        map.removeNode(node2);
+        set.remove(edge1);
+        assertEquals(set, map.getEdgesOf(node1));
+        set.remove(edge3);
+
+        assertEquals(set, map.getEdgesOf(node1));
     }
 
     @Test

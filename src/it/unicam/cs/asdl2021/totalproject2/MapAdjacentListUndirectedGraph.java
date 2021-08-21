@@ -101,7 +101,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!containsNode(node))
             return false;
-        for (GraphEdge<L> edge : getEdgesOf(node)) {    //errore qui
+        for (GraphEdge<L> edge : getEdgesOf(node)) {    //errore qui, su più metodi
             if (edge.getNode1().equals(node) || edge.getNode2().equals(node)) {
                 removeEdge(edge);
             }
