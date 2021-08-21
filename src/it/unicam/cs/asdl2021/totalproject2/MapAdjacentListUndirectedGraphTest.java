@@ -267,7 +267,19 @@ class MapAdjacentListUndirectedGraphTest {
 
     @Test
     final void testRemoveEdge() {
-        fail("Not yet implemented"); // TODO
+        MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
+        GraphNode<String> node1 = new GraphNode<>("1");
+        GraphNode<String> node2 = new GraphNode<>("2");
+        GraphEdge<String> edge1 = new GraphEdge<>(node1, node2, false);
+        GraphEdge<String> edge2 = new GraphEdge<>(node2, node1, false);
+        map.addNode(node1);
+        map.addNode(node2);
+        map.addEdge(edge1);
+        map.addEdge(edge2);
+        map.containsEdge(edge1);
+        map.containsEdge(edge2);
+        map.removeEdge(edge1);
+        map.removeEdge(edge2);
     }
 
     @Test
