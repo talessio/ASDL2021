@@ -148,6 +148,9 @@ class MapAdjacentListUndirectedGraphTest {
         assertEquals(2, map.getEdgesOf(node2).size());
         map.removeNode(node1);      // errore qui, non ho idea del perché
         assertFalse(map.removeNode(node1));
+        assertFalse(map.containsEdge(edge1));
+        assertTrue(map.containsEdge(edge2));
+        assertFalse(map.containsEdge(edge3));
         assertEquals(1, map.getEdgesOf(node2).size());
         map.removeNode(node3);
         assertEquals(0, map.getEdgesOf(node2).size());
@@ -243,15 +246,19 @@ class MapAdjacentListUndirectedGraphTest {
         GraphNode<String> node1 = new GraphNode<>("1");
         GraphNode<String> node2 = new GraphNode<>("2");
         GraphNode<String> node3 = new GraphNode<>("3");
+        GraphNode<String> node4 = new GraphNode<>("4");
         GraphEdge<String> edge1 = new GraphEdge<>(node1, node2, false);
         GraphEdge<String> edge2 = new GraphEdge<>(node2, node3, false);
         GraphEdge<String> edge3 = new GraphEdge<>(node3, node1, false);
+        GraphEdge<String> edge4 = new GraphEdge<>(node1, node4, true);
         map.addNode(node1);
         map.addNode(node2);
         map.addNode(node3);
+        map.addNode(node4);
         map.addEdge(edge1);
         map.addEdge(edge2);
         map.addEdge(edge3);
+        assertThrows(IllegalArgumentException.class, () -> map.addEdge(edge4));
         assertEquals(edge1, map.getEdge(node1, node2));
         assertEquals(edge1, map.getEdge(node2, node1));
         assertEquals(edge2, map.getEdge(node2, node3));
@@ -261,25 +268,33 @@ class MapAdjacentListUndirectedGraphTest {
         assertEquals(2, map.getEdgesOf(node1).size());
         assertEquals(2, map.getEdgesOf(node2).size());
         assertEquals(2, map.getEdgesOf(node3).size());
-
         assertThrows(NullPointerException.class, () -> map.addEdge(null));
     }
 
     @Test
     final void testRemoveEdge() {
         MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
+        assertThrows(NullPointerException.class, () -> map.removeEdge(null));
         GraphNode<String> node1 = new GraphNode<>("1");
         GraphNode<String> node2 = new GraphNode<>("2");
+        GraphNode<String> node3 = new GraphNode<>("3");
         GraphEdge<String> edge1 = new GraphEdge<>(node1, node2, false);
-        GraphEdge<String> edge2 = new GraphEdge<>(node2, node1, false);
+        GraphEdge<String> edge2 = new GraphEdge<>(node1, node3, false);
         map.addNode(node1);
         map.addNode(node2);
+        assertThrows(IllegalArgumentException.class, () -> map.removeEdge(edge1));
+        assertThrows(IllegalArgumentException.class, () -> map.removeEdge(edge2));
+        map.addNode(node3);
         map.addEdge(edge1);
         map.addEdge(edge2);
-        map.containsEdge(edge1);
-        map.containsEdge(edge2);
+        assertFalse(map.isEmpty());
         map.removeEdge(edge1);
+        assertEquals(1, map.getEdgesOf(node1).size());
+        assertEquals(1, map.getEdgesOf(node3).size());
+        assertTrue(map.getEdgesOf(node2).isEmpty());
         map.removeEdge(edge2);
+        assertTrue(map.getEdgesOf(node1).isEmpty());
+        assertTrue(map.getEdgesOf(node3).isEmpty());
     }
 
     @Test
@@ -313,7 +328,8 @@ class MapAdjacentListUndirectedGraphTest {
         assertEquals(set, map.getEdgesOf(node1));
         set.remove(edge3);
 
-        assertEquals(set, map.getEdgesOf(node1));
+        //assertEquals(set, map.getEdgesOf(node1));
+        assertTrue(map.getEdgesOf(node1).isEmpty());
     }
 
     @Test

@@ -101,10 +101,26 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!containsNode(node))
             return false;
-        for (GraphEdge<L> edge : getEdgesOf(node)) {    //errore qui, su più metodi
-            if (edge.getNode1().equals(node) || edge.getNode2().equals(node)) {
-                removeEdge(edge);
+//            GraphEdge<L> edge = iter.next();
+//            if(edge.getNode1().equals(node) || edge.getNode2().equals(node))
+//                removeEdge(edge);
+//        }
+//        for (GraphEdge<L> edge : getEdgesOf(node)) {    //errore qui, su più metodi
+//            if (edge.getNode1().equals(node) || edge.getNode2().equals(node)) {
+//                removeEdge(edge);
+//            }
+//        }
+        for (GraphNode<L> currentAdjNode : getAdjacentNodesOf(node)) { //scorro i nodi adiacenti
+            for (GraphEdge<L> currentAdjNodesEdge : getEdgesOf(currentAdjNode)) { //scorro i set di archi dei nodi adiacenti
+                for (GraphEdge<L> currentEdge : getEdgesOf(node)) { //scorro gli archi di node
+                    if (currentEdge.equals(currentAdjNodesEdge)) { //confronto gli archi di node con gli archi degli adiacenti
+                        removeEdge(currentAdjNodesEdge); //rimuovo l'arco dai set di archi dei nodi adiacenti
+                    }
+                }
             }
+        }
+        for (GraphEdge<L> edgyEdgEdg : getEdgesOf(node)) {
+            removeEdge(edgyEdgEdg);
         }
         this.adjacentLists.remove(node);
         return true;
@@ -174,9 +190,8 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean addEdge(GraphEdge<L> edge) {
-        if (edge == null) {
+        if (edge == null)
             throw new NullPointerException();
-        }
         if (edge.getNode1() == null || edge.getNode2() == null)
             throw new IllegalArgumentException();
         if (edge.isDirected())
@@ -192,9 +207,9 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
     public boolean removeEdge(GraphEdge<L> edge) {
         if (edge == null)
             throw new NullPointerException();
-        if (edge.getNode1() == null || edge.getNode2() == null)
+        if (!containsNode(edge.getNode1()) || !containsNode(edge.getNode2()))
             throw new IllegalArgumentException();
-        if (edge.isDirected())
+        if (!containsEdge(edge))
             throw new IllegalArgumentException();
         this.adjacentLists.get(edge.getNode1()).remove(edge);
         this.adjacentLists.get(edge.getNode2()).remove(edge);
