@@ -9,30 +9,29 @@ import java.util.Set;
  * Classe che implementa un grafo orientato tramite matrice di adiacenza. Non
  * sono accettate etichette dei nodi null e non sono accettate etichette
  * duplicate nei nodi (che in quel caso sono lo stesso nodo).
- * 
+ * <p>
  * I nodi sono indicizzati da 0 a nodeCoount() - 1 seguendo l'ordine del loro
  * inserimento (0 è l'indice del primo nodo inserito, 1 del secondo e così via)
  * e quindi in ogni istante la matrice di adiacenza ha dimensione nodeCount() *
  * nodeCount(). La matrice, sempre quadrata, deve quindi aumentare di dimensione
  * ad ogni inserimento di un nodo. Per questo non è rappresentata tramite array
  * ma tramite ArrayList.
- * 
+ * <p>
  * Gli oggetti GraphNode<L>, cioè i nodi, sono memorizzati in una mappa che
  * associa ad ogni nodo l'indice assegnato in fase di inserimento. Il dominio
  * della mappa rappresenta quindi l'insieme dei nodi.
- * 
+ * <p>
  * Gli archi sono memorizzati nella matrice di adiacenza. A differenza della
  * rappresentazione standard con matrice di adiacenza, la posizione i,j della
  * matrice non contiene un flag di presenza, ma è null se i nodi i e j non sono
  * collegati da un arco orientato e contiene un oggetto della classe
  * GraphEdge<L> se lo sono. Tale oggetto rappresenta l'arco.
- * 
+ * <p>
  * Questa classe non supporta la cancellazione di nodi, ma supporta la
  * cancellazione di archi e tutti i metodi che usano indici, utilizzando
  * l'indice assegnato a ogni nodo in fase di inserimento.
- * 
- * @author Template: Luca Tesei
  *
+ * @author Template: Luca Tesei
  */
 public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     /*
@@ -65,14 +64,20 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public int nodeCount() {
-        // TODO implementare
-        return -1;
+        return this.nodesIndex.keySet().size();
     }
 
     @Override
     public int edgeCount() {
-        // TODO implementare
-        return -1;
+        int var = 0;
+        for (int i = 0; i < nodeCount(); i++) {
+            for (int j = 0; j < nodeCount(); j++) {
+                GraphEdge<L> currentEdge = getEdgeAtNodeIndexes(i, j);
+                if (currentEdge != null)
+                    var++;
+            }
+        }
+        return var;
     }
 
     @Override
@@ -89,14 +94,20 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphNode<L>> getNodes() {
-        // TODO implementare
-        return null;
+        return this.nodesIndex.keySet();
     }
 
     @Override
     public boolean addNode(GraphNode<L> node) {
-        // TODO implementare
-        return false;
+        if (node != null) {
+            throw new NullPointerException();
+        }
+        if (this.nodesIndex.containsKey(node)) {
+            return false;
+        }
+        int value = nodeCount() + 1;
+        this.nodesIndex.put(node, value);
+        return true;
     }
 
     @Override
@@ -107,38 +118,74 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public boolean containsNode(GraphNode<L> node) {
-        // TODO implementare
-        return false;
+        if (node == null)
+            throw new NullPointerException();
+        if (this.nodesIndex.containsKey(node))
+            return true;
+        else
+            return false;
     }
 
     @Override
     public GraphNode<L> getNodeOf(L label) {
-        // TODO implementare
+        if (label == null)
+            throw new NullPointerException();
+        for (GraphNode<L> node : this.nodesIndex.keySet()) {
+            if (node.getLabel().equals(label))
+                return node;
+        }
         return null;
     }
 
     @Override
     public int getNodeIndexOf(L label) {
-        // TODO implementare
-        return -1;
+        if (label == null)
+            throw new NullPointerException();
+        if (this.getNodeOf(label) == null) {
+            throw new IllegalArgumentException();
+        }
+        int index = this.nodesIndex.get(this.getNodeOf(label));
+        return index;
     }
 
     @Override
     public GraphNode<L> getNodeAtIndex(int i) {
-        // TODO implementare
+        if (i > this.nodeCount() - 1)
+            throw new IndexOutOfBoundsException();
+        for (GraphNode<L> currentNode : this.nodesIndex.keySet()) {
+            if (this.nodesIndex.get(currentNode) == i)
+                return currentNode;
+        }
         return null;
     }
 
     @Override
     public Set<GraphNode<L>> getAdjacentNodesOf(GraphNode<L> node) {
-        // TODO implementare
-        return null;
+        if (node == null)
+            throw new NullPointerException();
+        if (!this.containsNode(node))
+            throw new IllegalArgumentException();
+        Set<GraphNode<L>> itsAdjNodes = null;
+        for (GraphEdge<L> currentEdge : this.getEdgesOf(node)) {
+            itsAdjNodes.add(currentEdge.getNode2());
+        }
+        return itsAdjNodes;
     }
 
     @Override
     public Set<GraphNode<L>> getPredecessorNodesOf(GraphNode<L> node) {
-        // TODO implementare
-        return null;
+        if (node == null)
+            throw new NullPointerException();
+        if (!this.containsNode(node))
+            throw new IllegalArgumentException();
+        Set<GraphNode<L>> itsPredNodes = null;
+        for (GraphNode<L> currentNode : this.nodesIndex.keySet()) {
+            for (GraphEdge<L> currentEdge : getEdgesOf(currentNode)) {
+                if (currentEdge.getNode2() == node && !itsPredNodes.contains(currentNode))
+                    itsPredNodes.add(currentNode);
+            }
+        }
+        return itsPredNodes;
     }
 
     @Override

@@ -308,5 +308,4 @@ class MapAdjacentListUndirectedGraphTest {
         assertFalse(map.isEmpty());
         assertFalse(map.isDirected());
     }
-
 }
