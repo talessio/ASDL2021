@@ -36,7 +36,15 @@ class AdjacencyMatrixDirectedGraphTest {
 
     @Test
     final void testEdgeCount() {
-        fail("Not yet implemented"); // TODO
+        graph.addNode(node1);
+        graph.addNode(node2);
+        assertEquals(0, graph.edgeCount());
+        graph.addEdge(edge1);
+        graph.addEdge(edge2);
+        assertEquals(2, graph.edgeCount());
+        graph.addNode(node3);
+        graph.addEdge(edge3);
+        assertEquals(3, graph.edgeCount());
     }
 
     @Test

@@ -274,8 +274,7 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     public GraphEdge<L> getEdge(GraphNode<L> node1, GraphNode<L> node2) {
         if (node1 == null || node2 == null)
             throw new NullPointerException();
-        if (!this.nodesIndex.containsKey(node1) ||
-                !this.nodesIndex.containsKey(node2))
+        if (!this.nodesIndex.containsKey(node1) || !this.nodesIndex.containsKey(node2))
             throw new IllegalArgumentException();
         int indexNode1 = this.nodesIndex.get(node1);
         int indexNode2 = this.nodesIndex.get(node2);
@@ -284,8 +283,13 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public GraphEdge<L> getEdgeAtNodeIndexes(int i, int j) {
-        // TODO implementare
         return this.matrix.get(i).get(j);
+//        for (int col = 0; col < nodeCount(); col++) {
+//            for (int row = 0; row < nodeCount(); row++) {
+//                if (this.getNodeAtIndex(i).equals(col) && this.getNodeAtIndex(j).equals(row))
+//
+//            }
+//        }
     }
 
     // TODO inserire eventuali metodi privati per fini di implementazione
