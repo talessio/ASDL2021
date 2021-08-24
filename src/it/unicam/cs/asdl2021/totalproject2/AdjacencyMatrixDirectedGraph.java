@@ -175,7 +175,7 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
         Set<GraphNode<L>> itsPredNodes = new HashSet<>();
         for (GraphNode<L> currentNode : this.nodesIndex.keySet()) {
             for (GraphEdge<L> currentEdge : getEdgesOf(currentNode)) {
-                if (currentEdge.getNode2() == node && !itsPredNodes.contains(currentNode)) //TODO fix warning?
+                if (currentEdge.getNode2() == node)
                     itsPredNodes.add(currentNode);
             }
         }
@@ -199,8 +199,8 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     public boolean addEdge(GraphEdge<L> edge) {
         if (edge == null)
             throw new NullPointerException();
-        if (!this.containsNode(edge.getNode1()) ||
-                !this.containsNode(edge.getNode2()) ||
+        if (this.containsNode(edge.getNode1()) ||
+                this.containsNode(edge.getNode2()) ||
                 !edge.isDirected())
             throw new IllegalArgumentException();
         if (this.containsEdge(edge))
@@ -219,10 +219,9 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!this.containsNode(edge.getNode1()) || !this.containsNode(edge.getNode2()))
             throw new IllegalArgumentException();
-
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
-        if (this.matrix.get(indexNode1).get(indexNode2).equals(edge)) {
+        if (this.getEdgeAtNodeIndexes(indexNode1, indexNode2).equals(edge)) {
             this.matrix.get(indexNode1).set(indexNode2, null);
             return true;
         }
@@ -237,7 +236,7 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
             throw new IllegalArgumentException();
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
-        return this.matrix.get(indexNode1).get(indexNode2).equals(edge);
+        return this.getEdgeAtNodeIndexes(indexNode1, indexNode2).equals(edge);
     }
 
     @Override
@@ -257,8 +256,18 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphEdge<L>> getIngoingEdgesOf(GraphNode<L> node) {
-        // TODO implementare
-        return null;
+        if (node == null)
+            throw new NullPointerException();
+        if (!this.containsNode(node))
+            throw new IllegalArgumentException();
+        Set<GraphEdge<L>> itsIngoingEdges = new HashSet<>();
+        for (GraphNode<L> currentNode : this.nodesIndex.keySet()) {
+            for (GraphEdge<L> currentEdge : getEdgesOf(currentNode)) {
+                if (currentEdge.getNode2() == node)
+                    itsIngoingEdges.add(currentEdge);
+            }
+        }
+        return itsIngoingEdges;
     }
 
     @Override
@@ -268,16 +277,15 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
         if (!this.nodesIndex.containsKey(node1) ||
                 !this.nodesIndex.containsKey(node2))
             throw new IllegalArgumentException();
-
         int indexNode1 = this.nodesIndex.get(node1);
         int indexNode2 = this.nodesIndex.get(node2);
-        return this.matrix.get(indexNode1).get(indexNode2);
+        return this.getEdgeAtNodeIndexes(indexNode1, indexNode2);
     }
 
     @Override
     public GraphEdge<L> getEdgeAtNodeIndexes(int i, int j) {
         // TODO implementare
-        return null;
+        return this.matrix.get(i).get(j);
     }
 
     // TODO inserire eventuali metodi privati per fini di implementazione
