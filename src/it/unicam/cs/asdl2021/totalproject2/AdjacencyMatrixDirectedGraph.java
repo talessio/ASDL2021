@@ -1,9 +1,6 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe che implementa un grafo orientato tramite matrice di adiacenza. Non
@@ -190,32 +187,71 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public Set<GraphEdge<L>> getEdges() {
-        // TODO implementare
-        return null;
+        Set<GraphEdge<L>> edges = null;
+        for (int i = 0; i < nodeCount(); i++) {
+            for (int j = 0; j < nodeCount(); j++) {
+                GraphEdge<L> currentEdge = getEdgeAtNodeIndexes(i, j);
+                if (currentEdge != null)
+                    edges.add(currentEdge);
+            }
+        }
+        return edges;
     }
 
     @Override
     public boolean addEdge(GraphEdge<L> edge) {
-        // TODO implementare
-        return false;
+        if (edge == null)
+            throw new NullPointerException();
+        if (!this.containsNode(edge.getNode1()) || !this.containsNode(edge.getNode2()))
+            throw new IllegalArgumentException();
+        if (edge.isDirected() == false)
+            throw new IllegalArgumentException();
+        if (this.containsEdge(edge))
+            return false;
+        int indexNode1 = this.matrix.indexOf(edge.getNode1());
+        int indexNode2 = this.matrix.indexOf(edge.getNode2());
+        this.matrix.get(indexNode1).add(indexNode2, edge);
+        return true;
     }
 
     @Override
     public boolean removeEdge(GraphEdge<L> edge) {
-        // TODO implementare
+        if (edge == null)
+            throw new NullPointerException();
+        if (!this.containsNode(edge.getNode1()) || !this.containsNode(edge.getNode2()))
+            throw new IllegalArgumentException();
+        int indexNode1 = this.matrix.indexOf(edge.getNode1());
+        int indexNode2 = this.matrix.indexOf(edge.getNode2());
+        if (this.matrix.get(indexNode1).get(indexNode2).equals(edge)) {
+            this.matrix.get(indexNode1).set(indexNode2, null);
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean containsEdge(GraphEdge<L> edge) {
-        // TODO implementare
+        if (edge == null)
+            throw new NullPointerException();
+        if (!this.containsNode(edge.getNode1()) || !this.containsNode(edge.getNode2()))
+            throw new IllegalArgumentException();
+        int indexNode1 = this.matrix.indexOf(edge.getNode1());
+        int indexNode2 = this.matrix.indexOf(edge.getNode2());
+        if (this.matrix.get(indexNode1).get(indexNode2).equals(edge)) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public Set<GraphEdge<L>> getEdgesOf(GraphNode<L> node) {
-        // TODO implementare
-        return null;
+        int nodeIndex = this.nodesIndex.get(node);
+        Set<GraphEdge<L>> edges = new HashSet<>();
+        for (GraphEdge<L> currentEdge : this.matrix.get(nodeIndex)) {
+            if (currentEdge != null)
+                edges.add(currentEdge);
+        }
+        return edges;
     }
 
     @Override
