@@ -263,8 +263,15 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public GraphEdge<L> getEdge(GraphNode<L> node1, GraphNode<L> node2) {
-        // TODO implementare
-        return null;
+        if (node1 == null || node2 == null)
+            throw new NullPointerException();
+        if (!this.nodesIndex.containsKey(node1) ||
+                !this.nodesIndex.containsKey(node2))
+            throw new IllegalArgumentException();
+
+        int indexNode1 = this.nodesIndex.get(node1);
+        int indexNode2 = this.nodesIndex.get(node2);
+        return this.matrix.get(indexNode1).get(indexNode2);
     }
 
     @Override
