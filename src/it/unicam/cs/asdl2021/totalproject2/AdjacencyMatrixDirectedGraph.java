@@ -102,8 +102,13 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
         if (this.nodesIndex.containsKey(node)) {
             return false;
         }
-        int value = nodeCount() + 1;
+        int value = nodeCount();
         this.nodesIndex.put(node, value);
+
+        this.matrix.add(new ArrayList<GraphEdge<L>>(value + 1));
+        for (ArrayList<GraphEdge<L>> array : matrix) {
+            array.add(null);
+        }
         return true;
     }
 
@@ -284,12 +289,6 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     @Override
     public GraphEdge<L> getEdgeAtNodeIndexes(int i, int j) {
         return this.matrix.get(i).get(j);
-//        for (int col = 0; col < nodeCount(); col++) {
-//            for (int row = 0; row < nodeCount(); row++) {
-//                if (this.getNodeAtIndex(i).equals(col) && this.getNodeAtIndex(j).equals(row))
-//
-//            }
-//        }
     }
 
     // TODO inserire eventuali metodi privati per fini di implementazione
