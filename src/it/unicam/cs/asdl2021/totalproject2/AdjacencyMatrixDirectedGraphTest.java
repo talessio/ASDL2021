@@ -126,7 +126,7 @@ class AdjacencyMatrixDirectedGraphTest {
         assertEquals(graphEdgeSet, graph.getEdges());
         graph.addNode(node1);
         graph.addNode(node2);
-        graph.addEdge(edge1); //IllegalArgumentExpcetoion
+        graph.addEdge(edge1);
         graph.addEdge(edge2);
         graphEdgeSet.add(edge1);
         graphEdgeSet.add(edge2);
@@ -140,7 +140,15 @@ class AdjacencyMatrixDirectedGraphTest {
 
     @Test
     final void testRemoveEdge() {
-        fail("Not yet implemented"); // TODO
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addEdge(edge1);
+        graph.addEdge(edge2);
+        assertEquals(2, graph.getEdges().size());
+        graph.removeEdge(edge1);
+        assertEquals(1, graph.getEdges().size());
+        graph.removeEdge(edge2);
+        assertEquals(0, graph.getEdges().size());
     }
 
     @Test

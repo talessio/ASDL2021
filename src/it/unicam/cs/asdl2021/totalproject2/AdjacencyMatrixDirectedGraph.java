@@ -67,9 +67,19 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     @Override
     public int edgeCount() {
         int var = 0;
+
+        /*
         for (int i = 0; i < nodeCount(); i++) {
             for (int j = 0; j < nodeCount(); j++) {
                 GraphEdge<L> currentEdge = getEdgeAtNodeIndexes(i, j);
+                if (currentEdge != null)
+                    var++;
+            }
+        }
+         */
+
+        for (ArrayList<GraphEdge<L>> currentArray : matrix) {
+            for (GraphEdge<L> currentEdge : currentArray) {
                 if (currentEdge != null)
                     var++;
             }
@@ -190,9 +200,20 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     @Override
     public Set<GraphEdge<L>> getEdges() {
         Set<GraphEdge<L>> edges = new HashSet<>();
+
+        /*
         for (int i = 0; i < nodeCount(); i++) {
             for (int j = 0; j < nodeCount(); j++) {
                 GraphEdge<L> currentEdge = getEdgeAtNodeIndexes(i, j);
+                if (currentEdge != null)
+                    edges.add(currentEdge);
+            }
+        }
+        return edges;
+         */
+
+        for (ArrayList<GraphEdge<L>> currentArray : matrix) {
+            for (GraphEdge<L> currentEdge : currentArray) {
                 if (currentEdge != null)
                     edges.add(currentEdge);
             }
@@ -224,12 +245,29 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!this.containsNode(edge.getNode1()) || !this.containsNode(edge.getNode2()))
             throw new IllegalArgumentException();
+
+        int nodes = 0;
+        int edges = 0;
+        for (ArrayList<GraphEdge<L>> currentArray : matrix) {
+            for (GraphEdge<L> currentEdge : currentArray) {
+                if (edge.equals(currentEdge)) {
+//                    this.matrix.get(nodes).set(edges, null);
+                    currentEdge = null;
+                    return true;
+                }
+                edges++;
+            }
+            nodes++;
+        }
+
+        /*
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
         if (this.getEdgeAtNodeIndexes(indexNode1, indexNode2).equals(edge)) {
             this.matrix.get(indexNode1).set(indexNode2, null);
             return true;
         }
+         */
         return false;
     }
 
@@ -239,10 +277,21 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!this.containsNode(edge.getNode1()) || !this.containsNode(edge.getNode2()))
             throw new IllegalArgumentException();
+
+        for (ArrayList<GraphEdge<L>> currentArray : matrix) {
+            for (GraphEdge<L> currentEdge : currentArray) {
+                if (edge.equals(currentEdge))
+                    return true;
+            }
+        }
+        return false;
+
+        /*
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
         GraphEdge<L> checkEdge = getEdgeAtNodeIndexes(indexNode1, indexNode2);
         return checkEdge.equals(edge);
+         */
     }
 
     @Override
@@ -282,9 +331,21 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!this.nodesIndex.containsKey(node1) || !this.nodesIndex.containsKey(node2))
             throw new IllegalArgumentException();
+
+        for (ArrayList<GraphEdge<L>> currentArray : matrix) {
+            for (GraphEdge<L> currentEdge : currentArray) {
+                if (currentEdge.getNode1().equals(node1) ||
+                    currentEdge.getNode2().equals(node2))
+                    return currentEdge;
+            }
+        }
+
+        /*
         int indexNode1 = this.nodesIndex.get(node1);
         int indexNode2 = this.nodesIndex.get(node2);
         return this.getEdgeAtNodeIndexes(indexNode1, indexNode2);
+         */
+        return null;
     }
 
     @Override
