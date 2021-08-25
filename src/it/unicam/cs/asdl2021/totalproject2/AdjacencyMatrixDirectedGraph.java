@@ -204,8 +204,8 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
     public boolean addEdge(GraphEdge<L> edge) {
         if (edge == null)
             throw new NullPointerException();
-        if (this.containsNode(edge.getNode1()) ||
-                this.containsNode(edge.getNode2()) ||
+        if (!this.containsNode(edge.getNode1()) ||
+                !this.containsNode(edge.getNode2()) ||
                 !edge.isDirected())
             throw new IllegalArgumentException();
         if (this.containsEdge(edge))
@@ -213,7 +213,7 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
-        this.matrix.get(indexNode1).set(indexNode1, edge);
+//        this.matrix.get(indexNode1).set(indexNode1, edge);
         this.matrix.get(indexNode1).set(indexNode2, edge);
         return true;
     }
@@ -241,7 +241,8 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
             throw new IllegalArgumentException();
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
-        return this.getEdgeAtNodeIndexes(indexNode1, indexNode2).equals(edge);
+        GraphEdge<L> checkEdge = getEdgeAtNodeIndexes(indexNode1, indexNode2);
+        return checkEdge.equals(edge);
     }
 
     @Override
@@ -288,6 +289,8 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
     @Override
     public GraphEdge<L> getEdgeAtNodeIndexes(int i, int j) {
+        if (i < 0 || j < 0 || i >= this.nodeCount() || j >= this.nodeCount())
+            throw new IndexOutOfBoundsException();
         return this.matrix.get(i).get(j);
     }
 

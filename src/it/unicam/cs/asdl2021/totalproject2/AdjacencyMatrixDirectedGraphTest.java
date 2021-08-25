@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Template: Luca Tesei
@@ -54,12 +56,18 @@ class AdjacencyMatrixDirectedGraphTest {
 
     @Test
     final void testIsDirected() {
-        fail("Not yet implemented"); // TODO
+        assertTrue(graph.isDirected());
     }
 
     @Test
     final void testGetNodes() {
-        fail("Not yet implemented"); // TODO
+        Set<GraphNode<String>> graphNodeSet = new HashSet<>();
+        assertEquals(graphNodeSet, graph.getNodes());
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graphNodeSet.add(node1);
+        graphNodeSet.add(node2);
+        assertEquals(graphNodeSet, graph.getNodes());
     }
 
     @Test
@@ -114,7 +122,15 @@ class AdjacencyMatrixDirectedGraphTest {
 
     @Test
     final void testGetEdges() {
-        fail("Not yet implemented"); // TODO
+        Set<GraphEdge<String>> graphEdgeSet = new HashSet<>();
+        assertEquals(graphEdgeSet, graph.getEdges());
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addEdge(edge1); //IllegalArgumentExpcetoion
+        graph.addEdge(edge2);
+        graphEdgeSet.add(edge1);
+        graphEdgeSet.add(edge2);
+        assertEquals(graphEdgeSet, graph.getEdges());
     }
 
     @Test
