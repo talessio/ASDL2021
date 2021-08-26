@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.ArrayList;
@@ -58,13 +55,20 @@ public class BinaryHeapMinPriorityQueue {
 
         this.heap.add(element);
         this.heap.get(this.heap.size() - 1).setHandle(this.heap.size() - 1);
-        slideUp(element);
-        // TODO implementare
+        heapify(element.getHandle());
     }
 
-    private void slideUp(PriorityQueueElement element) {
-        while (element.getPriority()<parent.getPriority())
-            swapElements(element, parent);
+    /**
+     * Swaps one element with its parent.
+     * @param elementIndex1 child element
+     * @param elementIndex2 parent element
+     */
+    private void swap(int elementIndex1, int elementIndex2) {
+        PriorityQueueElement tmp = this.heap.get(elementIndex1);
+        this.heap.set(elementIndex1, this.heap.get(elementIndex2));
+        this.heap.get(elementIndex1).setHandle(elementIndex1);
+        this.heap.set(elementIndex2, tmp);
+        this.heap.get(elementIndex2).setHandle(elementIndex2);
     }
 
     /**
@@ -77,7 +81,6 @@ public class BinaryHeapMinPriorityQueue {
      *                                    if this min-priority queue is empty
      */
     public PriorityQueueElement minimum() {
-        // TODO implementare
         if (this.heap.isEmpty())
             throw new NoSuchElementException();
         return this.heap.get(0);
@@ -92,8 +95,18 @@ public class BinaryHeapMinPriorityQueue {
      *                                    if this min-priority queue is empty
      */
     public PriorityQueueElement extractMinimum() {
-        // TODO implementare
-        return null;
+        if (this.heap.isEmpty())
+            throw new NoSuchElementException();
+
+        PriorityQueueElement result = this.minimum();
+        this.heap.remove(0);
+        int i = 0;
+        for (PriorityQueueElement currentElement : this.heap) {
+            currentElement.setHandle(currentElement.getHandle() - 1);
+            this.heap.set(i, currentElement);
+            i++;
+        }
+        return result;
     }
 
     /**
@@ -116,10 +129,14 @@ public class BinaryHeapMinPriorityQueue {
      *                                      strictly less than the current
      *                                      priority of the element
      */
-    public void decreasePriority(PriorityQueueElement element,
-                                 double newPriority) {
+    public void decreasePriority(PriorityQueueElement element, double newPriority) {
         // TODO implementare
-
+        if (!this.heap.contains(element))
+            throw new NoSuchElementException();
+        if (newPriority >= element.getPriority())
+            throw new IllegalArgumentException();
+        element.setPriority(newPriority);
+        heapify(element.getHandle());
     }
 
     /**
@@ -146,6 +163,29 @@ public class BinaryHeapMinPriorityQueue {
      */
     public void clear() {
         this.heap.clear();
+    }
+
+    /**
+     * Takes the element whose index is <code>i</code> and moves it until its priority is higher
+     * than that of its parents and lower than that of its child.
+     *
+     * @param i the index of the element to move
+     */
+    private void heapify(int i) {
+        int tmp = i;
+        int child1 = i * 2 + 1;
+        int child2 = i * 2 + 2;
+        int parent = (i - 1) / 2;
+        if (child1 < this.size() && this.heap.get(child1).getPriority() < this.heap.get(tmp).getPriority())
+            tmp = child1;
+        if (child2 < this.size() && this.heap.get(child2).getPriority() < this.heap.get(tmp).getPriority())
+            tmp = child2;
+        if (parent >= 0 && this.heap.get(parent).getPriority() > this.heap.get(tmp).getPriority())
+            tmp = parent;
+        if (tmp != i) {
+            swap(i, tmp);
+            this.heapify(tmp);
+        }
     }
 
     // TODO inserire eventuali altri metodi privati per scopi di implementazione

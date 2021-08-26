@@ -236,7 +236,6 @@ public class GraphNode<L> implements PriorityQueueElement {
     @Override
     public void setPriority(double newPriority) {
         this.floatingPointDistance = newPriority;
-
     }
 
     @Override
