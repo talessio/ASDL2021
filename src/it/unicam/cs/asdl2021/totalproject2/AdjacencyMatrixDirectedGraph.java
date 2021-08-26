@@ -330,9 +330,9 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
                     return currentEdge;
             }
         }
-//        int indexNode1 = this.nodesIndex.get(node1);
-//        int indexNode2 = this.nodesIndex.get(node2);
-//        return this.getEdgeAtNodeIndexes(indexNode1, indexNode2);
+// int indexNode1 = this.nodesIndex.get(node1);
+// int indexNode2 = this.nodesIndex.get(node2);
+// return this.getEdgeAtNodeIndexes(indexNode1, indexNode2);
         return null;
     }
 

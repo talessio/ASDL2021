@@ -17,14 +17,16 @@ class AdjacencyMatrixDirectedGraphTest {
     // TODO implementare tutti i test non ancora implementati
 
     AdjacencyMatrixDirectedGraph<String> graph = new AdjacencyMatrixDirectedGraph<>();
+    MapAdjacentListUndirectedGraph<String> undirectedGraph = new MapAdjacentListUndirectedGraph<>();
     GraphNode<String> node1 = new GraphNode<>("1");
     GraphNode<String> node2 = new GraphNode<>("2");
     GraphNode<String> node3 = new GraphNode<>("3");
     GraphNode<String> node4 = new GraphNode<>("4");
+    GraphNode<String> node5 = new GraphNode<>("5");
     GraphEdge<String> edge1 = new GraphEdge<>(node1, node2, true);
     GraphEdge<String> edge2 = new GraphEdge<>(node2, node1, true);
     GraphEdge<String> edge3 = new GraphEdge<>(node3, node1, true);
-
+    GraphEdge<String> edge4 = new GraphEdge<>(node3, node5, false);
 
     @Test
     final void testNodeCount() {
@@ -280,7 +282,21 @@ class AdjacencyMatrixDirectedGraphTest {
 
     @Test
     final void testGetIngoingEdgesOf() {
-        fail("Not yet implemented"); // TODO
+        undirectedGraph.addNode(node3);
+        undirectedGraph.addNode(node5);
+        undirectedGraph.addEdge(edge4);
+        assertThrows(UnsupportedOperationException.class, () -> undirectedGraph.getIngoingEdgesOf(node5));
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+        graph.addEdge(edge1);
+        graph.addEdge(edge2);
+        graph.addEdge(edge3);
+        assertThrows(IllegalArgumentException.class, () -> graph.getIngoingEdgesOf(node4));
+        assertThrows(NullPointerException.class, () -> graph.getIngoingEdgesOf(null));
+        assertEquals(2, graph.getIngoingEdgesOf(node1).size());
+        assertEquals(1, graph.getIngoingEdgesOf(node2).size());
+        assertEquals(0, graph.getIngoingEdgesOf(node3).size());
     }
 
     @Test
