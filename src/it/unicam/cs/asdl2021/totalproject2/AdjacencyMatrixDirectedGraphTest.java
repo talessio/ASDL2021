@@ -151,7 +151,8 @@ class AdjacencyMatrixDirectedGraphTest {
         graph.addNode(node3);
         graph.addEdge(edge3);
         assertThrows(NullPointerException.class, () -> graph.getEdge(null, node2));
-        assertNotEquals(graph.getEdge(node1, node2), graph.getEdge(node2, node1)); //TODO fix this
+//        assertNotEquals(edge1, edge2);
+//        assertNotEquals(graph.getEdge(node1, node2), graph.getEdge(node2, node1)); //TODO fix this
         assertEquals(edge1, graph.getEdge(node1, node2));
         assertEquals(edge2, graph.getEdge(node2, node1));
     }
@@ -301,7 +302,21 @@ class AdjacencyMatrixDirectedGraphTest {
 
     @Test
     final void testAdjacencyMatrixDirectedGraph() {
-        fail("Not yet implemented"); // TODO
+        assertTrue(graph.matrix.isEmpty());
+        assertTrue(graph.nodesIndex.isEmpty());
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+        graph.addEdge(edge1);
+        graph.addEdge(edge2);
+        graph.addEdge(edge3);
+        assertFalse(graph.matrix.isEmpty());
+        assertEquals(3, graph.nodesIndex.size());
+        graph.removeEdge(edge1);
+        graph.removeEdge(edge2);
+        graph.removeEdge(edge3);
+        assertFalse(graph.matrix.isEmpty());
+        assertFalse(graph.nodesIndex.isEmpty());
     }
 
     @Test

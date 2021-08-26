@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.unicam.cs.asdl2021.totalproject2;
 
@@ -16,11 +16,11 @@ import java.util.NoSuchElementException;
  * ArrayList la handle è semplicemente l'indice dove si trova l'elemento
  * nell'ArrayList. Tale campo naturalmente va tenuto aggiornato se l'elemento
  * viene spostato in un'altra posizione.
- * 
+ *
  * @author Template: Luca Tesei
- * 
+ *
  * @param <E>
- *                il tipo degli elementi che vengono inseriti in coda.
+ *             il tipo degli elementi che vengono inseriti in coda.
  *
  */
 public class BinaryHeapMinPriorityQueue {
@@ -35,10 +35,10 @@ public class BinaryHeapMinPriorityQueue {
 
     /**
      * Crea una coda con priorità vuota.
-     * 
+     *
      */
     public BinaryHeapMinPriorityQueue() {
-        // TODO implementare
+        this.heap = new ArrayList<>();
     }
 
     /**
@@ -46,34 +46,47 @@ public class BinaryHeapMinPriorityQueue {
      * associated with the element will be used to place it in the correct
      * position in the heap. The handle of the element will also be set
      * accordingly.
-     * 
+     *
      * @param element
      *                    the new element to add
      * @throws NullPointerException
      *                                  if the element passed is null
      */
     public void insert(PriorityQueueElement element) {
+        if (element == null)
+            throw new NullPointerException();
+
+        this.heap.add(element);
+        this.heap.get(this.heap.size() - 1).setHandle(this.heap.size() - 1);
+        slideUp(element);
         // TODO implementare
+    }
+
+    private void slideUp(PriorityQueueElement element) {
+        while (element.getPriority()<parent.getPriority())
+            swapElements(element, parent);
     }
 
     /**
      * Returns the current minimum element of this min-priority queue without
      * extracting it. This operation does not affect the heap.
-     * 
+     *
      * @return the current minimum element of this min-priority queue
-     * 
+     *
      * @throws NoSuchElementException
      *                                    if this min-priority queue is empty
      */
     public PriorityQueueElement minimum() {
         // TODO implementare
-        return null;
+        if (this.heap.isEmpty())
+            throw new NoSuchElementException();
+        return this.heap.get(0);
     }
 
     /**
      * Extract the current minimum element from this min-priority queue. The
      * ternary heap will be updated accordingly.
-     * 
+     *
      * @return the current minimum element
      * @throws NoSuchElementException
      *                                    if this min-priority queue is empty
@@ -88,13 +101,13 @@ public class BinaryHeapMinPriorityQueue {
      * queue. The position of the element in the heap must be changed
      * accordingly. The changed element may become the minimum element. The
      * handle of the element will also be changed accordingly.
-     * 
+     *
      * @param element
      *                        the element whose priority will be decreased, it
      *                        must currently be inside this min-priority queue
      * @param newPriority
      *                        the new priority to assign to the element
-     * 
+     *
      * @throws NoSuchElementException
      *                                      if the element is not currently
      *                                      present in this min-priority queue
@@ -104,29 +117,27 @@ public class BinaryHeapMinPriorityQueue {
      *                                      priority of the element
      */
     public void decreasePriority(PriorityQueueElement element,
-            double newPriority) {
+                                 double newPriority) {
         // TODO implementare
 
     }
 
     /**
      * Determines if this priority queue is empty.
-     * 
+     *
      * @return true if this priority queue is empty, false otherwise
      */
     public boolean isEmpty() {
-        // TODO implementare
-        return false;
+        return this.heap.isEmpty();
     }
 
     /**
      * Return the current size of this queue.
-     * 
+     *
      * @return the number of elements currently in this queue.
      */
     public int size() {
-        // TODO implementare
-        return 0;
+        return this.heap.size();
     }
 
     /**
