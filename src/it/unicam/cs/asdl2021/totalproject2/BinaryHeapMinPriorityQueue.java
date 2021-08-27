@@ -54,22 +54,11 @@ public class BinaryHeapMinPriorityQueue {
             throw new NullPointerException();
 
         this.heap.add(element);
-        this.heap.get(this.heap.size() - 1).setHandle(this.heap.size() - 1);
+        element.setHandle(this.heap.size()-1);
+//        this.heap.get(this.heap.size() - 1).setHandle(this.heap.size() - 1);
         heapify(element.getHandle());
     }
 
-    /**
-     * Swaps one element with its parent.
-     * @param elementIndex1 child element
-     * @param elementIndex2 parent element
-     */
-    private void swap(int elementIndex1, int elementIndex2) {
-        PriorityQueueElement tmp = this.heap.get(elementIndex1);
-        this.heap.set(elementIndex1, this.heap.get(elementIndex2));
-        this.heap.get(elementIndex1).setHandle(elementIndex1);
-        this.heap.set(elementIndex2, tmp);
-        this.heap.get(elementIndex2).setHandle(elementIndex2);
-    }
 
     /**
      * Returns the current minimum element of this min-priority queue without
@@ -130,7 +119,6 @@ public class BinaryHeapMinPriorityQueue {
      *                                      priority of the element
      */
     public void decreasePriority(PriorityQueueElement element, double newPriority) {
-        // TODO implementare
         if (!this.heap.contains(element))
             throw new NoSuchElementException();
         if (newPriority >= element.getPriority())
@@ -186,6 +174,25 @@ public class BinaryHeapMinPriorityQueue {
             swap(i, tmp);
             this.heapify(tmp);
         }
+    }
+
+    /**
+     * Swaps one element with its parent.
+     * @param elementIndex1 child element
+     * @param elementIndex2 parent element
+     */
+    private void swap(int elementIndex1, int elementIndex2) {
+        PriorityQueueElement tmp = this.heap.get(elementIndex1);
+//        this.heap.get(elementIndex1).setHandle(elementIndex1);
+//        this.heap.get(elementIndex2).setHandle(elementIndex2);
+
+        int tmpHandle = this.heap.get(elementIndex1).getHandle();
+        int e2Handle = this.heap.get(elementIndex2).getHandle();
+        this.heap.get(elementIndex1).setHandle(e2Handle);
+        this.heap.get(elementIndex2).setHandle(tmpHandle);
+
+        this.heap.set(elementIndex1, this.heap.get(elementIndex2));
+        this.heap.set(elementIndex2, tmp);
     }
 
     // TODO inserire eventuali altri metodi privati per scopi di implementazione
