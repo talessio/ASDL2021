@@ -55,7 +55,6 @@ public class BinaryHeapMinPriorityQueue {
 
         this.heap.add(element);
         element.setHandle(this.heap.size()-1);
-//        this.heap.get(this.heap.size() - 1).setHandle(this.heap.size() - 1);
         heapify(element.getHandle());
     }
 
@@ -92,7 +91,7 @@ public class BinaryHeapMinPriorityQueue {
         int i = 0;
         for (PriorityQueueElement currentElement : this.heap) {
             currentElement.setHandle(currentElement.getHandle() - 1);
-            this.heap.set(i, currentElement);
+//            this.heap.set(i, currentElement);
             i++;
         }
         return result;
@@ -183,14 +182,11 @@ public class BinaryHeapMinPriorityQueue {
      */
     private void swap(int elementIndex1, int elementIndex2) {
         PriorityQueueElement tmp = this.heap.get(elementIndex1);
-//        this.heap.get(elementIndex1).setHandle(elementIndex1);
-//        this.heap.get(elementIndex2).setHandle(elementIndex2);
 
         int tmpHandle = this.heap.get(elementIndex1).getHandle();
         int e2Handle = this.heap.get(elementIndex2).getHandle();
         this.heap.get(elementIndex1).setHandle(e2Handle);
         this.heap.get(elementIndex2).setHandle(tmpHandle);
-
         this.heap.set(elementIndex1, this.heap.get(elementIndex2));
         this.heap.set(elementIndex2, tmp);
     }

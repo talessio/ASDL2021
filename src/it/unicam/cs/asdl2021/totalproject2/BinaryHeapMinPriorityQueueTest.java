@@ -24,7 +24,7 @@ class BinaryHeapMinPriorityQueueTest {
 
     @Test
     final void testBinaryHeapMinPriorityQueue() {
-        fail("Not yet implemented"); // TODO
+        assertTrue(this.h.isEmpty());
     }
 
     @Test
@@ -77,25 +77,38 @@ class BinaryHeapMinPriorityQueueTest {
 
     @Test
     final void testExtractMinimum() {
-        fail("Not yet implemented"); // TODO
+        assertThrows(NoSuchElementException.class, () -> h.extractMinimum());
+        node2.setPriority(90);
+        h.insert(node2);
+        node3.setPriority(22);
+        h.insert(node3);
+        node4.setPriority(45);
+        h.insert(node4);
+        node5.setPriority(4);
+        h.insert(node5);
+
+        PriorityQueueElement min = h.minimum();
+        assertEquals(4.0, min.getPriority());
+        assertEquals(min, node5);
+        assertEquals(0.0, min.getHandle());
+        assertEquals(node5, h.extractMinimum());
+        assertEquals(h.minimum(), node3);
+        h.extractMinimum();
+        assertEquals(h.minimum(), node4);
     }
 
     @Test
     final void testDecreasePriority() {
-        h.insert(node1);
-        h.insert(node3);
-        h.insert(node4);
-        h.insert(node2);
         node1.setPriority(2);
         node2.setPriority(1);
         node3.setPriority(4);
         node4.setPriority(3);
+        h.insert(node1);
+        h.insert(node3);
+        h.insert(node4);
+        h.insert(node2);
         assertEquals(1, node2.getPriority());
         assertEquals(2, node1.getPriority());
-        assertEquals(0, node2.getHandle());
-        assertEquals(1, node1.getHandle());
-        assertEquals(3, node3.getHandle());
-        assertEquals(2, node4.getHandle());
         assertEquals(node2, h.minimum());
         h.decreasePriority(node1, 0);
         assertEquals(0, node1.getPriority());
