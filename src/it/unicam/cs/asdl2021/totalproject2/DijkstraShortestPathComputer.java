@@ -13,66 +13,82 @@ import java.util.List;
  * realizzata con uno heap binario). In questo caso il tempo di esecuzione
  * dell'algoritmo di Dijkstra è {@code O(n log m)} dove {@code n} è il numero di
  * nodi del grafo e {@code m} è il numero di archi.
- * 
- * @author Template: Luca Tesei
  *
- * @param <L>
- *                il tipo delle etichette dei nodi del grafo
+ * @param <L> il tipo delle etichette dei nodi del grafo
+ * @author Template: Luca Tesei
  */
-public class DijkstraShortestPathComputer<L>
-        implements SingleSourceShortestPathComputer<L> {
+public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPathComputer<L> {
 
     // TODO inserire le variabili istanza necessarie
+    Graph<L> graph;
+    BinaryHeapMinPriorityQueue heap;
+    private GraphNode<L> lastSource;
 
     /**
      * Crea un calcolatore di cammini minimi a sorgente singola per un grafo
      * diretto e pesato privo di pesi negativi.
-     * 
-     * @param graph
-     *                  il grafo su cui opera il calcolatore di cammini minimi
-     * @throws NullPointerException
-     *                                      se il grafo passato è nullo
-     * 
-     * @throws IllegalArgumentException
-     *                                      se il grafo passato è vuoto
-     * 
-     * @throws IllegalArgumentException
-     *                                      se il grafo passato non è orientato
-     * 
-     * @throws IllegalArgumentException
-     *                                      se il grafo passato non è pesato,
-     *                                      cioè esiste almeno un arco il cui
-     *                                      peso è {@code Double.NaN}
-     * @throws IllegalArgumentException
-     *                                      se il grafo passato contiene almeno
-     *                                      un peso negativo
+     *
+     * @param graph il grafo su cui opera il calcolatore di cammini minimi
+     * @throws NullPointerException     se il grafo passato è nullo
+     * @throws IllegalArgumentException se il grafo passato è vuoto
+     * @throws IllegalArgumentException se il grafo passato non è orientato
+     * @throws IllegalArgumentException se il grafo passato non è pesato,
+     *                                  cioè esiste almeno un arco il cui
+     *                                  peso è {@code Double.NaN}
+     * @throws IllegalArgumentException se il grafo passato contiene almeno
+     *                                  un peso negativo
      */
     public DijkstraShortestPathComputer(Graph<L> graph) {
-        // TODO implementare
+        //TODO implementare
+        if (graph == null)
+            throw new NullPointerException();
+        if (graph.isEmpty() || !graph.isDirected())
+            throw new IllegalArgumentException();
+        for (GraphEdge<L> currentEdge : graph.getEdges()) {
+            if (Double.isNaN(currentEdge.getWeight()) ||
+                    currentEdge.getWeight() < 0)
+                throw new IllegalArgumentException();
+        }
+        this.graph = graph;
+        this.lastSource = null;
+        this.heap = new BinaryHeapMinPriorityQueue();
+
+
     }
 
     @Override
     public void computeShortestPathsFrom(GraphNode<L> sourceNode) {
-        // TODO implementare
-
+        if (sourceNode == null)
+            throw new NullPointerException();
+        if (!this.graph.containsNode(sourceNode))
+            throw new IllegalArgumentException();
+        for (GraphEdge<L> currentEdge : graph.getEdges()) {
+            if (Double.isNaN(currentEdge.getWeight()) ||
+                    currentEdge.getWeight() < 0)
+                throw new IllegalStateException();
+        }
+        this.lastSource = sourceNode;
+        for (GraphNode<L> currentNode : graph.getNodes()) {
+            if (currentNode != sourceNode)
+                getShortestPathTo(currentNode);
+        }
     }
 
     @Override
     public boolean isComputed() {
-        // TODO implementare
-        return false;
+        return this.lastSource == null;
     }
 
     @Override
     public GraphNode<L> getLastSource() {
-        // TODO implementare
-        return null;
+        if (lastSource == null)
+            throw new IllegalStateException();
+        return lastSource;
     }
 
     @Override
     public Graph<L> getGraph() {
-        // TODO implementare
-        return null;
+        return this.graph;
     }
 
     @Override

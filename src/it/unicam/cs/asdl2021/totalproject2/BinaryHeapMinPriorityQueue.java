@@ -14,11 +14,8 @@ import java.util.NoSuchElementException;
  * nell'ArrayList. Tale campo naturalmente va tenuto aggiornato se l'elemento
  * viene spostato in un'altra posizione.
  *
+ * @param <E> il tipo degli elementi che vengono inseriti in coda.
  * @author Template: Luca Tesei
- *
- * @param <E>
- *             il tipo degli elementi che vengono inseriti in coda.
- *
  */
 public class BinaryHeapMinPriorityQueue {
 
@@ -32,7 +29,6 @@ public class BinaryHeapMinPriorityQueue {
 
     /**
      * Crea una coda con priorità vuota.
-     *
      */
     public BinaryHeapMinPriorityQueue() {
         this.heap = new ArrayList<>();
@@ -44,17 +40,15 @@ public class BinaryHeapMinPriorityQueue {
      * position in the heap. The handle of the element will also be set
      * accordingly.
      *
-     * @param element
-     *                    the new element to add
-     * @throws NullPointerException
-     *                                  if the element passed is null
+     * @param element the new element to add
+     * @throws NullPointerException if the element passed is null
+     * @throws IllegalArgumentException if element priority has not been set
      */
     public void insert(PriorityQueueElement element) {
         if (element == null)
             throw new NullPointerException();
-
         this.heap.add(element);
-        element.setHandle(this.heap.size()-1);
+        element.setHandle(this.heap.size() - 1);
         heapify(element.getHandle());
     }
 
@@ -64,9 +58,7 @@ public class BinaryHeapMinPriorityQueue {
      * extracting it. This operation does not affect the heap.
      *
      * @return the current minimum element of this min-priority queue
-     *
-     * @throws NoSuchElementException
-     *                                    if this min-priority queue is empty
+     * @throws NoSuchElementException if this min-priority queue is empty
      */
     public PriorityQueueElement minimum() {
         if (this.heap.isEmpty())
@@ -79,8 +71,7 @@ public class BinaryHeapMinPriorityQueue {
      * ternary heap will be updated accordingly.
      *
      * @return the current minimum element
-     * @throws NoSuchElementException
-     *                                    if this min-priority queue is empty
+     * @throws NoSuchElementException if this min-priority queue is empty
      */
     public PriorityQueueElement extractMinimum() {
         if (this.heap.isEmpty())
@@ -103,19 +94,14 @@ public class BinaryHeapMinPriorityQueue {
      * accordingly. The changed element may become the minimum element. The
      * handle of the element will also be changed accordingly.
      *
-     * @param element
-     *                        the element whose priority will be decreased, it
-     *                        must currently be inside this min-priority queue
-     * @param newPriority
-     *                        the new priority to assign to the element
-     *
-     * @throws NoSuchElementException
-     *                                      if the element is not currently
-     *                                      present in this min-priority queue
-     * @throws IllegalArgumentException
-     *                                      if the specified newPriority is not
-     *                                      strictly less than the current
-     *                                      priority of the element
+     * @param element     the element whose priority will be decreased, it
+     *                    must currently be inside this min-priority queue
+     * @param newPriority the new priority to assign to the element
+     * @throws NoSuchElementException   if the element is not currently
+     *                                  present in this min-priority queue
+     * @throws IllegalArgumentException if the specified newPriority is not
+     *                                  strictly less than the current
+     *                                  priority of the element
      */
     public void decreasePriority(PriorityQueueElement element, double newPriority) {
         if (!this.heap.contains(element))
@@ -177,6 +163,7 @@ public class BinaryHeapMinPriorityQueue {
 
     /**
      * Swaps one element with its parent.
+     *
      * @param elementIndex1 child element
      * @param elementIndex2 parent element
      */
