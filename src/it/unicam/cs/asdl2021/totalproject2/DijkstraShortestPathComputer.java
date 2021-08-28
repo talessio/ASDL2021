@@ -1,9 +1,8 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * Gli oggetti di questa classe sono calcolatori di cammini minimi con sorgente
@@ -24,10 +23,8 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
 
     // TODO inserire le variabili istanza necessarie
     Graph<L> graph;
-    BinaryHeapMinPriorityQueue heap;
+    BinaryHeapMinPriorityQueue<GraphNode<L>> heap;
     private GraphNode<L> lastSource;
-
-    HashMap<GraphNode<L>, ArrayList<GraphEdge<L>>> minWalks;
 
     /**
      * Crea un calcolatore di cammini minimi a sorgente singola per un grafo
@@ -56,9 +53,7 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         }
         this.graph = graph;
         this.lastSource = null;
-        this.heap = new BinaryHeapMinPriorityQueue();
-        this.minWalks = new HashMap<>();
-
+        this.heap = new BinaryHeapMinPriorityQueue<>();
     }
 
     @Override
@@ -73,12 +68,24 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
                 throw new IllegalStateException();
         }
         this.lastSource = sourceNode;
-        for (GraphNode<L> currentNode : graph.getNodes()) {
+        for (GraphNode<L> currentNode : this.graph.getNodes()) {
             currentNode.setColor(GraphNode.COLOR_WHITE);
-
+            currentNode.setPriority(Double.POSITIVE_INFINITY);
+            this.heap.insert(currentNode);
         }
-//        sourceNode.setColor(GraphNode.COLOR_GREY);
+        sourceNode.setPrevious(null);
+        this.heap.decreasePriority(sourceNode, 0);
         //TODO calcola il cammino minimo di ogni singolo nodo
+
+        GraphNode<L> node;
+        for (int i = 0; i < this.graph.nodeCount(); i++) {
+            node = (GraphNode<L>) this.heap.minimum();
+            for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
+
+            }
+        }
+
+
     }
 
     @Override
@@ -108,8 +115,12 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
             throw new IllegalStateException();
         if (targetNode.equals(this.lastSource))
             return null;
+
+        List<GraphEdge<L>> minWalk = new ArrayList<>();
         //TODO restituisce cammino minimo del nodo in input
-        return null;
+
+
+        return minWalk;
     }
 
     // TODO inserire eventuali altri metodi accessori

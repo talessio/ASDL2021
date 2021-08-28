@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
  * @param <E> il tipo degli elementi che vengono inseriti in coda.
  * @author Template: Luca Tesei
  */
-public class BinaryHeapMinPriorityQueue {
+public class BinaryHeapMinPriorityQueue<E> {
 
     /*
      * ArrayList per la rappresentazione dello heap. Vengono usate tutte le
