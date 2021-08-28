@@ -1,6 +1,9 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Gli oggetti di questa classe sono calcolatori di cammini minimi con sorgente
@@ -23,6 +26,8 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
     Graph<L> graph;
     BinaryHeapMinPriorityQueue heap;
     private GraphNode<L> lastSource;
+
+    HashMap<GraphNode<L>, ArrayList<GraphEdge<L>>> minWalks;
 
     /**
      * Crea un calcolatore di cammini minimi a sorgente singola per un grafo
@@ -52,7 +57,7 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         this.graph = graph;
         this.lastSource = null;
         this.heap = new BinaryHeapMinPriorityQueue();
-
+        this.minWalks = new HashMap<>();
 
     }
 
@@ -69,9 +74,11 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         }
         this.lastSource = sourceNode;
         for (GraphNode<L> currentNode : graph.getNodes()) {
-            if (currentNode != sourceNode)
-                getShortestPathTo(currentNode);
+            currentNode.setColor(GraphNode.COLOR_WHITE);
+
         }
+//        sourceNode.setColor(GraphNode.COLOR_GREY);
+        //TODO calcola il cammino minimo di ogni singolo nodo
     }
 
     @Override
@@ -93,7 +100,15 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
 
     @Override
     public List<GraphEdge<L>> getShortestPathTo(GraphNode<L> targetNode) {
-        // TODO implementare
+        if (targetNode == null)
+            throw new NullPointerException();
+        if (!this.graph.containsNode(targetNode))
+            throw new IllegalArgumentException();
+        if (!this.isComputed())
+            throw new IllegalStateException();
+        if (targetNode.equals(this.lastSource))
+            return null;
+        //TODO restituisce cammino minimo del nodo in input
         return null;
     }
 
