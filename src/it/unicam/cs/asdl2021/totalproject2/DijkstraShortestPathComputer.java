@@ -79,9 +79,15 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
 
         GraphNode<L> node;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
-            node = (GraphNode<L>) this.heap.minimum();
+            node = (GraphNode<L>) this.heap.extractMinimum();
+            node.setColor(GraphNode.COLOR_BLACK);
             for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
-
+                adjacentNode.setColor(GraphNode.COLOR_GREY);
+                double newPriorityMaybe = node.getPriority() + this.graph.getEdge(node, adjacentNode).getWeight();
+                if (newPriorityMaybe < adjacentNode.getPriority()) {
+                    this.heap.decreasePriority(adjacentNode, newPriorityMaybe);
+                    adjacentNode.setPrevious(node);
+                }
             }
         }
 
@@ -119,7 +125,14 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         List<GraphEdge<L>> minWalk = new ArrayList<>();
         //TODO restituisce cammino minimo del nodo in input
 
-
+        GraphNode<L> nodeInTheMiddle = targetNode;
+        for (int i = 0; i < this.graph.nodeCount(); i++) {
+            minWalk.add(this.graph.getEdge(nodeInTheMiddle.getPrevious(), nodeInTheMiddle));
+            nodeInTheMiddle = targetNode.getPrevious();
+            if (nodeInTheMiddle.equals(this.lastSource)) {
+                return minWalk;
+            }
+        }
         return minWalk;
     }
 

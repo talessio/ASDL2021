@@ -25,8 +25,7 @@ public interface PriorityQueueElement {
     /**
      * Set the priority of an element to a new value.
      *
-     * @param newPriority
-     *                        the new value of the priority
+     * @param newPriority the new value of the priority
      */
     public void setPriority(double newPriority);
 
@@ -38,8 +37,7 @@ public interface PriorityQueueElement {
     /**
      * Set the handle of an element to a new value.
      *
-     * @param newHandle
-     *                      the new value of the handle
+     * @param newHandle the new value of the handle
      */
     public void setHandle(int newHandle);
 }
