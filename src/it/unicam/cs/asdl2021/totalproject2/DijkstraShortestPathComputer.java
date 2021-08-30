@@ -70,18 +70,20 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         this.lastSource = sourceNode;
         for (GraphNode<L> currentNode : this.graph.getNodes()) {
             currentNode.setColor(GraphNode.COLOR_WHITE);
-            currentNode.setPriority(Double.POSITIVE_INFINITY);
+            currentNode.setPriority(Double.MAX_VALUE);
             this.heap.insert(currentNode);
         }
         sourceNode.setPrevious(null);
-        this.heap.decreasePriority(sourceNode, 0);
-        //TODO calcola il cammino minimo di ogni singolo nodo
+        if (sourceNode.getPriority() > 0)
+            this.heap.decreasePriority(sourceNode, 0);
 
         GraphNode<L> node;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             node = (GraphNode<L>) this.heap.extractMinimum();
             node.setColor(GraphNode.COLOR_BLACK);
             for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
+                if (adjacentNode.getColor() == GraphNode.COLOR_BLACK)
+                    continue;
                 adjacentNode.setColor(GraphNode.COLOR_GREY);
                 double newPriorityMaybe = node.getPriority() + this.graph.getEdge(node, adjacentNode).getWeight();
                 if (newPriorityMaybe < adjacentNode.getPriority()) {
@@ -90,13 +92,11 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
                 }
             }
         }
-
-
     }
 
     @Override
     public boolean isComputed() {
-        return this.lastSource == null;
+        return this.lastSource != null;
     }
 
     @Override

@@ -153,7 +153,9 @@ class AdjacencyMatrixDirectedGraphTest {
         assertThrows(NullPointerException.class, () -> graph.getEdge(null, node2));
 //        assertNotEquals(edge1, edge2);
 //        assertNotEquals(graph.getEdge(node1, node2), graph.getEdge(node2, node1)); //TODO fix this
-        assertEquals(edge1, graph.getEdge(node1, node2));
+//        assertEquals(edge1, graph.getEdge(node1, node2));
+        assertEquals(edge3, graph.getEdge(node3, node1));
+        assertTrue(graph.getEdge(node1, node2).equals(edge1));
         assertEquals(edge2, graph.getEdge(node2, node1));
     }
 

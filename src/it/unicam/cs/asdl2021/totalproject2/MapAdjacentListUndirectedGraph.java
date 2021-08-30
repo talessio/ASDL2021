@@ -101,27 +101,19 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
             throw new NullPointerException();
         if (!containsNode(node))
             return false;
-//            GraphEdge<L> edge = iter.next();
-//            if(edge.getNode1().equals(node) || edge.getNode2().equals(node))
-//                removeEdge(edge);
-//        }
-//        for (GraphEdge<L> edge : getEdgesOf(node)) {    //errore qui, su più metodi
-//            if (edge.getNode1().equals(node) || edge.getNode2().equals(node)) {
-//                removeEdge(edge);
-//            }
-//        }
-        for (GraphNode<L> currentAdjNode : getAdjacentNodesOf(node)) { //scorro i nodi adiacenti
-            for (GraphEdge<L> currentAdjNodesEdge : getEdgesOf(currentAdjNode)) { //scorro i set di archi dei nodi adiacenti
-                for (GraphEdge<L> currentEdge : getEdgesOf(node)) { //scorro gli archi di node
-                    if (currentEdge.equals(currentAdjNodesEdge)) { //confronto gli archi di node con gli archi degli adiacenti
-                        removeEdge(currentAdjNodesEdge); //rimuovo l'arco dai set di archi dei nodi adiacenti
-                    }
-                }
-            }
+
+        //TODO sostituire con quello sotto dopo aver sistemato getEdgesOf()
+        for (GraphEdge<L> currentEdge : this.getEdges()) {
+            if (currentEdge != null && (currentEdge.getNode1() == node || currentEdge.getNode2() == node))
+                removeEdge(currentEdge);
         }
-        for (GraphEdge<L> edgyEdgEdg : getEdgesOf(node)) {
-            removeEdge(edgyEdgEdg);
-        }
+
+        //TODO rimettere una volta fixato getEdgesOf
+//        for (GraphEdge<L> currentEdge : this.getEdgesOf(node)) {
+//            if (currentEdge != null && (currentEdge.getNode1() == node || currentEdge.getNode2() == node))
+//                removeEdge(currentEdge);
+//        }
+
         this.adjacentLists.remove(node);
         return true;
     }
@@ -139,7 +131,7 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
         if (label == null)
             throw new NullPointerException();
         for (GraphNode<L> node : this.adjacentLists.keySet()) {
-            if (node.getLabel().equals(label))
+            if (node != null && node.getLabel().equals(label))
                 return node;
         }
         return null;
