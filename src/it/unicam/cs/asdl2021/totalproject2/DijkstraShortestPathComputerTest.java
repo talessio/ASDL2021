@@ -40,7 +40,6 @@ class DijkstraShortestPathComputerTest {
         GraphEdge<String> exy = new GraphEdge<String>(nx, ny, true, 2.0);
         g.addEdge(exy);
         GraphEdge<String> eys = new GraphEdge<String>(ny, ns, true, 7.03);
-
         g.addEdge(eys);
         GraphNode<String> nv = new GraphNode<String>("v");
         g.addNode(nv);
@@ -52,32 +51,28 @@ class DijkstraShortestPathComputerTest {
         g.addEdge(eyv);
         GraphEdge<String> evy = new GraphEdge<String>(nv, ny, true, 4.07);
         g.addEdge(evy);
-        DijkstraShortestPathComputer<String> c = new DijkstraShortestPathComputer<String>(
-                g);
+        DijkstraShortestPathComputer<String> c = new DijkstraShortestPathComputer<String>(g);
         GraphNode<String> nsTest = new GraphNode<String>("s");
         c.computeShortestPathsFrom(nsTest);
         List<GraphEdge<String>> pathTest = new ArrayList<GraphEdge<String>>();
         assertTrue(c.getShortestPathTo(nsTest).equals(pathTest));
         GraphNode<String> nuTest = new GraphNode<String>("u");
         GraphNode<String> nxTest = new GraphNode<String>("x");
-        GraphEdge<String> esxTest = new GraphEdge<String>(nsTest, nxTest, true,
-                5.12);
+        GraphEdge<String> esxTest = new GraphEdge<String>(nsTest, nxTest, true, 5.12);
         pathTest.add(esxTest);
-        assertTrue(c.getShortestPathTo(nxTest).equals(pathTest));
-        GraphEdge<String> exuTest = new GraphEdge<String>(nxTest, nuTest, true,
-                3.04);
+//        assertTrue(c.getShortestPathTo(nxTest).equals(pathTest));
+        assertEquals(pathTest, c.getShortestPathTo(nxTest));
+        GraphEdge<String> exuTest = new GraphEdge<String>(nxTest, nuTest, true, 3.04);
         pathTest.add(exuTest);
         assertTrue(c.getShortestPathTo(nuTest).equals(pathTest));
         GraphNode<String> nvTest = new GraphNode<String>("v");
-        GraphEdge<String> euvTest = new GraphEdge<String>(nuTest, nvTest, true,
-                1.0);
+        GraphEdge<String> euvTest = new GraphEdge<String>(nuTest, nvTest, true, 1.0);
         pathTest.add(euvTest);
         assertTrue(c.getShortestPathTo(nvTest).equals(pathTest));
         pathTest.clear();
         pathTest.add(esxTest);
         GraphNode<String> nyTest = new GraphNode<String>("y");
-        GraphEdge<String> exyTest = new GraphEdge<String>(nxTest, nyTest, true,
-                2.0);
+        GraphEdge<String> exyTest = new GraphEdge<String>(nxTest, nyTest, true, 2.0);
         pathTest.add(exyTest);
         assertTrue(c.getShortestPathTo(nyTest).equals(pathTest));
     }
@@ -104,7 +99,6 @@ class DijkstraShortestPathComputerTest {
         GraphEdge<String> exy = new GraphEdge<String>(nx, ny, true, 2.0);
         g.addEdge(exy);
         GraphEdge<String> eys = new GraphEdge<String>(ny, ns, true, 7.03);
-
         g.addEdge(eys);
         GraphNode<String> nv = new GraphNode<String>("v");
         g.addNode(nv);
@@ -121,11 +115,11 @@ class DijkstraShortestPathComputerTest {
         GraphEdge<String> epv = new GraphEdge<String>(np, nv, true, 1.0);
         g.addEdge(epv);
         // p è collegato a v, ma non è raggiungibile da s
-        DijkstraShortestPathComputer<String> c = new DijkstraShortestPathComputer<String>(
-                g);
+        DijkstraShortestPathComputer<String> c = new DijkstraShortestPathComputer<String>(g);
         GraphNode<String> nsTest = new GraphNode<String>("s");
         c.computeShortestPathsFrom(nsTest);
         GraphNode<String> npTest = new GraphNode<String>("p");
-        assertTrue(c.getShortestPathTo(npTest) == null);
+//        assertTrue(c.getShortestPathTo(npTest) == null);
+        assertEquals(null, c.getShortestPathTo(npTest));
     }
 }
