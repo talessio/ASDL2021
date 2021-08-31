@@ -13,7 +13,9 @@ import java.util.List;
 public class BellmanFordShortestPathComputer<L>
         implements SingleSourceShortestPathComputer<L> {
 
-    // TODO inserire le variabili istanza necessarie
+    Graph<L> graph;
+    BinaryHeapMinPriorityQueue<GraphNode<L>> heap;
+    private GraphNode<L> lastSource;
 
     /**
      * Crea un calcolatore di cammini minimi a sorgente singola per un grafo
@@ -28,35 +30,57 @@ public class BellmanFordShortestPathComputer<L>
      *                                  peso è {@code Double.NaN}.
      */
     public BellmanFordShortestPathComputer(Graph<L> graph) {
-        // TODO implementare
+        if (graph == null)
+            throw new NullPointerException();
+        if (graph.isEmpty() || !graph.isDirected())
+            throw new IllegalArgumentException();
+        for (GraphEdge<L> currentEdge : graph.getEdges()) {
+            if (Double.isNaN(currentEdge.getWeight()))
+                throw new IllegalArgumentException();
+        }
+        this.graph = graph;
+        this.lastSource = null;
+        this.heap = new BinaryHeapMinPriorityQueue<>();
     }
 
     @Override
     public void computeShortestPathsFrom(GraphNode<L> sourceNode) {
+        if (sourceNode == null)
+            throw new NullPointerException();
+        if (!this.graph.containsNode(sourceNode))
+            throw new IllegalArgumentException();
+
+
         // TODO implementare
 
     }
 
     @Override
     public boolean isComputed() {
-        // TODO implementare
-        return false;
+        return this.lastSource != null;
     }
 
     @Override
     public GraphNode<L> getLastSource() {
-        // TODO implementare
-        return null;
+        if (lastSource == null)
+            throw new IllegalStateException();
+        return lastSource;
     }
 
     @Override
     public Graph<L> getGraph() {
-        // TODO implementare
-        return null;
+        return this.graph;
     }
 
     @Override
     public List<GraphEdge<L>> getShortestPathTo(GraphNode<L> targetNode) {
+        if (targetNode == null)
+            throw new NullPointerException();
+        if (!this.graph.containsNode(targetNode))
+            throw new IllegalArgumentException();
+        if (!this.isComputed())
+            throw new IllegalStateException();
+
         // TODO implementare
         return null;
     }

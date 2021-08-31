@@ -21,7 +21,6 @@ import java.util.List;
  */
 public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPathComputer<L> {
 
-    // TODO inserire le variabili istanza necessarie
     Graph<L> graph;
     BinaryHeapMinPriorityQueue<GraphNode<L>> heap;
     private GraphNode<L> lastSource;
