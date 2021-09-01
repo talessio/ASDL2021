@@ -50,8 +50,64 @@ public class BellmanFordShortestPathComputer<L>
         if (!this.graph.containsNode(sourceNode))
             throw new IllegalArgumentException();
 
+        this.lastSource = sourceNode;
+        for (GraphNode<L> node : this.graph.getNodes()) {
+            node.setPriority(Double.POSITIVE_INFINITY);
+            node.setColor(GraphNode.COLOR_WHITE);
+            this.heap.insert(node);
+        }
+        if (sourceNode.getPriority() > 0)
+            this.heap.decreasePriority(sourceNode, 0);
+        sourceNode.setPrevious(null);
+        sourceNode.setColor(GraphNode.COLOR_GREY);
 
-        // TODO implementare
+        GraphNode<L> currentNode = sourceNode;
+
+        double potentialNewPriority;
+        boolean hasImproved = false;
+        for (int i = 0; i < this.graph.nodeCount() - 1; i++) { //graph iteration
+//            for (GraphNode<L> currentNode : this.graph.getNodes()) {
+            for (int j = 0; j < this.graph.nodeCount(); j++) { //visita del nodo
+                  //TODO fix deve partire da sorgente
+                for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(currentNode)) {
+                    //adjacent nodes priority update
+                    potentialNewPriority = currentNode.getPriority() +
+                            this.graph.getEdge(currentNode, adjacentNode).getWeight();
+                    if (potentialNewPriority < adjacentNode.getPriority()) {
+                        this.heap.decreasePriority(adjacentNode, potentialNewPriority);
+                        adjacentNode.setPrevious(currentNode);
+                        hasImproved = true;
+                    }
+                }
+                currentNode.setColor(GraphNode.COLOR_GREY);
+                for (GraphNode<L> nextNode : this.graph.getNodes()) {
+                    if (nextNode.getColor() == GraphNode.COLOR_WHITE) {
+                        currentNode = nextNode; //TODO mette a posto
+                    }
+                }
+            }
+            for (GraphNode<L> n : this.graph.getNodes()) {
+                n.setColor(GraphNode.COLOR_WHITE);
+            }
+            if (hasImproved)
+                hasImproved = false;
+        }
+
+        //check for negative infinite loop
+        for (int i = 0; i < this.graph.nodeCount() - 1; i++) { //graph iteration
+            for (GraphNode<L> nodeToCheck : this.graph.getNodes()) { //node relaxation
+                for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(nodeToCheck)) {
+                    potentialNewPriority = nodeToCheck.getPriority() +
+                            this.graph.getEdge(nodeToCheck, adjacentNode).getWeight();
+                    if (potentialNewPriority < adjacentNode.getPriority()) {
+                        //scopro ciclo infinito
+                        //(priorità dei nodi continua a diminuire)
+                        throw new IllegalStateException();
+                    }
+                }
+            }
+        }
+
 
     }
 

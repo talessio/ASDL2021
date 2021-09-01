@@ -69,13 +69,14 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         this.lastSource = sourceNode;
         for (GraphNode<L> currentNode : this.graph.getNodes()) {
             currentNode.setColor(GraphNode.COLOR_WHITE);
-            currentNode.setPriority(Double.MAX_VALUE);
+            currentNode.setPriority(Double.POSITIVE_INFINITY);
             this.heap.insert(currentNode);
         }
         sourceNode.setPrevious(null);
         if (sourceNode.getPriority() > 0)
             this.heap.decreasePriority(sourceNode, 0);
 
+        double potentialNewPriority;
         GraphNode<L> node;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             node = (GraphNode<L>) this.heap.extractMinimum();
@@ -84,9 +85,10 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
                 if (adjacentNode.getColor() == GraphNode.COLOR_BLACK)
                     continue;
                 adjacentNode.setColor(GraphNode.COLOR_GREY);
-                double newPriorityMaybe = node.getPriority() + this.graph.getEdge(node, adjacentNode).getWeight();
-                if (newPriorityMaybe < adjacentNode.getPriority()) {
-                    this.heap.decreasePriority(adjacentNode, newPriorityMaybe);
+                potentialNewPriority = node.getPriority() +
+                        this.graph.getEdge(node, adjacentNode).getWeight();
+                if (potentialNewPriority < adjacentNode.getPriority()) {
+                    this.heap.decreasePriority(adjacentNode, potentialNewPriority);
                     adjacentNode.setPrevious(node);
                 }
             }
@@ -124,7 +126,8 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         this.computeShortestPathsFrom(this.lastSource);
 
         List<GraphEdge<L>> minWalk = new ArrayList<>();
-        //TODO restituisce cammino minimo del nodo in input
+
+        //TODO fix test
 
         GraphNode<L> nodeInTheMiddle = targetNode;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
