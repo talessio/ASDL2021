@@ -129,13 +129,13 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
 
         //TODO fix test
 
-        GraphNode<L> nodeInTheMiddle = targetNode;
+        GraphNode<L> n = targetNode;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
-            if (nodeInTheMiddle.getPrevious() == null)
+            if (n.getPrevious() == null)
                 return null;
-            minWalk.add(this.graph.getEdge(nodeInTheMiddle.getPrevious(), nodeInTheMiddle));
-            nodeInTheMiddle = targetNode.getPrevious();
-            if (nodeInTheMiddle.equals(this.lastSource)) {
+            minWalk.add(this.graph.getEdge(n.getPrevious(), n));
+            n = targetNode.getPrevious();
+            if (n.equals(this.lastSource)) {
                 return minWalk;
             }
         }
