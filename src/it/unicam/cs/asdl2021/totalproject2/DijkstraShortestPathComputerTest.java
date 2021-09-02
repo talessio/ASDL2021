@@ -64,17 +64,17 @@ class DijkstraShortestPathComputerTest {
         assertEquals(pathTest, c.getShortestPathTo(nxTest));
         GraphEdge<String> exuTest = new GraphEdge<String>(nxTest, nuTest, true, 3.04);
         pathTest.add(exuTest);
-        assertTrue(c.getShortestPathTo(nuTest).equals(pathTest));
+        assertEquals(c.getShortestPathTo(nuTest), pathTest);
         GraphNode<String> nvTest = new GraphNode<String>("v");
         GraphEdge<String> euvTest = new GraphEdge<String>(nuTest, nvTest, true, 1.0);
         pathTest.add(euvTest);
-        assertTrue(c.getShortestPathTo(nvTest).equals(pathTest));
+        assertEquals(c.getShortestPathTo(nvTest), pathTest);
         pathTest.clear();
         pathTest.add(esxTest);
         GraphNode<String> nyTest = new GraphNode<String>("y");
         GraphEdge<String> exyTest = new GraphEdge<String>(nxTest, nyTest, true, 2.0);
         pathTest.add(exyTest);
-        assertTrue(c.getShortestPathTo(nyTest).equals(pathTest));
+        assertEquals(c.getShortestPathTo(nyTest), pathTest);
     }
 
     @Test

@@ -91,22 +91,21 @@ public class BellmanFordShortestPathComputer<L>
         if (!this.isComputed())
             throw new IllegalStateException();
 
+        this.computeShortestPathsFrom(lastSource);
+
         List<GraphEdge<L>> minWalk = new ArrayList<>();
         if (targetNode.equals(this.lastSource))
             return minWalk;
 
         GraphNode<L> n = targetNode;
 
-        for (int i = 0; i < this.graph.nodeCount(); i++) {
-            if (n.getPrevious() == null)
-                return null;
-            else minWalk.add(0, this.graph.getEdge(n.getPrevious(), n));
-            if (n.getPrevious().equals(this.lastSource)) {
-                break;
-            }
-            else n = n.getPrevious();
+        while (n.getPrevious() != null) {
+            minWalk.add(0, this.graph.getEdge(n.getPrevious(), n));
+            if (n.getPrevious().equals(this.lastSource))
+                return minWalk;
+            n = n.getPrevious();
         }
-        return minWalk;
+        return null;
     }
 
     // TODO inserire eventuali altri metodi privati per scopi di implementazione

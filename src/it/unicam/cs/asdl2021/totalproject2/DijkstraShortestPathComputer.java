@@ -78,23 +78,12 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         GraphNode<L> node;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             node = (GraphNode<L>) this.heap.extractMinimum();
+            if (node.getPriority() == Double.POSITIVE_INFINITY) {
+                node.setPrevious(null);
+                continue;
+            }
             node.setColor(GraphNode.COLOR_BLACK);
             checkNewPriority(node);
-        }
-    }
-
-    private void checkNewPriority(GraphNode<L> node) {
-        double potentialNewPriority;
-        for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
-            if (adjacentNode.getColor() == GraphNode.COLOR_BLACK)
-                continue;
-            adjacentNode.setColor(GraphNode.COLOR_GREY);
-            potentialNewPriority = node.getPriority() +
-                    this.graph.getEdge(node, adjacentNode).getWeight();
-            if (potentialNewPriority < adjacentNode.getPriority()) {
-                this.heap.decreasePriority(adjacentNode, potentialNewPriority);
-                adjacentNode.setPrevious(node);
-            }
         }
     }
 
@@ -123,27 +112,51 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
             throw new IllegalArgumentException();
         if (!this.isComputed())
             throw new IllegalStateException();
-        if (targetNode.equals(this.lastSource))
-            return new ArrayList<>();
 
         this.computeShortestPathsFrom(this.lastSource);
 
         List<GraphEdge<L>> minWalk = new ArrayList<>();
 
+        if (targetNode.equals(this.lastSource))
+            return minWalk;
+
         //TODO fix x test
 
         GraphNode<L> n = targetNode;
-        for (int i = 0; i < this.graph.nodeCount(); i++) {
-            if (n.getPrevious() == null)
-                return null;
-            else minWalk.add(this.graph.getEdge(n.getPrevious(), n));
-            if (n.getPrevious().equals(this.lastSource)) {
-                break;
-            }
-            else n = n.getPrevious();
+
+        while (n.getPrevious() != null) {
+            minWalk.add(0, this.graph.getEdge(n.getPrevious(), n));
+            if (n.getPrevious().equals(this.lastSource))
+                return minWalk;
+            n = n.getPrevious();
         }
-        return minWalk;
+        return null;
+
+
+//        for (int i = 0; i < this.graph.nodeCount(); i++) {
+//            if (n.getPrevious() == null)
+//                return null;
+//            else minWalk.add(0, this.graph.getEdge(n.getPrevious(), n));
+//            if (n.getPrevious().equals(this.lastSource)) {
+//                break;
+//            } else n = n.getPrevious();
+//        }
+//        return minWalk;
     }
 
     // TODO inserire eventuali altri metodi accessori
+    private void checkNewPriority(GraphNode<L> node) {
+        double potentialNewPriority;
+        for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
+            if (adjacentNode.getColor() == GraphNode.COLOR_BLACK)
+                continue;
+            adjacentNode.setColor(GraphNode.COLOR_GREY);
+            potentialNewPriority = node.getPriority() +
+                    this.graph.getEdge(node, adjacentNode).getWeight();
+            if (potentialNewPriority < adjacentNode.getPriority()) {
+                this.heap.decreasePriority(adjacentNode, potentialNewPriority);
+                adjacentNode.setPrevious(node);
+            }
+        }
+    }
 }
