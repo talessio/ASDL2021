@@ -130,21 +130,19 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
 
         List<GraphEdge<L>> minWalk = new ArrayList<>();
 
-        //TODO fix test
+        //TODO fix x test
 
         GraphNode<L> n = targetNode;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             if (n.getPrevious() == null)
                 return null;
-            minWalk.add(this.graph.getEdge(n.getPrevious(), n));
-            n = targetNode.getPrevious();
-            if (n.equals(this.lastSource)) {
-                return minWalk;
+            else minWalk.add(this.graph.getEdge(n.getPrevious(), n));
+            if (n.getPrevious().equals(this.lastSource)) {
+                break;
             }
+            else n = n.getPrevious();
         }
-//        if (minWalk.isEmpty())
-        return null;
-//        return minWalk;
+        return minWalk;
     }
 
     // TODO inserire eventuali altri metodi accessori

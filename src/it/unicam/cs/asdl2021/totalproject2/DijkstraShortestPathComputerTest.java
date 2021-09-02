@@ -120,6 +120,6 @@ class DijkstraShortestPathComputerTest {
         c.computeShortestPathsFrom(nsTest);
         GraphNode<String> npTest = new GraphNode<String>("p");
 //        assertTrue(c.getShortestPathTo(npTest) == null);
-        assertEquals(null, c.getShortestPathTo(npTest));
+        assertNull(c.getShortestPathTo(npTest));
     }
 }

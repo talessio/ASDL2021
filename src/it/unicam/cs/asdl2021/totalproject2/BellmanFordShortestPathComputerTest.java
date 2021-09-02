@@ -219,7 +219,7 @@ class BellmanFordShortestPathComputerTest {
 
     @Test
     final void testGetShortestPathTo() {
-        // TODO
+
         graph.addNode(a);
         graph.addNode(b);
         graph.addNode(c);
