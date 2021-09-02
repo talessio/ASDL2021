@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 /**
  * @author Template: Luca Tesei
  */
@@ -79,7 +81,6 @@ class BellmanFordShortestPathComputerTest {
 
     @Test
     final void testComputeShortestPathsFrom() {
-        // TODO
         graph.addNode(b);
         graph.addNode(c);
         graph.addNode(d);
@@ -104,13 +105,29 @@ class BellmanFordShortestPathComputerTest {
         graph.addNode(a);
         graph.addEdge(ab);
         graph.addEdge(ah);
-        bc.setWeight(-10);
+        cb.setWeight(-10);
         assertThrows(IllegalStateException.class, () -> computer.computeShortestPathsFrom(a));
-        bc.setWeight(4);
+        cb.setWeight(-1);
         computer.computeShortestPathsFrom(a);
         hg.setWeight(-5);
         assertThrows(IllegalStateException.class, () -> computer.computeShortestPathsFrom(h));
-
+        hg.setWeight(-0.1);
+        computer.computeShortestPathsFrom(a);
+        assertEquals(graph.getNodeOf("a").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("h").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("i").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("g").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("n").getColor(), GraphNode.COLOR_WHITE);
+        computer.computeShortestPathsFrom(n);
+        assertEquals(graph.getNodeOf("n").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("d").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("h").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("g").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("i").getColor(), GraphNode.COLOR_BLACK);
+        assertEquals(graph.getNodeOf("a").getColor(), GraphNode.COLOR_WHITE);
+        assertEquals(graph.getNodeOf("b").getColor(), GraphNode.COLOR_WHITE);
+        assertEquals(graph.getNodeOf("c").getColor(), GraphNode.COLOR_WHITE);
+        assertEquals(graph.getNodeOf("e").getColor(), GraphNode.COLOR_WHITE);
     }
 
     @Test
@@ -202,7 +219,51 @@ class BellmanFordShortestPathComputerTest {
 
     @Test
     final void testGetShortestPathTo() {
-        fail("Not yet implemented"); // TODO
+        // TODO
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addNode(c);
+        graph.addNode(d);
+        graph.addNode(e);
+        graph.addNode(g);
+        graph.addNode(h);
+        graph.addNode(i);
+        graph.addNode(n);
+        graph.addEdge(ab);
+        graph.addEdge(ah);
+        graph.addEdge(bc);
+        graph.addEdge(cb);
+        graph.addEdge(ci);
+        graph.addEdge(ce);
+        graph.addEdge(eh);
+        graph.addEdge(hi);
+        graph.addEdge(dh);
+        graph.addEdge(hg);
+        graph.addEdge(gd);
+        graph.addEdge(nd);
+        GraphNode<String> node1 = new GraphNode<>("label1");
+        ArrayList<GraphEdge<String>> expPath = new ArrayList<>();
+        BellmanFordShortestPathComputer<String> computer = new BellmanFordShortestPathComputer<String>(graph);
+        assertThrows(IllegalStateException.class, () -> computer.getShortestPathTo(c));
+        computer.computeShortestPathsFrom(a);
+        assertThrows(NullPointerException.class, () -> computer.getShortestPathTo(null));
+        assertThrows(IllegalArgumentException.class, () -> computer.getShortestPathTo(node1));
+
+        assertNull(computer.getShortestPathTo(n));
+        expPath.add(ab);
+        expPath.add(bc);
+        expPath.add(ce);
+        expPath.add(eh);
+        assertEquals(expPath, computer.getShortestPathTo(h));
+        expPath.add(hg);
+        assertEquals(expPath, computer.getShortestPathTo(g));
+        expPath.add(gd);
+        assertEquals(expPath, computer.getShortestPathTo(d));
+        expPath.clear();
+        expPath.add(ab);
+        expPath.add(bc);
+        expPath.add(ci);
+        assertEquals(expPath, computer.getShortestPathTo(i));
     }
 
 }

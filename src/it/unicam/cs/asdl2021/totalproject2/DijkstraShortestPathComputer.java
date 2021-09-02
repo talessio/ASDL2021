@@ -40,7 +40,6 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
      *                                  un peso negativo
      */
     public DijkstraShortestPathComputer(Graph<L> graph) {
-        //TODO implementare
         if (graph == null)
             throw new NullPointerException();
         if (graph.isEmpty() || !graph.isDirected())
@@ -76,21 +75,25 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         if (sourceNode.getPriority() > 0)
             this.heap.decreasePriority(sourceNode, 0);
 
-        double potentialNewPriority;
         GraphNode<L> node;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             node = (GraphNode<L>) this.heap.extractMinimum();
             node.setColor(GraphNode.COLOR_BLACK);
-            for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
-                if (adjacentNode.getColor() == GraphNode.COLOR_BLACK)
-                    continue;
-                adjacentNode.setColor(GraphNode.COLOR_GREY);
-                potentialNewPriority = node.getPriority() +
-                        this.graph.getEdge(node, adjacentNode).getWeight();
-                if (potentialNewPriority < adjacentNode.getPriority()) {
-                    this.heap.decreasePriority(adjacentNode, potentialNewPriority);
-                    adjacentNode.setPrevious(node);
-                }
+            checkNewPriority(node);
+        }
+    }
+
+    private void checkNewPriority(GraphNode<L> node) {
+        double potentialNewPriority;
+        for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
+            if (adjacentNode.getColor() == GraphNode.COLOR_BLACK)
+                continue;
+            adjacentNode.setColor(GraphNode.COLOR_GREY);
+            potentialNewPriority = node.getPriority() +
+                    this.graph.getEdge(node, adjacentNode).getWeight();
+            if (potentialNewPriority < adjacentNode.getPriority()) {
+                this.heap.decreasePriority(adjacentNode, potentialNewPriority);
+                adjacentNode.setPrevious(node);
             }
         }
     }
@@ -140,7 +143,7 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
             }
         }
 //        if (minWalk.isEmpty())
-            return null;
+        return null;
 //        return minWalk;
     }
 

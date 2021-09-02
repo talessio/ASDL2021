@@ -2,7 +2,6 @@ package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implementazione dell'algoritmo di Bellman-Ford per il calcolo di cammini
@@ -91,32 +90,35 @@ public class BellmanFordShortestPathComputer<L>
             throw new IllegalArgumentException();
         if (!this.isComputed())
             throw new IllegalStateException();
-        // TODO implementare
 
         List<GraphEdge<L>> minWalk = new ArrayList<>();
+        if (targetNode.equals(this.lastSource))
+            return minWalk;
 
         GraphNode<L> n = targetNode;
 
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             if (n.getPrevious() == null)
                 return null;
-            minWalk.add(this.graph.getEdge(n.getPrevious(), n));
-            n = targetNode.getPrevious();
-            if (n.equals(this.lastSource)) {
-                return minWalk;
+            else minWalk.add(0, this.graph.getEdge(n.getPrevious(), n));
+            if (n.getPrevious().equals(this.lastSource)) {
+                break;
             }
+            else n = n.getPrevious();
         }
-        return null;
+        return minWalk;
     }
 
     // TODO inserire eventuali altri metodi privati per scopi di implementazione
 
 
     private void bellmanFord(GraphNode<L> sourceNode) {
-        GraphNode<L> currentNode = sourceNode;
+        GraphNode<L> currentNode;
+        GraphNode<L> oldNode = null;
         boolean hasImproved = false;
         int i;
         for (i = 0; i < this.graph.nodeCount(); i++) { //iterazione completa grafo + 1
+            currentNode = sourceNode;
             for (int j = 0; j < this.graph.nodeCount(); j++) { //visita di ogni nodo
                 for (GraphNode<L> newNode : this.graph.getNodes()) { //scelta del prossimo nodo da visitare
                     if (newNode.getColor() == GraphNode.COLOR_GREY) {
@@ -124,12 +126,14 @@ public class BellmanFordShortestPathComputer<L>
                         break;
                     }
                 }
+                if (currentNode.equals(oldNode))
+                    break;
                 if (!hasImproved)
                     hasImproved = checkNewPriority(currentNode); //migliora la priorità dei nodi adiacenti
                 else checkNewPriority(currentNode);
                 currentNode.setColor(GraphNode.COLOR_BLACK); //il nodo è ora visitato
+                oldNode = currentNode;
             }
-//            TODO righe 122-131 correggere
             if (hasImproved) {
                 if (i == (this.graph.nodeCount() - 1)) //se i ha fatto un ciclo in eccesso e priority è comunque migliorata
                     throw new IllegalStateException();
@@ -148,10 +152,10 @@ public class BellmanFordShortestPathComputer<L>
         boolean flag = false;
         for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
             //adjacent nodes priority update
-            if (adjacentNode.getColor() != GraphNode.COLOR_BLACK)
+            if (adjacentNode.getColor() != GraphNode.COLOR_BLACK) {
                 adjacentNode.setColor(GraphNode.COLOR_GREY);
-            potentialNewPriority = node.getPriority() +
-                    this.graph.getEdge(node, adjacentNode).getWeight();
+            }
+            potentialNewPriority = node.getPriority() + this.graph.getEdge(node, adjacentNode).getWeight();
             if (potentialNewPriority < adjacentNode.getPriority()) {
                 this.heap.decreasePriority(adjacentNode, potentialNewPriority);
                 adjacentNode.setPrevious(node);
