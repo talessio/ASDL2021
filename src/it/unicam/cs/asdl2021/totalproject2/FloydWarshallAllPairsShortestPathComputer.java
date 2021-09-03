@@ -1,5 +1,6 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,8 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      */
     private int[][] predecessorMatrix;
 
+    private boolean isComputed;
+
     /**
      * Crea un calcolatore di cammini minimi fra tutte le coppie di nodi per un
      * grafo orientato e pesato. Non esegue il calcolo, che viene eseguito
@@ -48,7 +51,28 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      *                                  peso è {@code Double.NaN}
      */
     public FloydWarshallAllPairsShortestPathComputer(Graph<L> g) {
-        // TODO implementare
+        if (g == null)
+            throw new NullPointerException();
+        if (g.isEmpty() || !g.isDirected())
+            throw new IllegalArgumentException();
+        for (GraphEdge<L> eachEdge : g.getEdges())
+            if (Double.isNaN(eachEdge.getWeight()))
+                throw new IllegalArgumentException();
+
+        this.graph = g;
+        this.costMatrix = new double[graph.nodeCount()][graph.nodeCount()];
+        this.predecessorMatrix = new int[graph.nodeCount()][graph.nodeCount()];
+        this.isComputed = false;
+        for (int i = 0; i < this.graph.nodeCount(); i++) {
+            for (int j = 0; j < this.graph.nodeCount(); j++) {
+                if (i == j)
+                    costMatrix[i][j] = 0;
+                if (this.graph.getEdgeAtNodeIndexes(i, j) == null) {
+                    costMatrix[i][j] = Double.POSITIVE_INFINITY;
+                    predecessorMatrix[i][j] = -1;
+                }
+            }
+        }
     }
 
     /**
@@ -62,7 +86,29 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      *                               di peso negativo.
      */
     public void computeShortestPaths() {
-        // TODO implementare
+        // TODO find negative cycle
+        boolean hasImproved = false;
+        for (int k = 0; k < this.graph.nodeCount(); k++) {
+            for (int i = 0; i < this.graph.nodeCount(); i++) {
+                for (int j = 0; j < this.graph.nodeCount(); j++) {
+                    if (i == j && costMatrix[i][j] < 0)
+                        throw new IllegalStateException();
+                    if (costMatrix[i][j] <= (costMatrix[i][k] + costMatrix[k][j]))
+                        continue;
+                    costMatrix[i][j] = (costMatrix[i][k] + costMatrix[k][j]);
+                    predecessorMatrix[i][j] = predecessorMatrix[i][k];
+                    if (!hasImproved)
+                        hasImproved = true;
+                }
+            }
+        }
+
+        for (int k = 0; k < this.graph.nodeCount(); k++)
+            for (int i = 0; i < this.graph.nodeCount(); i++)
+                for (int j = 0; j < this.graph.nodeCount(); j++)
+                    if (i == j && costMatrix[i][j] < 0)
+                        throw new IllegalStateException();
+        this.isComputed = true;
     }
 
     /**
@@ -71,8 +117,7 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      * @return true se i cammini minimi sono stati calcolati, false altrimenti
      */
     public boolean isComputed() {
-        // TODO implementare
-        return false;
+        return isComputed;
     }
 
     /**
@@ -103,11 +148,31 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      * @throws IllegalStateException    se non è stato eseguito il calcolo
      *                                  dei cammini minimi
      */
-    public List<GraphEdge<L>> getShortestPath(GraphNode<L> sourceNode,
-                                              GraphNode<L> targetNode) {
-        // TODO implementare
+    public List<GraphEdge<L>> getShortestPath(GraphNode<L> sourceNode, GraphNode<L> targetNode) {
+        if (sourceNode == null || targetNode == null)
+            throw new NullPointerException();
+        if (!this.graph.containsNode(sourceNode) ||
+                !this.graph.containsNode(targetNode))
+            throw new IllegalArgumentException();
+        if (!this.isComputed)
+            throw new IllegalStateException();
 
-        return null;
+        List<GraphEdge<L>> result = new ArrayList<>();
+        if (sourceNode.equals(targetNode))
+            return result;
+
+        int i = this.graph.getNodeIndexOf(sourceNode.getLabel());
+        int j = this.graph.getNodeIndexOf(targetNode.getLabel());
+        GraphEdge<L> edge;
+
+        while (i != j) {
+            if (predecessorMatrix[i][j] == -1)
+                return null;
+            edge = this.graph.getEdgeAtNodeIndexes(i, j);
+            result.add(edge);
+            i = predecessorMatrix[i][j];
+        }
+        return result;
     }
 
     /**
@@ -127,10 +192,32 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      * @throws IllegalStateException    se non è stato eseguito il calcolo
      *                                  dei cammini minimi
      */
-    public double getShortestPathCost(GraphNode<L> sourceNode,
-                                      GraphNode<L> targetNode) {
-        // TODO implementare
-        return Double.NaN;
+    public double getShortestPathCost(GraphNode<L> sourceNode, GraphNode<L> targetNode) {
+        if (sourceNode == null || targetNode == null)
+            throw new NullPointerException();
+        if (!this.graph.containsNode(sourceNode) ||
+                !this.graph.containsNode(targetNode))
+            throw new IllegalArgumentException();
+        if (!this.isComputed)
+            throw new IllegalStateException();
+
+        double result = 0.0;
+
+        if (sourceNode.equals(targetNode))
+            return result;
+
+        int i = this.graph.getNodeIndexOf(sourceNode.getLabel());
+        int j = this.graph.getNodeIndexOf(targetNode.getLabel());
+        GraphEdge<L> edge;
+
+        while (i != j) {
+            if (predecessorMatrix[i][j] == -1)
+                return Double.POSITIVE_INFINITY;
+            edge = this.graph.getEdgeAtNodeIndexes(i, j);
+            result += edge.getWeight();
+            i = predecessorMatrix[i][j];
+        }
+        return result;
     }
 
     /**
@@ -173,4 +260,5 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
     }
 
     // TODO inserire eventuali metodi privati per fini di implementazione
+
 }

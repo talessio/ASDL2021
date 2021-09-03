@@ -41,7 +41,7 @@ public class BinaryHeapMinPriorityQueue<E> {
      * accordingly.
      *
      * @param element the new element to add
-     * @throws NullPointerException if the element passed is null
+     * @throws NullPointerException     if the element passed is null
      * @throws IllegalArgumentException if element priority has not been set
      */
     public void insert(PriorityQueueElement element) {
