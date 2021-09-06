@@ -20,8 +20,6 @@ public class KruskalMSP<L> {
      */
     private ArrayList<HashSet<GraphNode<L>>> disjointSets;
 
-    // TODO implementare: inserire eventuali altre variabili istanza
-
     private Set<GraphEdge<L>> msp;
 
     /**
@@ -30,8 +28,7 @@ public class KruskalMSP<L> {
      */
     public KruskalMSP() {
         this.disjointSets = new ArrayList<HashSet<GraphNode<L>>>();
-        // TODO implementare: completare con eventuali altre inizializzazioni
-
+        this.msp = new HashSet<GraphEdge<L>>();
     }
 
     /**
@@ -48,7 +45,6 @@ public class KruskalMSP<L> {
      * con pesi negativi
      */
     public Set<GraphEdge<L>> computeMSP(Graph<L> g) {
-        // TODO implementare
         if (g == null)
             throw new NullPointerException();
         if (g.isDirected())
@@ -64,7 +60,7 @@ public class KruskalMSP<L> {
                 if (!eachEdge.hasWeight() ||
                         eachEdge.getWeight() < 0)
                     throw new IllegalArgumentException();
-                if (eachEdge.getWeight() < eachEdge.getWeight()) {
+                if (eachEdge.getWeight() < minWeight) {
                     minWeight = eachEdge.getWeight();
                     minEdge = eachEdge;
                     edgeSet.remove(eachEdge);
@@ -95,9 +91,8 @@ public class KruskalMSP<L> {
                 if (currentSet.contains(edge.getNode2()))
                     break;
                 else for (HashSet<GraphNode<L>> otherSet : this.disjointSets) {
-                    if (currentSet.equals(otherSet))
-                        continue;
-                    else if (otherSet.contains(edge.getNode2())) { //entrambi neri
+                    if (otherSet.contains(edge.getNode2()) &&
+                            !currentSet.equals(otherSet)) { //entrambi neri
                         currentSet.addAll(otherSet);
                         this.disjointSets.remove(otherSet); //ATTENZIONE rimozione
                         this.msp.add(edge);
