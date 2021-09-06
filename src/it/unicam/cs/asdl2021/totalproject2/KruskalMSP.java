@@ -49,24 +49,46 @@ public class KruskalMSP<L> {
      */
     public Set<GraphEdge<L>> computeMSP(Graph<L> g) {
         // TODO implementare
-        double minWeight = 0;
-        g.getEdges();
-        Set<GraphEdge<L>> ordered;
+        if (g == null)
+            throw new NullPointerException();
+        if (g.isDirected())
+            throw new IllegalArgumentException();
+        double minWeight = Double.MAX_VALUE;
+        GraphEdge<L> minEdge = null;
+        Set<GraphEdge<L>> edgeSet = g.getEdges();
+        if (edgeSet.isEmpty())
+            return this.msp;
 
-        for (GraphEdge<L> currentEdge : g.getEdges()) {
-
-            if (currentEdge.getNode1().getColor() == GraphNode.COLOR_WHITE &&
-                    currentEdge.getNode2().getColor() == GraphNode.COLOR_WHITE) {
-                bothWhite(currentEdge);
-            } else if (currentEdge.getNode1().getColor() == GraphNode.COLOR_BLACK &&
-                    currentEdge.getNode2().getColor() == GraphNode.COLOR_BLACK) {
-                bothBlack(currentEdge);
+        for (int i = 0; i < g.edgeCount(); i++) {
+            for (GraphEdge<L> eachEdge : edgeSet) {
+                if (!eachEdge.hasWeight() ||
+                        eachEdge.getWeight() < 0)
+                    throw new IllegalArgumentException();
+                if (eachEdge.getWeight() < eachEdge.getWeight()) {
+                    minWeight = eachEdge.getWeight();
+                    minEdge = eachEdge;
+                    edgeSet.remove(eachEdge);
+                }
+            }
+            if (minEdge == null)
+                return this.msp;
+            if (minEdge.getNode1().getColor() == GraphNode.COLOR_WHITE &&
+                    minEdge.getNode2().getColor() == GraphNode.COLOR_WHITE) {
+                bothWhite(minEdge);
+            } else if (minEdge.getNode1().getColor() == GraphNode.COLOR_BLACK &&
+                    minEdge.getNode2().getColor() == GraphNode.COLOR_BLACK) {
+                bothBlack(minEdge);
             } else
-                blackNWhite(currentEdge);
+                blackNWhite(minEdge);
         }
         return this.msp;
     }
 
+    /**
+     * Handles case in which both nodes are black. If both belong to the same Set already they are disregarded.
+     * If one belongs to one Set and one to another, the two Sets are joined.
+     * @param edge the edge whose nodes belong to one or more Sets.
+     */
     private void bothBlack(GraphEdge<L> edge) {
         for (HashSet<GraphNode<L>> currentSet : this.disjointSets) {
             if (currentSet.contains(edge.getNode1())) { //uno è già nero
@@ -85,9 +107,10 @@ public class KruskalMSP<L> {
         }
     }
 
-    // TODO implementare: inserire eventuali metodi privati per fini di
-    // implementazione
-
+    /**
+     * Handles case in which both nodes are white by joining them into a single Set.
+     * @param edge the edge whose nodes will be added to a Set
+     */
     private void bothWhite(GraphEdge<L> edge) {
         HashSet<GraphNode<L>> newSet = new HashSet<>();
         newSet.add(edge.getNode1());
@@ -98,6 +121,11 @@ public class KruskalMSP<L> {
         this.msp.add(edge);
     }
 
+    /**
+     * Handles case in which one node is black and the other is white.
+     * The white node joins the Set where the black node is housed.
+     * @param edge the edge whose white node will be added to the black node's Set
+     */
     private void blackNWhite(GraphEdge<L> edge) {
         GraphNode<L> blackNode, whiteNode;
         if (edge.getNode1().getColor() == GraphNode.COLOR_BLACK) {
@@ -115,6 +143,4 @@ public class KruskalMSP<L> {
             }
         }
     }
-
-
 }
