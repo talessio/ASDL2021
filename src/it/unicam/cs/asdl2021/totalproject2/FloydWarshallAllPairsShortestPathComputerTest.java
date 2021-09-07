@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * 
  * @author Template: Luca Tesei
- *
  */
 class FloydWarshallAllPairsShortestPathComputerTest {
 

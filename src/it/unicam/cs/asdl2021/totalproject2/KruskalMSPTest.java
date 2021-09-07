@@ -8,9 +8,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 /**
- * 
  * @author Template: Luca Tesei
- *
  */
 class KruskalMSPTest {
 

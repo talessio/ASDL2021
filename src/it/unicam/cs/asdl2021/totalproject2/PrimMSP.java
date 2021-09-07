@@ -1,5 +1,7 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
+import java.util.Iterator;
+
 /**
  * Classe singoletto che implementa l'algoritmo di Prim per trovare un Minimum
  * Spanning Tree di un grafo non orientato, pesato e con pesi non negativi.
@@ -46,7 +48,6 @@ public class PrimMSP<L> {
      * con pesi negativi
      */
     public void computeMSP(Graph<L> g, GraphNode<L> s) {
-        // TODO implementare
         if (g == null || s == null)
             throw new NullPointerException();
         if (g.isDirected() || !g.containsNode(s))
@@ -54,18 +55,44 @@ public class PrimMSP<L> {
         for (GraphEdge<L> edge : g.getEdges())
             if (!edge.hasWeight() || edge.getWeight() < 0)
                 throw new IllegalArgumentException();
-        for (GraphNode<L> node : g.getNodes())
+        for (GraphNode<L> node : g.getNodes()) {
+            node.setPriority(Double.MAX_VALUE);
             queue.insert(node);
-        GraphNode<L> node = s;
-//        for (int i = 0; i < g.nodeCount(); i++) {
-//            for (GraphEdge<L> edge:
-//                 ) {
-//
-//            }
-//        }
+        }
+        solve(g, s);
     }
 
-    // TODO implementare: inserire eventuali metodi privati per rendere
-    // l'implementazione più modulare
-
+    private void solve(Graph<L> g, GraphNode<L> s) {
+        GraphNode<L> node = s;
+        GraphNode<L> oldNode;
+        this.queue.decreasePriority(node, 0);
+        for (int i = 0; i < g.nodeCount(); i++) {
+            oldNode = node;
+            if (this.queue.minimum().getPriority() == Double.MAX_VALUE)
+                break;
+            node = (GraphNode<L>) this.queue.extractMinimum();
+            node.setColor(GraphNode.COLOR_BLACK);
+            if (!oldNode.equals(node))
+                node.setPrevious(oldNode);
+            GraphNode<L> adjNode;
+            Iterator<GraphNode<L>> iter = g.getAdjacentNodesOf(node).iterator();
+            while (iter.hasNext()) {
+                adjNode = iter.next();
+                if (adjNode.getColor() == GraphNode.COLOR_BLACK)
+                    continue;
+                if (adjNode.getPriority() > g.getEdge(node, adjNode).getWeight()) {
+                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
+                    adjNode.setColor(GraphNode.COLOR_GREY);
+                }
+            }
+//            for (GraphNode<L> adjNode : g.getAdjacentNodesOf(node)) {
+//                if (adjNode.getColor() == GraphNode.COLOR_BLACK)
+//                    continue;
+//                if (adjNode.getPriority() > g.getEdge(node, adjNode).getWeight()) {
+//                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
+//                    adjNode.setColor(GraphNode.COLOR_GREY);
+//                }
+//            }
+        }
+    }
 }

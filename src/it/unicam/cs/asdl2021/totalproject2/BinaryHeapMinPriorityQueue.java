@@ -25,8 +25,6 @@ public class BinaryHeapMinPriorityQueue<E> {
      */
     private ArrayList<PriorityQueueElement> heap;
 
-    // TODO implementare: inserire eventuali altre variabili istanza
-
     /**
      * Crea una coda con priorità vuota.
      */
@@ -76,7 +74,6 @@ public class BinaryHeapMinPriorityQueue<E> {
     public PriorityQueueElement extractMinimum() {
         if (this.heap.isEmpty())
             throw new NoSuchElementException();
-
         PriorityQueueElement result = this.minimum();
         this.heap.remove(0);
         int i = 0;
