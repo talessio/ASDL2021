@@ -14,9 +14,56 @@ import org.junit.jupiter.api.Test;
  */
 class DijkstraShortestPathComputerTest {
 
-    // TODO implementare: inserire i test che controllano le eccezioni
+    Graph<String> graph = null;
 
-    // TODO implementare: inserire i test che controllano lastSource e isComputed
+    @Test
+    final void testThrownExceptions() {
+        assertThrows(NullPointerException.class, () -> new DijkstraShortestPathComputer<>(graph));
+        graph = new MapAdjacentListUndirectedGraph<>();
+        assertThrows(IllegalArgumentException.class, () -> new DijkstraShortestPathComputer<>(graph));
+        GraphNode<String> node1 = new GraphNode<String>("1");
+        GraphNode<String> node2 = new GraphNode<String>("2");
+        GraphEdge<String> edge1 = new GraphEdge<String>(node1, node2, false);
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addEdge(edge1);
+        assertThrows(IllegalArgumentException.class, () -> new DijkstraShortestPathComputer<>(graph));
+        graph = new AdjacencyMatrixDirectedGraph<>();
+        graph.addNode(node1);
+        graph.addNode(node2);
+        edge1 = new GraphEdge<String>(node1, node2, true);
+        graph.addEdge(edge1);
+        assertThrows(IllegalArgumentException.class, () -> new DijkstraShortestPathComputer<>(graph));
+    }
+
+    @Test
+    final void testLastSourceAndIsComputed() {
+        GraphNode<String> node1 = new GraphNode<String>("1");
+        GraphNode<String> node2 = new GraphNode<String>("2");
+        GraphNode<String> node3 = new GraphNode<String>("3");
+        GraphNode<String> node4 = new GraphNode<String>("4");
+        GraphEdge<String> edge1 = new GraphEdge<String>(node1, node2, true, 0.89);
+        GraphEdge<String> edge2 = new GraphEdge<String>(node1, node3, true, 564.9);
+        GraphEdge<String> edge3 = new GraphEdge<String>(node2, node4, true, 94.65);
+        GraphEdge<String> edge4 = new GraphEdge<String>(node3, node2, true, 9.465);
+        GraphEdge<String> edge5 = new GraphEdge<String>(node4, node1, true, 9.465);
+        graph = new AdjacencyMatrixDirectedGraph<>();
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+        graph.addNode(node4);
+        graph.addEdge(edge1);
+        graph.addEdge(edge2);
+        graph.addEdge(edge3);
+        graph.addEdge(edge4);
+        graph.addEdge(edge5);
+        DijkstraShortestPathComputer<String> comp = new DijkstraShortestPathComputer<String>(graph);
+        assertFalse(comp.isComputed());
+        assertThrows(IllegalStateException.class, () -> comp.getLastSource());
+        comp.computeShortestPathsFrom(node3);
+        assertEquals(node3, comp.getLastSource());
+        assertTrue(comp.isComputed());
+    }
 
     @Test
     final void testGetShortestPathTo1() {

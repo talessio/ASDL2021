@@ -86,7 +86,6 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      *                               di peso negativo.
      */
     public void computeShortestPaths() {
-        // TODO find negative cycle
         boolean hasImproved = false;
         for (int k = 0; k < this.graph.nodeCount(); k++) {
             for (int i = 0; i < this.graph.nodeCount(); i++) {
@@ -102,7 +101,6 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                 }
             }
         }
-
         for (int k = 0; k < this.graph.nodeCount(); k++)
             for (int i = 0; i < this.graph.nodeCount(); i++)
                 for (int j = 0; j < this.graph.nodeCount(); j++)
@@ -165,12 +163,20 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         int j = this.graph.getNodeIndexOf(targetNode.getLabel());
         GraphEdge<L> edge;
 
-        while (i != j) {
+        //TODO fix this thing tf
+//        while (i != j) {
+        for (int counter = 0; counter < this.graph.nodeCount(); counter++) {
+            if (i == j)
+                break;
             if (predecessorMatrix[i][j] == -1)
                 return null;
-            edge = this.graph.getEdgeAtNodeIndexes(i, j);
-            result.add(edge);
-            i = predecessorMatrix[i][j];
+            edge = this.graph.getEdgeAtNodeIndexes(predecessorMatrix[i][j], j);
+            if (edge == null) {
+                System.out.println("edge è risultato null");
+                return null;
+            }
+            else result.add(edge);
+            j = predecessorMatrix[i][j];
         }
         return result;
     }

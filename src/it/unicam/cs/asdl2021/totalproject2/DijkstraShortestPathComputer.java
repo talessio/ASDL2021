@@ -120,8 +120,6 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
         if (targetNode.equals(this.lastSource))
             return minWalk;
 
-        //TODO fix x test
-
         GraphNode<L> n = targetNode;
 
         while (n.getPrevious() != null) {
@@ -144,7 +142,6 @@ public class DijkstraShortestPathComputer<L> implements SingleSourceShortestPath
 //        return minWalk;
     }
 
-    // TODO inserire eventuali altri metodi accessori
     private void checkNewPriority(GraphNode<L> node) {
         double potentialNewPriority;
         for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
