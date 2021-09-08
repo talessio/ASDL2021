@@ -15,15 +15,15 @@ class FloydWarshallAllPairsShortestPathComputerTest {
 
     Graph<String> graph = null;
 
-    GraphNode<String> a = new GraphNode<>("1");
-    GraphNode<String> b = new GraphNode<>("2");
-    GraphNode<String> c = new GraphNode<>("3");
-    GraphNode<String> d = new GraphNode<>("4");
-    GraphNode<String> e = new GraphNode<>("5");
-    GraphNode<String> g = new GraphNode<>("6");
-    GraphNode<String> h = new GraphNode<>("7");
-    GraphNode<String> i = new GraphNode<>("8");
-    GraphNode<String> n = new GraphNode<>("9");
+    GraphNode<String> a = new GraphNode<>("a");
+    GraphNode<String> b = new GraphNode<>("b");
+    GraphNode<String> c = new GraphNode<>("c");
+    GraphNode<String> d = new GraphNode<>("d");
+    GraphNode<String> e = new GraphNode<>("e");
+    GraphNode<String> g = new GraphNode<>("g");
+    GraphNode<String> h = new GraphNode<>("h");
+    GraphNode<String> i = new GraphNode<>("i");
+    GraphNode<String> n = new GraphNode<>("n");
     GraphEdge<String> ab = new GraphEdge<String>(a, b, true, 2.2);
     GraphEdge<String> ah = new GraphEdge<String>(a, h, true, 20);
     GraphEdge<String> ba = new GraphEdge<String>(b, a, true, 1);

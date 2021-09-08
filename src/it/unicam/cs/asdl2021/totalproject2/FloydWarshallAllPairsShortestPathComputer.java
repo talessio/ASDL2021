@@ -65,11 +65,17 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         this.isComputed = false;
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             for (int j = 0; j < this.graph.nodeCount(); j++) {
-                if (i == j)
+                if (i == j) {
                     costMatrix[i][j] = 0;
+                    predecessorMatrix[i][j] = i;
+                }
                 if (this.graph.getEdgeAtNodeIndexes(i, j) == null) {
                     costMatrix[i][j] = Double.POSITIVE_INFINITY;
                     predecessorMatrix[i][j] = -1;
+                }
+                else {
+                    costMatrix[i][j] = this.graph.getEdgeAtNodeIndexes(i, j).getWeight();
+                    predecessorMatrix[i][j] = i;
                 }
             }
         }
@@ -94,7 +100,7 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                         throw new IllegalStateException();
                     if (costMatrix[i][j] <= (costMatrix[i][k] + costMatrix[k][j]))
                         continue;
-                    costMatrix[i][j] = (costMatrix[i][k] + costMatrix[k][j]);
+                    else costMatrix[i][j] = (costMatrix[i][k] + costMatrix[k][j]);
                     predecessorMatrix[i][j] = predecessorMatrix[i][k];
                     if (!hasImproved)
                         hasImproved = true;
@@ -162,6 +168,10 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         int i = this.graph.getNodeIndexOf(sourceNode.getLabel());
         int j = this.graph.getNodeIndexOf(targetNode.getLabel());
         GraphEdge<L> edge;
+        if (this.costMatrix[i][j] == Double.POSITIVE_INFINITY) {
+            System.out.println("Il nodo " + j + " non e' raggiungibile partendo da " + i);
+            return null;
+        }
 
         //TODO fix this thing tf
 //        while (i != j) {
@@ -175,7 +185,8 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                 System.out.println("edge è risultato null");
                 return null;
             }
-            else result.add(edge);
+            else
+                result.add(edge);
             j = predecessorMatrix[i][j];
         }
         return result;
