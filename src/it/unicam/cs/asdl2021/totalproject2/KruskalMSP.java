@@ -2,6 +2,7 @@ package it.unicam.cs.asdl2021.totalproject2;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -56,16 +57,19 @@ public class KruskalMSP<L> {
             return this.msp;
 
         for (int i = 0; i < g.edgeCount(); i++) {
-            for (GraphEdge<L> eachEdge : edgeSet) {
-                if (!eachEdge.hasWeight() ||
-                        eachEdge.getWeight() < 0)
+            Iterator<GraphEdge<L>> iter = g.getEdges().iterator();
+
+            while (iter.hasNext()) {
+                GraphEdge<L> currentEdge = iter.next();
+                if (!currentEdge.hasWeight() || currentEdge.getWeight() < 0)
                     throw new IllegalArgumentException();
-                if (eachEdge.getWeight() < minWeight) {
-                    minWeight = eachEdge.getWeight();
-                    minEdge = eachEdge;
-                    edgeSet.remove(eachEdge);
+                if (currentEdge.getWeight() < minWeight) {
+                    minWeight = currentEdge.getWeight();;
+                    minEdge = currentEdge;
+                    edgeSet.remove(currentEdge);
                 }
             }
+
             if (minEdge == null)
                 return this.msp;
             if (minEdge.getNode1().getColor() == GraphNode.COLOR_WHITE &&
