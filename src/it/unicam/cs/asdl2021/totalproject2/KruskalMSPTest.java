@@ -17,6 +17,12 @@ class KruskalMSPTest {
     // TODO implementare: aggiungere altri test che controllano il risultato
 
     @Test
+    final void testThrownExceptions() {
+        Graph<String> g = new MapAdjacentListUndirectedGraph<String>();
+
+    }
+
+    @Test
     final void testComputeMSP() {
         Graph<String> gr = new MapAdjacentListUndirectedGraph<String>();
         GraphNode<String> a = new GraphNode<String>("a");

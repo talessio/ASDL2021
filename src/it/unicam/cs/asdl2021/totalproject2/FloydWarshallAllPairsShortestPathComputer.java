@@ -66,14 +66,12 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         for (int i = 0; i < this.graph.nodeCount(); i++) {
             for (int j = 0; j < this.graph.nodeCount(); j++) {
                 if (i == j) {
-                    costMatrix[i][j] = 0;
+                    costMatrix[i][j] = 0.0;
                     predecessorMatrix[i][j] = i;
-                }
-                if (this.graph.getEdgeAtNodeIndexes(i, j) == null) {
+                } else if (this.graph.getEdgeAtNodeIndexes(i, j) == null) {
                     costMatrix[i][j] = Double.POSITIVE_INFINITY;
                     predecessorMatrix[i][j] = -1;
-                }
-                else {
+                } else {
                     costMatrix[i][j] = this.graph.getEdgeAtNodeIndexes(i, j).getWeight();
                     predecessorMatrix[i][j] = i;
                 }
@@ -96,12 +94,13 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         for (int k = 0; k < this.graph.nodeCount(); k++) {
             for (int i = 0; i < this.graph.nodeCount(); i++) {
                 for (int j = 0; j < this.graph.nodeCount(); j++) {
-                    if (i == j && costMatrix[i][j] < 0)
+                    if (i == j && costMatrix[i][j] < 0.0)
                         throw new IllegalStateException();
                     if (costMatrix[i][j] <= (costMatrix[i][k] + costMatrix[k][j]))
                         continue;
                     else costMatrix[i][j] = (costMatrix[i][k] + costMatrix[k][j]);
-                    predecessorMatrix[i][j] = predecessorMatrix[i][k];
+//                    predecessorMatrix[i][j] = predecessorMatrix[i][k];
+                    predecessorMatrix[i][j] = k;
                     if (!hasImproved)
                         hasImproved = true;
                 }
@@ -178,15 +177,18 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         for (int counter = 0; counter < this.graph.nodeCount(); counter++) {
             if (i == j)
                 break;
+//            j = predecessorMatrix[i][j];
             if (predecessorMatrix[i][j] == -1)
                 return null;
-            edge = this.graph.getEdgeAtNodeIndexes(predecessorMatrix[i][j], j);
+            else {
+                edge = this.graph.getEdgeAtNodeIndexes(predecessorMatrix[i][j], j);
+            }
             if (edge == null) {
                 System.out.println("edge è risultato null");
                 return null;
+            } else {
+                result.add(0, edge);
             }
-            else
-                result.add(edge);
             j = predecessorMatrix[i][j];
         }
         return result;
@@ -227,13 +229,27 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         int j = this.graph.getNodeIndexOf(targetNode.getLabel());
         GraphEdge<L> edge;
 
-        while (i != j) {
+        for (int counter = 0; counter < this.graph.nodeCount(); counter++) {
+            if (i == j)
+                break;
             if (predecessorMatrix[i][j] == -1)
                 return Double.POSITIVE_INFINITY;
-            edge = this.graph.getEdgeAtNodeIndexes(i, j);
-            result += edge.getWeight();
-            i = predecessorMatrix[i][j];
+            edge = this.graph.getEdgeAtNodeIndexes(predecessorMatrix[i][j], j);
+            if (edge == null) {
+                System.out.println("edge è risultato null");
+                return Double.POSITIVE_INFINITY;
+            } else
+                result += edge.getWeight();
+            j = predecessorMatrix[i][j];
         }
+
+//        while (i != j) {
+//            if (predecessorMatrix[i][j] == -1)
+//                return Double.POSITIVE_INFINITY;
+//            edge = this.graph.getEdgeAtNodeIndexes(i, j);
+//            result += edge.getWeight();
+//            i = predecessorMatrix[i][j];
+//        }
         return result;
     }
 
