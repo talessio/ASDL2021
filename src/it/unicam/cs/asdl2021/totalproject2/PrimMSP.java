@@ -56,7 +56,7 @@ public class PrimMSP<L> {
             if (!edge.hasWeight() || edge.getWeight() < 0)
                 throw new IllegalArgumentException();
         for (GraphNode<L> node : g.getNodes()) {
-            node.setPriority(Double.MAX_VALUE);
+            node.setPriority(Double.POSITIVE_INFINITY);
             queue.insert(node);
         }
         solve(g, s);
@@ -65,23 +65,25 @@ public class PrimMSP<L> {
     private void solve(Graph<L> g, GraphNode<L> s) {
         GraphNode<L> node = s;
         GraphNode<L> oldNode;
+        GraphNode<L> adjNode;
         this.queue.decreasePriority(node, 0);
         for (int i = 0; i < g.nodeCount(); i++) {
             oldNode = node;
-            if (this.queue.minimum().getPriority() == Double.MAX_VALUE)
+            if (this.queue.minimum().getPriority() == Double.POSITIVE_INFINITY)
                 break;
             node = (GraphNode<L>) this.queue.extractMinimum();
             node.setColor(GraphNode.COLOR_BLACK);
             if (!oldNode.equals(node))
-                node.setPrevious(oldNode);
-            GraphNode<L> adjNode;
+                node.setPrevious(oldNode); //TODO SBAGLIATO CORREGGI
+
             Iterator<GraphNode<L>> iter = g.getAdjacentNodesOf(node).iterator();
             while (iter.hasNext()) {
                 adjNode = iter.next();
                 if (adjNode.getColor() == GraphNode.COLOR_BLACK)
                     continue;
                 if (adjNode.getPriority() > g.getEdge(node, adjNode).getWeight()) {
-                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
+                    this.queue.decreasePriority(adjNode, g.getEdge(node, adjNode).getWeight());
+//                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
                     adjNode.setColor(GraphNode.COLOR_GREY);
                 }
             }

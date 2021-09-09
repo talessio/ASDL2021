@@ -12,8 +12,6 @@ import java.util.Arrays;
  */
 class FloydWarshallAllPairsShortestPathComputerTest {
 
-    // TODO implementare tutti i test non ancora implementati
-
     Graph<String> graph = null;
 
     GraphNode<String> a = new GraphNode<>("a");

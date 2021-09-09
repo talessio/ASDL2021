@@ -85,7 +85,45 @@ class KruskalMSPTest {
         assertThrows(IllegalArgumentException.class, () -> comp.computeMSP(graph));
         graph.removeEdge(negWeight);
         comp.computeMSP(graph);
+    }
 
+    @Test
+    final void testMSP() {
+        MapAdjacentListUndirectedGraph<String> graph = new MapAdjacentListUndirectedGraph<String>();
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addNode(c);
+        graph.addNode(d);
+        graph.addNode(e);
+        graph.addNode(g);
+        graph.addNode(h);
+        graph.addNode(i);
+        graph.addNode(n);
+        graph.addNode(z);
+        graph.addEdge(ab);
+        graph.addEdge(ah);
+        graph.addEdge(bc);
+        graph.addEdge(ce);
+        graph.addEdge(ci);
+        graph.addEdge(eh);
+        graph.addEdge(hg);
+        graph.addEdge(hi);
+        graph.addEdge(gd);
+        graph.addEdge(dh);
+        graph.addEdge(nd);
+        graph.addEdge(iz);
+        Set<GraphEdge<String>> testSet = new HashSet<>();
+        testSet.add(ab);
+        testSet.add(bc);
+        testSet.add(ce);
+        testSet.add(ci);
+        testSet.add(iz);
+        testSet.add(eh);
+        testSet.add(hg);
+        testSet.add(gd);
+        testSet.add(nd);
+        KruskalMSP<String> comp = new KruskalMSP<String>();
+        assertEquals(testSet, comp.computeMSP(graph));
     }
 
     @Test
@@ -133,7 +171,6 @@ class KruskalMSPTest {
         result.add(new GraphEdge<String>(d, e, false, 9));
         result.add(new GraphEdge<String>(f, g, false, 2));
         result.add(new GraphEdge<String>(g, h, false, 1));
-        assertTrue(alg.computeMSP(gr).equals(result));
+        assertEquals(alg.computeMSP(gr), result);
     }
-
 }

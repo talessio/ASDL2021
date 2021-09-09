@@ -13,8 +13,6 @@ import java.util.NoSuchElementException;
  */
 class BinaryHeapMinPriorityQueueTest {
 
-    // TODO implementare tutti i test non ancora implementati
-
     BinaryHeapMinPriorityQueue<GraphNode<String>> h = new BinaryHeapMinPriorityQueue<>();
     GraphNode<String> node1 = new GraphNode<>("1");
     GraphNode<String> node2 = new GraphNode<>("2");

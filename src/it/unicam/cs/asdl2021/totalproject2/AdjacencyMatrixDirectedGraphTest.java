@@ -14,8 +14,6 @@ import java.util.Set;
  */
 class AdjacencyMatrixDirectedGraphTest {
 
-    // TODO implementare tutti i test non ancora implementati
-
     AdjacencyMatrixDirectedGraph<String> graph = new AdjacencyMatrixDirectedGraph<>();
     MapAdjacentListUndirectedGraph<String> undirectedGraph = new MapAdjacentListUndirectedGraph<>();
     GraphNode<String> node1 = new GraphNode<>("1");

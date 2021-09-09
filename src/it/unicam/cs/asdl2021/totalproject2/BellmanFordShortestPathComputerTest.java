@@ -11,8 +11,6 @@ import java.util.ArrayList;
  */
 class BellmanFordShortestPathComputerTest {
 
-    // TODO implementare tutti i test non ancora implementati
-
     Graph<String> graph = new AdjacencyMatrixDirectedGraph<>();
     Graph<String> undGraph = new MapAdjacentListUndirectedGraph<>();
     GraphNode<String> a = new GraphNode<String>("a");

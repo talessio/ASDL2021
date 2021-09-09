@@ -55,18 +55,15 @@ public class KruskalMSP<L> {
         Set<GraphEdge<L>> edgeSet = g.getEdges();
         if (edgeSet.isEmpty())
             return this.msp;
-
         for (int i = 0; i < g.edgeCount(); i++) {
-            Iterator<GraphEdge<L>> iter = g.getEdges().iterator();
-
+            Iterator<GraphEdge<L>> iter = edgeSet.iterator();
             while (iter.hasNext()) {
                 GraphEdge<L> currentEdge = iter.next();
                 if (!currentEdge.hasWeight() || currentEdge.getWeight() < 0)
                     throw new IllegalArgumentException();
                 if (currentEdge.getWeight() < minWeight) {
-                    minWeight = currentEdge.getWeight();;
+                    minWeight = currentEdge.getWeight();
                     minEdge = currentEdge;
-                    edgeSet.remove(currentEdge);
                 }
             }
 
@@ -80,6 +77,9 @@ public class KruskalMSP<L> {
                 bothBlack(minEdge);
             } else
                 blackNWhite(minEdge);
+
+            edgeSet.remove(minEdge);
+            minWeight = Double.MAX_VALUE;
         }
         return this.msp;
     }
@@ -87,27 +87,40 @@ public class KruskalMSP<L> {
     /**
      * Handles case in which both nodes are black. If both belong to the same Set already they are disregarded.
      * If one belongs to one Set and one to another, the two Sets are joined.
+     *
      * @param edge the edge whose nodes belong to one or more Sets.
      */
     private void bothBlack(GraphEdge<L> edge) {
-        for (HashSet<GraphNode<L>> currentSet : this.disjointSets) {
-            if (currentSet.contains(edge.getNode1())) { //uno è già nero
-                if (currentSet.contains(edge.getNode2()))
-                    break;
-                else for (HashSet<GraphNode<L>> otherSet : this.disjointSets) {
-                    if (otherSet.contains(edge.getNode2()) &&
-                            !currentSet.equals(otherSet)) { //entrambi neri
-                        currentSet.addAll(otherSet);
-                        this.disjointSets.remove(otherSet); //ATTENZIONE rimozione
-                        this.msp.add(edge);
-                    }
-                }
+        ArrayList<HashSet<GraphNode<L>>> support = this.disjointSets;
+        HashSet<GraphNode<L>> secondSet = new HashSet<>();
+        int i = 0;
+        for (HashSet<GraphNode<L>> currentSet : support) {
+            if (!currentSet.contains(edge.getNode1())) //uno è già nero
+                continue;
+            if (currentSet.contains(edge.getNode2())) {
+                i = -1;
+                break;
             }
+            i++;
         }
+        if (i == -1) {
+            this.disjointSets.remove(edge);
+            return;
+        }
+        for (HashSet<GraphNode<L>> otherSet : support)
+            if (otherSet.contains(edge.getNode2()))  //entrambi neri
+                secondSet = otherSet;
+        if (secondSet.isEmpty())
+            return;
+
+        this.disjointSets.get(i).addAll(secondSet);
+        this.disjointSets.remove(secondSet); //ATTENZIONE rimozione
+        this.msp.add(edge);
     }
 
     /**
      * Handles case in which both nodes are white by joining them into a single Set.
+     *
      * @param edge the edge whose nodes will be added to a Set
      */
     private void bothWhite(GraphEdge<L> edge) {
@@ -123,6 +136,7 @@ public class KruskalMSP<L> {
     /**
      * Handles case in which one node is black and the other is white.
      * The white node joins the Set where the black node is housed.
+     *
      * @param edge the edge whose white node will be added to the black node's Set
      */
     private void blackNWhite(GraphEdge<L> edge) {

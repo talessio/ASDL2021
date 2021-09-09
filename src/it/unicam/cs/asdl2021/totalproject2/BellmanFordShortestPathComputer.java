@@ -14,6 +14,8 @@ import java.util.List;
 public class BellmanFordShortestPathComputer<L>
         implements SingleSourceShortestPathComputer<L> {
 
+    //TODO fix Nullpo
+
     private Graph<L> graph;
     private BinaryHeapMinPriorityQueue<GraphNode<L>> heap;
     private GraphNode<L> lastSource;

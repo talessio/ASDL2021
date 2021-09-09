@@ -53,7 +53,8 @@ class PrimMSPTest {
         assertTrue(c.getPrevious() == b);
         assertTrue(d.getPrevious() == c);
         assertTrue(e.getPrevious() == d);
-        assertTrue(f.getPrevious() == c);
+//        assertTrue(f.getPrevious() == c);
+        assertEquals(c, f.getPrevious());
         assertTrue(g.getPrevious() == f);
         assertTrue(h.getPrevious() == g);
         assertTrue(i.getPrevious() == c);
