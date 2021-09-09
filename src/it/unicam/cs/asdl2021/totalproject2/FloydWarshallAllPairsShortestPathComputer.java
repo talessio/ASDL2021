@@ -172,7 +172,7 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
             return null;
         }
 
-        //TODO fix this thing tf
+        //TODO fix G node malfunction
 //        while (i != j) {
         for (int counter = 0; counter < this.graph.nodeCount(); counter++) {
             if (i == j)
@@ -291,7 +291,4 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
     public int[][] getPredecessorMatrix() {
         return predecessorMatrix;
     }
-
-    // TODO inserire eventuali metodi privati per fini di implementazione
-
 }

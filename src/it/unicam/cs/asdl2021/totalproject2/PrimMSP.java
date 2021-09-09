@@ -64,17 +64,13 @@ public class PrimMSP<L> {
 
     private void solve(Graph<L> g, GraphNode<L> s) {
         GraphNode<L> node = s;
-        GraphNode<L> oldNode;
         GraphNode<L> adjNode;
         this.queue.decreasePriority(node, 0);
         for (int i = 0; i < g.nodeCount(); i++) {
-            oldNode = node;
             if (this.queue.minimum().getPriority() == Double.POSITIVE_INFINITY)
                 break;
             node = (GraphNode<L>) this.queue.extractMinimum();
             node.setColor(GraphNode.COLOR_BLACK);
-            if (!oldNode.equals(node))
-                node.setPrevious(oldNode); //TODO SBAGLIATO CORREGGI
 
             Iterator<GraphNode<L>> iter = g.getAdjacentNodesOf(node).iterator();
             while (iter.hasNext()) {
@@ -85,6 +81,7 @@ public class PrimMSP<L> {
                     this.queue.decreasePriority(adjNode, g.getEdge(node, adjNode).getWeight());
 //                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
                     adjNode.setColor(GraphNode.COLOR_GREY);
+                    adjNode.setPrevious(node);
                 }
             }
 //            for (GraphNode<L> adjNode : g.getAdjacentNodesOf(node)) {

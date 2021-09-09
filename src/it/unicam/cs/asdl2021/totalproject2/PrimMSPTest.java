@@ -9,7 +9,58 @@ import org.junit.jupiter.api.Test;
  */
 class PrimMSPTest {
 
-    // TODO implementare: fare i test per le eccezioni
+    @Test
+    final void testExceptions() {
+        GraphNode<String> a = new GraphNode<>("a");
+        GraphNode<String> b = new GraphNode<>("b");
+        GraphNode<String> c = new GraphNode<>("c");
+        GraphNode<String> d = new GraphNode<>("d");
+        GraphNode<String> e = new GraphNode<>("e");
+        GraphNode<String> g = new GraphNode<>("g");
+        GraphNode<String> h = new GraphNode<>("h");
+        GraphNode<String> i = new GraphNode<>("i");
+        GraphNode<String> n = new GraphNode<>("n");
+        GraphNode<String> z = new GraphNode<>("z");
+        GraphEdge<String> ab = new GraphEdge<String>(a, b, false, 1.0);
+        GraphEdge<String> ah = new GraphEdge<String>(a, h, false, 20);
+        GraphEdge<String> bc = new GraphEdge<String>(b, c, false, 4.0);
+        GraphEdge<String> directed = new GraphEdge<String>(b, n, true, 4.20);
+        AdjacencyMatrixDirectedGraph<String> dirGraph = new AdjacencyMatrixDirectedGraph<>();
+        dirGraph.addNode(b);
+        dirGraph.addNode(n);
+        dirGraph.addEdge(directed);
+        PrimMSP<String> comp = new PrimMSP<>();
+        assertThrows(IllegalArgumentException.class, () -> comp.computeMSP(dirGraph, b));
+        GraphEdge<String> noWeight = new GraphEdge<String>(d, b, false);
+        MapAdjacentListUndirectedGraph<String> graph = new MapAdjacentListUndirectedGraph<>();
+        graph.addNode(d);
+        graph.addNode(b);
+        graph.addEdge(noWeight);
+        assertThrows(IllegalArgumentException.class, () -> comp.computeMSP(graph, b));
+        graph.clear();
+        graph.addNode(z);
+        graph.addNode(e);
+        GraphEdge<String> negWeight = new GraphEdge<String>(z, e, false, -69);
+        graph.addEdge(negWeight);
+        assertThrows(IllegalArgumentException.class, () -> comp.computeMSP(graph, e));
+        graph.clear();
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addNode(c);
+        graph.addNode(d);
+        graph.addNode(e);
+        graph.addNode(g);
+        graph.addNode(h);
+        graph.addNode(i);
+        graph.addNode(n);
+        graph.addNode(z);
+        graph.addEdge(ab);
+        graph.addEdge(ah);
+        graph.addEdge(bc);
+        assertThrows(NullPointerException.class, () -> comp.computeMSP(graph, null));
+        assertThrows(NullPointerException.class, () -> comp.computeMSP(null, a));
+        comp.computeMSP(graph, a);
+    }
 
     @Test
     final void testFindMSP1() {
@@ -53,8 +104,7 @@ class PrimMSPTest {
         assertTrue(c.getPrevious() == b);
         assertTrue(d.getPrevious() == c);
         assertTrue(e.getPrevious() == d);
-//        assertTrue(f.getPrevious() == c);
-        assertEquals(c, f.getPrevious());
+        assertTrue(f.getPrevious() == c);
         assertTrue(g.getPrevious() == f);
         assertTrue(h.getPrevious() == g);
         assertTrue(i.getPrevious() == c);

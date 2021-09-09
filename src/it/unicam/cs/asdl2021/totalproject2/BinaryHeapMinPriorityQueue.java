@@ -174,7 +174,4 @@ public class BinaryHeapMinPriorityQueue<E> {
         this.heap.set(elementIndex1, this.heap.get(elementIndex2));
         this.heap.set(elementIndex2, tmp);
     }
-
-    // TODO inserire eventuali altri metodi privati per scopi di implementazione
-
 }
