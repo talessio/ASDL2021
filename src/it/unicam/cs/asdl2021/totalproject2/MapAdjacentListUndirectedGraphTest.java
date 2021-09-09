@@ -12,8 +12,6 @@ import java.util.Set;
  */
 class MapAdjacentListUndirectedGraphTest {
 
-    // TODO FIX removeNode() and getEdgesOf()
-
     MapAdjacentListUndirectedGraph<String> map = new MapAdjacentListUndirectedGraph<>();
     GraphNode<String> node1 = new GraphNode<>("1");
     GraphNode<String> node2 = new GraphNode<>("2");
@@ -49,7 +47,7 @@ class MapAdjacentListUndirectedGraphTest {
         map.addEdge(edge3);
         assertEquals(3, map.edgeCount());
         map.removeEdge(edge1);
-        assertEquals(2, map.edgeCount()); //TODO fix assertion failed
+        assertEquals(2, map.edgeCount());
         map.removeEdge(edge2);
         assertEquals(1, map.edgeCount());
         map.removeEdge(edge3);
@@ -122,10 +120,10 @@ class MapAdjacentListUndirectedGraphTest {
         map.addEdge(edge3);
 
         assertEquals(2, map.getEdgesOf(node2).size());
-        map.removeNode(node1);      // errore qui, non ho idea del perché
+        map.removeNode(node1);
         assertFalse(map.removeNode(node1));
         assertFalse(map.containsEdge(edge1));
-        assertTrue(map.containsEdge(edge2)); //assertion failed
+        assertTrue(map.containsEdge(edge2));
         assertFalse(map.containsEdge(edge3));
         assertEquals(1, map.getEdgesOf(node2).size());
         map.removeNode(node3);
@@ -287,22 +285,14 @@ class MapAdjacentListUndirectedGraphTest {
         map.addEdge(edge2);
         map.addEdge(edge3);
 
-//        Set<GraphEdge<String>> set = new HashSet<>();
-//        set.add(edge1);
-//        set.add(edge3);
-//        assertEquals(set, map.getEdgesOf(node1));
-//        map.removeNode(node2); //TODO fix ConcurrentModificationException
-//        set.remove(edge1);
-//        assertEquals(set, map.getEdgesOf(node1));
-//        set.remove(edge3);
-
-        assertEquals(2, map.getEdgesOf(node1).size());
-        map.removeEdge(edge1);
-        map.removeEdge(edge2);
-        assertEquals(1, map.getEdgesOf(node1).size());
-        map.removeEdge(edge3);
-        assertEquals(0, map.getEdgesOf(node1).size());
-        assertTrue(map.getEdgesOf(node1).isEmpty());
+        Set<GraphEdge<String>> set = new HashSet<>();
+        set.add(edge1);
+        set.add(edge3);
+        assertEquals(set, map.getEdgesOf(node1));
+        map.removeNode(node2);
+        set.remove(edge1);
+        assertEquals(set, map.getEdgesOf(node1));
+        set.remove(edge3);
     }
 
     @Test

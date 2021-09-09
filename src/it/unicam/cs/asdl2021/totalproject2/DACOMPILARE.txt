@@ -2,15 +2,15 @@
 # Componenti del gruppo in ordine alfabetico per cognome:
 
 # Componente 1
-NOME: 
-COGNOME: 
-MATRICOLA: 
-EMAIL UNICAM: 
-ANNO DI ISCRIZIONE AL PRIMO ANNO:
+NOME: Michele
+COGNOME: Pioli
+MATRICOLA: 110388
+EMAIL UNICAM: michele.pioli@studenti.unicam.it
+ANNO DI ISCRIZIONE AL PRIMO ANNO: 2019/2020
 
 # Componente 2 (opzionale)
-NOME: 
-COGNOME: 
-MATRICOLA: 
-EMAIL UNICAM: 
-ANNO DI ISCRIZIONE AL PRIMO ANNO:
+NOME: Alessio
+COGNOME: Tozzi
+MATRICOLA: 109376
+EMAIL UNICAM: alessio.tozzi@studenti.unicam.it
+ANNO DI ISCRIZIONE AL PRIMO ANNO: 2019/2020

@@ -108,7 +108,6 @@ public class MapAdjacentListUndirectedGraph<L> extends Graph<L> {
                 removeEdge(currentEdge);
         }
 
-//        //TODO rimettere una volta fixato getEdgesOf
 //        Set<GraphEdge<L>> set = this.getEdgesOf(node);
 //        for (GraphEdge<L> currentEdge : set) {
 //            if (currentEdge != null && (currentEdge.getNode1() == node || currentEdge.getNode2() == node))

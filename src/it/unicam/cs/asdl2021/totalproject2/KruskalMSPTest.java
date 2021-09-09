@@ -38,11 +38,6 @@ class KruskalMSPTest {
     GraphEdge<String> noWeight = new GraphEdge<String>(d, b, false);
     GraphEdge<String> negWeight = new GraphEdge<String>(z, e, false, -69);
 
-
-    // TODO implementare: aggiungere i test che controllano le eccezioni
-
-    // TODO implementare: aggiungere altri test che controllano il risultato
-
     @Test
     final void testThrownExceptions() {
         KruskalMSP<String> comp = new KruskalMSP<String>();
