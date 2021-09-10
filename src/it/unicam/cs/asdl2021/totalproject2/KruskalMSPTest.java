@@ -12,16 +12,16 @@ import org.junit.jupiter.api.Test;
  */
 class KruskalMSPTest {
 
-    GraphNode<String> a = new GraphNode<>("a");
-    GraphNode<String> b = new GraphNode<>("b");
-    GraphNode<String> c = new GraphNode<>("c");
-    GraphNode<String> d = new GraphNode<>("d");
-    GraphNode<String> e = new GraphNode<>("e");
-    GraphNode<String> g = new GraphNode<>("g");
-    GraphNode<String> h = new GraphNode<>("h");
-    GraphNode<String> i = new GraphNode<>("i");
-    GraphNode<String> n = new GraphNode<>("n");
-    GraphNode<String> z = new GraphNode<>("z");
+    GraphNode<String> a = new GraphNode<String>("a");
+    GraphNode<String> b = new GraphNode<String>("b");
+    GraphNode<String> c = new GraphNode<String>("c");
+    GraphNode<String> d = new GraphNode<String>("d");
+    GraphNode<String> e = new GraphNode<String>("e");
+    GraphNode<String> g = new GraphNode<String>("g");
+    GraphNode<String> h = new GraphNode<String>("h");
+    GraphNode<String> i = new GraphNode<String>("i");
+    GraphNode<String> n = new GraphNode<String>("n");
+    GraphNode<String> z = new GraphNode<String>("z");
     GraphEdge<String> ab = new GraphEdge<String>(a, b, false, 1.0);
     GraphEdge<String> ah = new GraphEdge<String>(a, h, false, 20);
     GraphEdge<String> bc = new GraphEdge<String>(b, c, false, 4.0);

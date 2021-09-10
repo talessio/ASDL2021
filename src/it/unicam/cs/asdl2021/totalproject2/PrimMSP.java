@@ -21,14 +21,14 @@ public class PrimMSP<L> {
      * Coda di priorità che va usata dall'algoritmo. La variabile istanza è
      * protected solo per scopi di testing JUnit.
      */
-    protected BinaryHeapMinPriorityQueue queue;
+    protected BinaryHeapMinPriorityQueue<PriorityQueueElement> queue;
 
     /**
      * Crea un nuovo algoritmo e inizializza la coda di priorità con una coda
      * vuota.
      */
     public PrimMSP() {
-        this.queue = new BinaryHeapMinPriorityQueue();
+        this.queue = new BinaryHeapMinPriorityQueue<>();
     }
 
     /**
@@ -42,9 +42,9 @@ public class PrimMSP<L> {
      * @param s il nodo del grafo g sorgente, cioè da cui parte il calcolo
      *          dell'albero di copertura minimo. Tale nodo sarà la radice
      *          dell'albero di copertura trovato
-     * @throw NullPointerException se il grafo g o il nodo sorgente s sono nulli
-     * @throw IllegalArgumentException se il nodo sorgente s non esiste in g
-     * @throw IllegalArgumentException se il grafo g è orientato, non pesato o
+     * @throws NullPointerException se il grafo g o il nodo sorgente s sono nulli
+     * @throws IllegalArgumentException se il nodo sorgente s non esiste in g
+     * @throws IllegalArgumentException se il grafo g è orientato, non pesato o
      * con pesi negativi
      */
     public void computeMSP(Graph<L> g, GraphNode<L> s) {
@@ -84,14 +84,6 @@ public class PrimMSP<L> {
                     adjNode.setPrevious(node);
                 }
             }
-//            for (GraphNode<L> adjNode : g.getAdjacentNodesOf(node)) {
-//                if (adjNode.getColor() == GraphNode.COLOR_BLACK)
-//                    continue;
-//                if (adjNode.getPriority() > g.getEdge(node, adjNode).getWeight()) {
-//                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
-//                    adjNode.setColor(GraphNode.COLOR_GREY);
-//                }
-//            }
         }
     }
 }

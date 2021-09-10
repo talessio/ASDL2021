@@ -248,8 +248,7 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
         if (checkEdge.equals(edge)) {
             this.matrix.get(indexNode1).set(indexNode2, null);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override

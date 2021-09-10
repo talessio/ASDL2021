@@ -14,8 +14,6 @@ import java.util.List;
 public class BellmanFordShortestPathComputer<L>
         implements SingleSourceShortestPathComputer<L> {
 
-    //TODO fix Nullpo
-
     private Graph<L> graph;
     private BinaryHeapMinPriorityQueue<GraphNode<L>> heap;
     private GraphNode<L> lastSource;
@@ -153,9 +151,11 @@ public class BellmanFordShortestPathComputer<L>
         boolean flag = false;
         for (GraphNode<L> adjacentNode : this.graph.getAdjacentNodesOf(node)) {
             //adjacent nodes priority update
-            if (adjacentNode.getColor() != GraphNode.COLOR_BLACK) {
+            if (adjacentNode.getColor() == GraphNode.COLOR_WHITE) {
                 adjacentNode.setColor(GraphNode.COLOR_GREY);
             }
+            if (this.graph.getEdge(node, adjacentNode) == null)
+                continue;
             potentialNewPriority = node.getPriority() + this.graph.getEdge(node, adjacentNode).getWeight();
             if (potentialNewPriority < adjacentNode.getPriority()) {
                 this.heap.decreasePriority(adjacentNode, potentialNewPriority);
