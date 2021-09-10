@@ -91,9 +91,15 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
      */
     public void computeShortestPaths() {
         boolean hasImproved = false;
-        for (int k = 0; k < this.graph.nodeCount(); k++) {
+        for (int k = 0; k < this.graph.nodeCount() + 1; k++) {
             for (int i = 0; i < this.graph.nodeCount(); i++) {
                 for (int j = 0; j < this.graph.nodeCount(); j++) {
+                    if (k == this.graph.nodeCount()) {
+                        if (i == j && costMatrix[i][j] < 0.0)
+                            throw new IllegalStateException();
+                        else this.isComputed = true;
+                        return;
+                    }
                     if (i == j && costMatrix[i][j] < 0.0)
                         throw new IllegalStateException();
                     if (costMatrix[i][j] <= (costMatrix[i][k] + costMatrix[k][j]))
@@ -105,11 +111,6 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                 }
             }
         }
-        for (int k = 0; k < this.graph.nodeCount(); k++)
-            for (int i = 0; i < this.graph.nodeCount(); i++)
-                for (int j = 0; j < this.graph.nodeCount(); j++)
-                    if (i == j && costMatrix[i][j] < 0)
-                        throw new IllegalStateException();
         this.isComputed = true;
     }
 
