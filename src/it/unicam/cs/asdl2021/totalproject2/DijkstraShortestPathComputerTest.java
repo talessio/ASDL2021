@@ -1,7 +1,5 @@
 package it.unicam.cs.asdl2021.totalproject2;
 
-//import static org.junit.Assert.assertEquals;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -107,8 +105,7 @@ class DijkstraShortestPathComputerTest {
         GraphNode<String> nxTest = new GraphNode<String>("x");
         GraphEdge<String> esxTest = new GraphEdge<String>(nsTest, nxTest, true, 5.12);
         pathTest.add(esxTest);
-//        assertTrue(c.getShortestPathTo(nxTest).equals(pathTest));
-        assertEquals(pathTest, c.getShortestPathTo(nxTest));
+        assertTrue(c.getShortestPathTo(nxTest).equals(pathTest));
         GraphEdge<String> exuTest = new GraphEdge<String>(nxTest, nuTest, true, 3.04);
         pathTest.add(exuTest);
         assertEquals(c.getShortestPathTo(nuTest), pathTest);

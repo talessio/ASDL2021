@@ -92,13 +92,10 @@ public class BellmanFordShortestPathComputer<L>
             throw new IllegalStateException();
 
         this.computeShortestPathsFrom(lastSource);
-
         List<GraphEdge<L>> minWalk = new ArrayList<>();
         if (targetNode.equals(this.lastSource))
             return minWalk;
-
         GraphNode<L> n = targetNode;
-
         while (n.getPrevious() != null) {
             minWalk.add(0, this.graph.getEdge(n.getPrevious(), n));
             if (n.getPrevious().equals(this.lastSource))
@@ -108,18 +105,18 @@ public class BellmanFordShortestPathComputer<L>
         return null;
     }
 
-    // TODO inserire eventuali altri metodi privati per scopi di implementazione
-
-
     private void bellmanFord(GraphNode<L> sourceNode) {
         GraphNode<L> currentNode;
         GraphNode<L> oldNode = null;
         boolean hasImproved = false;
         int i;
-        for (i = 0; i < this.graph.nodeCount(); i++) { //iterazione completa grafo + 1
+        //iterazione completa grafo + un'ulteriore iterazione per controllare cicli negativi
+        for (i = 0; i < this.graph.nodeCount(); i++) {
             currentNode = sourceNode;
-            for (int j = 0; j < this.graph.nodeCount(); j++) { //visita di ogni nodo
-                for (GraphNode<L> newNode : this.graph.getNodes()) { //scelta del prossimo nodo da visitare
+            //visita di ogni nodo
+            for (int j = 0; j < this.graph.nodeCount(); j++) {
+                //scelta del prossimo nodo da visitare
+                for (GraphNode<L> newNode : this.graph.getNodes()) {
                     if (newNode.getColor() == GraphNode.COLOR_GREY) {
                         currentNode = newNode;
                         break;
@@ -128,18 +125,18 @@ public class BellmanFordShortestPathComputer<L>
                 if (currentNode.equals(oldNode))
                     break;
                 if (!hasImproved)
-                    hasImproved = checkNewPriority(currentNode); //migliora la priorità dei nodi adiacenti
+                    //migliora la priorità dei nodi adiacenti
+                    hasImproved = checkNewPriority(currentNode);
                 else checkNewPriority(currentNode);
-                currentNode.setColor(GraphNode.COLOR_BLACK); //il nodo è ora visitato
+                currentNode.setColor(GraphNode.COLOR_BLACK);
                 oldNode = currentNode;
             }
             if (hasImproved) {
-                if (i == (this.graph.nodeCount() - 1)) //se i ha fatto un ciclo in eccesso e priority è comunque migliorata
+                if (i == (this.graph.nodeCount() - 1))
+                    //se i ha fatto un ciclo in eccesso e priority è comunque migliorata
                     throw new IllegalStateException();
-                else //se i non è ancora all'ultimo ciclo e ha migliorato la priority
-                    hasImproved = false;
-            } else //se i non è ancora all'ultimo ciclo ma non migliora la priority
-                break;
+                else hasImproved = false;
+            } else break;
             for (GraphNode<L> n : this.graph.getNodes()) {
                 n.setColor(GraphNode.COLOR_WHITE);
             }

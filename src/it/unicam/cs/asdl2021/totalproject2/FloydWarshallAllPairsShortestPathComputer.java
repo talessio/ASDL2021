@@ -99,7 +99,6 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                     if (costMatrix[i][j] <= (costMatrix[i][k] + costMatrix[k][j]))
                         continue;
                     else costMatrix[i][j] = (costMatrix[i][k] + costMatrix[k][j]);
-//                    predecessorMatrix[i][j] = predecessorMatrix[i][k];
                     predecessorMatrix[i][j] = k;
                     if (!hasImproved)
                         hasImproved = true;
@@ -167,28 +166,16 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
         int i = this.graph.getNodeIndexOf(sourceNode.getLabel());
         int j = this.graph.getNodeIndexOf(targetNode.getLabel());
         GraphEdge<L> edge;
-        if (this.costMatrix[i][j] == Double.POSITIVE_INFINITY) {
-            System.out.println("Il nodo " + j + " non e' raggiungibile partendo da " + i);
+        if (this.costMatrix[i][j] == Double.POSITIVE_INFINITY)
             return null;
-        }
 
-        //TODO fix G node malfunction
-//        while (i != j) {
         for (int counter = 0; counter < this.graph.nodeCount(); counter++) {
             if (i == j)
                 break;
-//            j = predecessorMatrix[i][j];
             if (predecessorMatrix[i][j] == -1)
                 return null;
-            else {
-                edge = this.graph.getEdgeAtNodeIndexes(predecessorMatrix[i][j], j);
-            }
-            if (edge == null) {
-                System.out.println("edge è risultato null");
-                return null;
-            } else {
+            else edge = this.graph.getEdgeAtNodeIndexes(predecessorMatrix[i][j], j);
                 result.add(0, edge);
-            }
             j = predecessorMatrix[i][j];
         }
         return result;
@@ -242,14 +229,6 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                 result += edge.getWeight();
             j = predecessorMatrix[i][j];
         }
-
-//        while (i != j) {
-//            if (predecessorMatrix[i][j] == -1)
-//                return Double.POSITIVE_INFINITY;
-//            edge = this.graph.getEdgeAtNodeIndexes(i, j);
-//            result += edge.getWeight();
-//            i = predecessorMatrix[i][j];
-//        }
         return result;
     }
 

@@ -79,7 +79,6 @@ public class PrimMSP<L> {
                     continue;
                 if (adjNode.getPriority() > g.getEdge(node, adjNode).getWeight()) {
                     this.queue.decreasePriority(adjNode, g.getEdge(node, adjNode).getWeight());
-//                    adjNode.setPriority(g.getEdge(node, adjNode).getWeight());
                     adjNode.setColor(GraphNode.COLOR_GREY);
                     adjNode.setPrevious(node);
                 }

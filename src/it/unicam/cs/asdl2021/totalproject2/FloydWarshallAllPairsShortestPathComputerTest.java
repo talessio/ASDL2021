@@ -14,15 +14,15 @@ class FloydWarshallAllPairsShortestPathComputerTest {
 
     Graph<String> graph = null;
 
-    GraphNode<String> a = new GraphNode<>("a");
-    GraphNode<String> b = new GraphNode<>("b");
-    GraphNode<String> c = new GraphNode<>("c");
-    GraphNode<String> d = new GraphNode<>("d");
-    GraphNode<String> e = new GraphNode<>("e");
-    GraphNode<String> g = new GraphNode<>("g");
-    GraphNode<String> h = new GraphNode<>("h");
-    GraphNode<String> i = new GraphNode<>("i");
-    GraphNode<String> n = new GraphNode<>("n");
+    GraphNode<String> a = new GraphNode<String>("a");
+    GraphNode<String> b = new GraphNode<String>("b");
+    GraphNode<String> c = new GraphNode<String>("c");
+    GraphNode<String> d = new GraphNode<String>("d");
+    GraphNode<String> e = new GraphNode<String>("e");
+    GraphNode<String> g = new GraphNode<String>("g");
+    GraphNode<String> h = new GraphNode<String>("h");
+    GraphNode<String> i = new GraphNode<String>("i");
+    GraphNode<String> n = new GraphNode<String>("n");
     GraphEdge<String> ab = new GraphEdge<String>(a, b, true, 2.2);
     GraphEdge<String> ah = new GraphEdge<String>(a, h, true, 20);
     GraphEdge<String> ba = new GraphEdge<String>(b, a, true, 1);
@@ -42,13 +42,16 @@ class FloydWarshallAllPairsShortestPathComputerTest {
 
     @Test
     final void testFloydWarshallAllPairsShortestPathComputer() {
-        assertThrows(NullPointerException.class, () -> new FloydWarshallAllPairsShortestPathComputer<String>(graph));
+        assertThrows(NullPointerException.class, () ->
+                new FloydWarshallAllPairsShortestPathComputer<String>(graph));
         graph = new MapAdjacentListUndirectedGraph<String>();
-        assertThrows(IllegalArgumentException.class, () -> new FloydWarshallAllPairsShortestPathComputer<String>(graph));
+        assertThrows(IllegalArgumentException.class, () ->
+                new FloydWarshallAllPairsShortestPathComputer<String>(graph));
         graph.addNode(b);
         graph.addNode(n);
         graph.addEdge(undirected);
-        assertThrows(IllegalArgumentException.class, () -> new FloydWarshallAllPairsShortestPathComputer<String>(graph));
+        assertThrows(IllegalArgumentException.class, () ->
+                new FloydWarshallAllPairsShortestPathComputer<String>(graph));
         graph = new AdjacencyMatrixDirectedGraph<String>();
         graph.addNode(a);
         graph.addNode(b);
@@ -61,7 +64,8 @@ class FloydWarshallAllPairsShortestPathComputerTest {
         graph.addEdge(cb);
         graph.addEdge(ce);
         graph.addEdge(noWeight);
-        assertThrows(IllegalArgumentException.class, () -> new FloydWarshallAllPairsShortestPathComputer<String>(graph));
+        assertThrows(IllegalArgumentException.class, () ->
+                new FloydWarshallAllPairsShortestPathComputer<String>(graph));
         graph.removeEdge(noWeight);
         new FloydWarshallAllPairsShortestPathComputer<String>(graph);
     }
@@ -91,7 +95,8 @@ class FloydWarshallAllPairsShortestPathComputerTest {
         graph.addEdge(gd);
         graph.addEdge(dh);
         graph.addEdge(nd);
-        FloydWarshallAllPairsShortestPathComputer<String> comp = new FloydWarshallAllPairsShortestPathComputer<>(graph);
+        FloydWarshallAllPairsShortestPathComputer<String> comp =
+                new FloydWarshallAllPairsShortestPathComputer<>(graph);
         assertThrows(IllegalStateException.class, () -> comp.getShortestPath(a, h));
 
         comp.computeShortestPaths();

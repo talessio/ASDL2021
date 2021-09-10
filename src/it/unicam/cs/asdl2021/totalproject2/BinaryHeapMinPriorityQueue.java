@@ -76,12 +76,8 @@ public class BinaryHeapMinPriorityQueue<E> {
             throw new NoSuchElementException();
         PriorityQueueElement result = this.minimum();
         this.heap.remove(0);
-        int i = 0;
-        for (PriorityQueueElement currentElement : this.heap) {
+        for (PriorityQueueElement currentElement : this.heap)
             currentElement.setHandle(currentElement.getHandle() - 1);
-//            this.heap.set(i, currentElement);
-            i++;
-        }
         return result;
     }
 

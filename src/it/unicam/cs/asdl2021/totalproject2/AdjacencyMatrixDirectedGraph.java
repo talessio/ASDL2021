@@ -216,12 +216,6 @@ public class AdjacencyMatrixDirectedGraph<L> extends Graph<L> {
 
         int indexNode1 = this.nodesIndex.get(edge.getNode1());
         int indexNode2 = this.nodesIndex.get(edge.getNode2());
-
-//        this.matrix.get(indexNode1).add(indexNode1, edge);
-//        this.matrix.get(indexNode1).add(indexNode2, edge); //TODO fix
-//        return true;
-
-
         for (int i = 0; i < this.matrix.size(); i++) {
             for (int j = 0; j < this.matrix.get(i).size(); j++) {
                 if (indexNode1 == i && indexNode2 == j) {

@@ -114,7 +114,7 @@ public class KruskalMSP<L> {
             return;
 
         this.disjointSets.get(i).addAll(secondSet);
-        this.disjointSets.remove(secondSet); //ATTENZIONE rimozione
+        this.disjointSets.remove(secondSet);
         this.msp.add(edge);
     }
 
