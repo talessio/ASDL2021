@@ -97,8 +97,7 @@ public class FloydWarshallAllPairsShortestPathComputer<L> {
                     if (k == this.graph.nodeCount()) {
                         if (i == j && costMatrix[i][j] < 0.0)
                             throw new IllegalStateException();
-                        else this.isComputed = true;
-                        return;
+                        continue;
                     }
                     if (i == j && costMatrix[i][j] < 0.0)
                         throw new IllegalStateException();
