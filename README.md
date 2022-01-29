@@ -4,6 +4,7 @@ Implementation of algorithms:
 - Dijkstra
 - Bellman-Ford
 - Floyd-Warshall
+
 and of data structures: 
 - adjacency matrix
 - priority queue
